@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.view.main.followers.FollowersFragment;
 import edu.byu.cs.tweeter.view.main.following.FollowingFragment;
+import edu.byu.cs.tweeter.view.main.story.StoryFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to one of the sections/tabs/pages
@@ -42,7 +43,7 @@ class SectionsPagerAdapter extends FragmentPagerAdapter {
                 return PlaceholderFragment.newInstance(position + 1); //TODO: Make this return the right fragment (not the placeholder)
             case STORY_FRAGMENT_POSITION:
                 Log.i(LOG_TAG, "Clicked pos: " + position + " - Created new Story");
-                return PlaceholderFragment.newInstance(position + 1); //TODO: Make this return the right fragment (not the placeholder)
+                return new StoryFragment();
             case FOLLOWING_FRAGMENT_POSITION:
                 Log.i(LOG_TAG, "Clicked pos: " + position + " - Created new Following");
                 return new FollowingFragment();

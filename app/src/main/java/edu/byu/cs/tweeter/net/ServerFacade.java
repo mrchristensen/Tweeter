@@ -9,11 +9,14 @@ import java.util.Map;
 
 import edu.byu.cs.tweeter.BuildConfig;
 import edu.byu.cs.tweeter.model.domain.Follow;
+import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.net.request.FollowerRequest;
 import edu.byu.cs.tweeter.net.request.FollowingRequest;
+import edu.byu.cs.tweeter.net.request.StoryRequest;
 import edu.byu.cs.tweeter.net.response.FollowerResponse;
 import edu.byu.cs.tweeter.net.response.FollowingResponse;
+import edu.byu.cs.tweeter.net.response.StoryResponse;
 
 /**
  * Acts as a Facade to the Tweeter server. All network requests to the server should go through
@@ -25,6 +28,9 @@ public class ServerFacade {
 
     private static Map<User, List<User>> followeesByFollower;
     private static Map<User, List<User>> followersByFollowee;
+    private static Map<User, List<Status>> statusesByUser;
+
+    //Following
 
     /**
      * Returns the users that the user specified in the request is following. Uses information in
@@ -137,12 +143,7 @@ public class ServerFacade {
         return FollowGenerator.getInstance();
     }
 
-
-
-
-
-
-
+    //Followers
 
     /**
      * Returns the users that the user specified in the request is following. Uses information in
@@ -232,7 +233,7 @@ public class ServerFacade {
 
         // Populate a map of followers, keyed by followee so we can easily handle follower requests
         for(Follow follow : follows) {
-            Log.i(LOG_TAG, "Followee (person being followed): " + follow.getFollowee().getFirstName()
+            Log.d(LOG_TAG, "Followee (person being followed): " + follow.getFollowee().getFirstName()
                     + " " + follow.getFollowee().getLastName() + " - Follower: " + follow.getFollower().getFirstName()
                     + " " + follow.getFollower().getLastName());
 
@@ -257,6 +258,112 @@ public class ServerFacade {
      */
     FollowGenerator getFolleeGenerator() {
         return FollowGenerator.getInstance();
+    }
+
+    //Statuses
+
+    /**
+     * Returns the users that the user specified in the request is following. Uses information in
+     * the request object to limit the number of followees returned and to return the next set of
+     * followees after any that were returned in a previous request. The current implementation
+     * returns generated data and doesn't actually make a network request.
+     *
+     * @param request contains information about the user whose followees are to be returned and any
+     *                other information required to satisfy the request.
+     * @return the followees.
+     */
+    public StoryResponse getStory(StoryRequest request) {
+
+        // Used in place of assert statements because Android does not support them
+        if(BuildConfig.DEBUG) {
+            if(request.getLimit() < 0) {
+                throw new AssertionError();
+            }
+
+            if(request.getUser() == null) {
+                throw new AssertionError();
+            }
+        }
+
+        //TODO from here down
+        if(statusesByUser == null){
+            statusesByUser = new HashMap<>();
+        }
+
+        if(statusesByUser.get(request.getUser()) == null) {
+            statusesByUser.putAll(initializeStatuses(request.getUser()));
+        }
+
+        List<Status> allStatuses = statusesByUser.get(request.getUser());
+        List<Status> responseStatuses = new ArrayList<>(request.getLimit());
+
+        boolean hasMorePages = false;
+
+        if(request.getLimit() > 0) {
+            if (allStatuses != null) {
+                int statusesIndex = getStoryStartingIndex(request.getLastStatus(), allStatuses);
+
+                for(int limitCounter = 0; statusesIndex < allStatuses.size() && limitCounter < request.getLimit(); statusesIndex++, limitCounter++) {
+                    responseStatuses.add(allStatuses.get(statusesIndex));
+                }
+
+                hasMorePages = statusesIndex < allStatuses.size();
+            }
+        }
+
+        return new StoryResponse(responseStatuses, hasMorePages);
+    }
+
+    /**
+     * Determines the index for the first status in the specified 'allStatuses' list that should
+     * be returned in the current request. This will be the index of the next status after the
+     * specified 'lastStatus'.
+     *
+     * @param lastStatus the last status that was returned in the previous request or null if
+     *                     there was no previous request.
+     * @param allStatuses the generated list of statuses from which we are returning paged results.
+     * @return the index of the first followee to be returned.
+     */
+    private int getStoryStartingIndex(Status lastStatus, List<Status> allStatuses) {
+
+        int statusIndex = 0;
+
+        if(lastStatus != null) {
+            // This is a paged request for something after the first page. Find the first item
+            // we should return
+            for (int i = 0; i < allStatuses.size(); i++) {
+                if(lastStatus.equals(allStatuses.get(i))) {
+                    // We found the index of the last item returned last time. Increment to get
+                    // to the first one we should return
+                    statusIndex = i + 1;
+                }
+            }
+        }
+
+        return statusIndex;
+    }
+
+    /**
+     * Generates the followee data.
+     */
+    private Map<User, List<Status>> initializeStatuses(User user) {
+
+        Map<User, List<Status>> statusesByUser = new HashMap<>();
+
+        List<Status> statuses = getStatusGenerator().generateStatuses(0, 25, user);
+        statusesByUser.put(user, statuses);
+
+        return statusesByUser;
+    }
+
+    /**
+     * Returns an instance of FollowGenerator that can be used to generate Follow data. This is
+     * written as a separate method to allow mocking of the generator.
+     *
+     * @return the generator.
+     */
+    StatusGenerator getStatusGenerator() {
+        return StatusGenerator.getInstance();
     }
 }
 
