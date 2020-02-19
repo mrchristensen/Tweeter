@@ -10,7 +10,7 @@ import java.util.Objects;
 public class Follow {
 
     private final User follower;
-    private final User followee;
+    private final User followee; //The person being followed
 
     public Follow(@NotNull User follower, @NotNull User followee) {
         this.follower = follower;
