@@ -1,5 +1,7 @@
 package edu.byu.cs.tweeter.net;
 
+import android.annotation.SuppressLint;
+
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -8,9 +10,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
@@ -51,6 +57,7 @@ public class StatusGenerator {
      * @param user The owner of the statuses.
      * @return the generated users.
      */
+    @SuppressLint("NewApi")
     public List<Status> generateStatuses(int minFollowersPerUser, int maxFollowersPerUser, User user) {
         Random random = new Random();
         int count = random.nextInt(maxFollowersPerUser - minFollowersPerUser) + minFollowersPerUser;
@@ -59,10 +66,24 @@ public class StatusGenerator {
 
         while(statuses.size() < count) {
             // Generate a generic status
-            statuses.add(new Status(user, "This is a generic tweet, number " + index));
+            statuses.add(new Status(user, getRandomDateTime(), "This is a very generic tweet. This is a very generic tweet. This is a very generic tweet. This is a very generic tweet. This is a very generic tweet. This is a very generic tweet."));
             index++;
         }
 
         return statuses;
+    }
+
+    @SuppressLint("NewApi")
+    private LocalDateTime getRandomDateTime(){
+        Random random = new Random();
+
+        long minDay = LocalDate.of(2006, 3, 1).toEpochDay();
+        long maxDay = LocalDate.of(2020, 2, 18).toEpochDay();
+        long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
+        LocalDate randomDate = LocalDate.ofEpochDay(randomDay);
+        System.out.println(randomDate);
+
+        return LocalDateTime.of(randomDate, LocalTime.of(random.nextInt(24), random.nextInt(60),
+                random.nextInt(60), random.nextInt(999999999 + 1)));
     }
 }

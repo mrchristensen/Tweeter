@@ -3,6 +3,7 @@ package edu.byu.cs.tweeter.net;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -295,6 +296,9 @@ public class ServerFacade {
         }
 
         List<Status> allStatuses = statusesByUser.get(request.getUser());
+        if (allStatuses != null) {
+            Collections.sort(allStatuses);
+        }
         List<Status> responseStatuses = new ArrayList<>(request.getLimit());
 
         boolean hasMorePages = false;
@@ -350,7 +354,7 @@ public class ServerFacade {
 
         Map<User, List<Status>> statusesByUser = new HashMap<>();
 
-        List<Status> statuses = getStatusGenerator().generateStatuses(0, 25, user);
+        List<Status> statuses = getStatusGenerator().generateStatuses(20, 45, user);
         statusesByUser.put(user, statuses);
 
         return statusesByUser;

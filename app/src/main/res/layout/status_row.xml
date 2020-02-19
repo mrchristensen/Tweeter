@@ -14,25 +14,42 @@
         android:contentDescription="@string/userImageContentDescription" />
 
     <LinearLayout
+        android:id="@+id/body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@id/userImage">
 
-        <TextView
-            android:id="@+id/userName"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            tools:text="@string/sampleUserName"/>
+            android:orientation="horizontal"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/body">
 
-        <TextView
-            android:id="@+id/userAlias"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="@string/sampleAlias"/>
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="@string/sampleUserName"/>
+
+            <TextView
+                android:id="@+id/userAlias"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20px"
+                tools:text="@string/sampleAlias" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20px"
+                tools:text="@string/sampleDate" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/messageBody"
@@ -40,4 +57,6 @@
             android:layout_height="wrap_content"
             tools:text="@string/sampleMessageBody"/>
     </LinearLayout>
+
+
 </RelativeLayout>

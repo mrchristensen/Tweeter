@@ -1,5 +1,6 @@
 package edu.byu.cs.tweeter.view.main.story;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +10,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,6 +73,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
         private final ImageView userImage;
         private final TextView userAlias;
         private final TextView userName;
+        private final TextView date;
         private final TextView message;
 
         StoryHolder(@NonNull View itemView) {
@@ -77,6 +82,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
             userImage = itemView.findViewById(R.id.userImage);
             userAlias = itemView.findViewById(R.id.userAlias);
             userName = itemView.findViewById(R.id.userName);
+            date = itemView.findViewById(R.id.date);
             message = itemView.findViewById(R.id.messageBody);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -87,10 +93,14 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
             });
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         void bindStatus(Status status) {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM-dd-yyyy - HH:mm");
+
             userImage.setImageDrawable(ImageCache.getInstance().getImageDrawable(status.getUser()));
             userAlias.setText(status.getUser().getAlias());
             userName.setText(status.getUser().getName());
+            date.setText(dtf.format(status.getDate()));
             message.setText(status.getMessageBody());
         }
     }
@@ -245,7 +255,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
          * loading footer view) at the bottom of the list.
          */
         private void addLoadingFooter() {
-            addItem(new Status(new User("firstN", "lastN", "ImageURL"), "Dummy status"));
+            addItem(new Status(new User("firstN", "lastN", "ImageURL"), LocalDateTime.now(), "Dummy status"));
         }
 
         /**
