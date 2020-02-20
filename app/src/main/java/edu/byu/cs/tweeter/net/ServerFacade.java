@@ -30,7 +30,7 @@ public class ServerFacade {
     private static final String LOG_TAG = "ServerFacade";
 
     private static List<User> allUsers = new ArrayList<>();
-    private static Map<User, List<User>> followeesByFollower;
+    private static Map<User, List<User>> followeesByFollower; //og
     private static Map<User, List<User>> followersByFollowee;
     private static Map<User, List<Status>> statusesByUser;
 
@@ -44,6 +44,26 @@ public class ServerFacade {
         }
         return null;
     }
+
+    //
+    public boolean userFollows(User follower, User followee){
+        if(followeesByFollower.get(follower).contains(followee)){
+            return true;
+        }
+        return false;
+    }
+
+    public void removeFollowing(User followee, User follower){
+        followeesByFollower.get(follower).remove(followee);
+        Log.i("test","test");
+    }
+
+    public void addFollowing(User followee, User follower){
+        followeesByFollower.get(follower).add(followee);
+        Log.i("test","test");
+    }
+
+
 
     //Following
 
@@ -71,10 +91,11 @@ public class ServerFacade {
         }
 
         if(followeesByFollower == null) {
-            followeesByFollower = initializeFollowees();
+            initializeFollowees();
         }
 
         List<User> allFollowees = followeesByFollower.get(request.getFollower());
+        Collections.sort(allFollowees);
         List<User> responseFollowees = new ArrayList<>(request.getLimit());
 
         boolean hasMorePages = false;
@@ -126,12 +147,12 @@ public class ServerFacade {
     /**
      * Generates the followee data.
      */
-    private Map<User, List<User>> initializeFollowees() {
+    private void initializeFollowees() {
 
         Map<User, List<User>> followeesByFollower = new HashMap<>();
 
-        List<Follow> follows = getFollowGenerator().generateUsersAndFollows(100,
-                0, 50, FollowGenerator.Sort.FOLLOWER_FOLLOWEE);
+        List<Follow> follows = getFollowGenerator().generateUsersAndFollowsAndFollowers(100,
+                0, 50);
 
         // Populate a map of followees, keyed by follower so we can easily handle followee requests
         for(Follow follow : follows) {
@@ -146,7 +167,28 @@ public class ServerFacade {
         }
 
         registerUsers(followeesByFollower);
-        return followeesByFollower;
+        ServerFacade.followeesByFollower = followeesByFollower;
+
+        Map<User, List<User>> followersByFollowee = new HashMap<>();
+
+        // Populate a map of followers, keyed by followee so we can easily handle follower requests
+        for(Follow follow : follows) {
+            Log.d(LOG_TAG, "Followee (person being followed): " + follow.getFollowee().getFirstName()
+                    + " " + follow.getFollowee().getLastName() + " - Follower: " + follow.getFollower().getFirstName()
+                    + " " + follow.getFollower().getLastName());
+
+            List<User> followers = followersByFollowee.get(follow.getFollowee());
+
+            if(followers == null) {
+                followers = new ArrayList<>();
+                followersByFollowee.put(follow.getFollowee(), followers);
+            }
+
+            followers.add(follow.getFollower());
+        }
+
+        registerUsers(followersByFollowee);
+        ServerFacade.followersByFollowee = followersByFollowee;
     }
 
     /**
@@ -184,11 +226,44 @@ public class ServerFacade {
             }
         }
 
-        if(followersByFollowee == null) {
-            followersByFollowee = initializeFollowers();
+//        if(followersByFollowee == null) {
+//            initializeFollowees();
+//        }
+//
+//        List<User> allFollowers = followersByFollowee.get(request.getFollowee());
+//        List<User> responseFollowers = new ArrayList<>(request.getLimit());
+//
+//        boolean hasMorePages = false;
+//
+//        if(request.getLimit() > 0) {
+//            if (allFollowers != null) {
+//                int followersIndex = getFollowersStartingIndex(request.getLastFollower(), allFollowers);
+//
+//                for(int limitCounter = 0; followersIndex < allFollowers.size() && limitCounter < request.getLimit(); followersIndex++, limitCounter++) {
+//                    responseFollowers.add(allFollowers.get(followersIndex));
+//                }
+//
+//                hasMorePages = followersIndex < allFollowers.size();
+//            }
+//        }
+
+        if(followeesByFollower == null) {
+            initializeFollowees();
         }
 
-        List<User> allFollowers = followersByFollowee.get(request.getFollowee());
+        List<User> allFollowers = new ArrayList<>();
+        for (User follower : followeesByFollower.keySet()) {
+            for (User followee : followeesByFollower.get(follower)) {
+                if(followee.equals(request.getFollowee())){
+                    if(!allFollowers.contains(follower)) {
+                        allFollowers.add(follower);
+                    }
+                    break;
+                }
+            }
+        }
+        Collections.sort(allFollowers);
+
         List<User> responseFollowers = new ArrayList<>(request.getLimit());
 
         boolean hasMorePages = false;
@@ -374,7 +449,7 @@ public class ServerFacade {
 
         //Find all the people the user follows (find the followees of the user)
         if(followeesByFollower == null) {
-            followeesByFollower = initializeFollowees();
+            initializeFollowees();
         }
         List<User> allFollowees = followeesByFollower.get(request.getUser());
 

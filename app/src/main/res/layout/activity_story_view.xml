@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_toEndOf="@+id/userImage"
-                android:layout_centerVertical="true">
+                >
 
                 <TextView
                     android:id="@+id/userName"
@@ -56,6 +56,18 @@
                     android:textSize="24sp"/>
 
             </LinearLayout>
+
+            <Button
+                android:id="@+id/button_follow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="12dp"
+                android:textSize="12sp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:text="@string/follow_button" />
 
         </RelativeLayout>
 

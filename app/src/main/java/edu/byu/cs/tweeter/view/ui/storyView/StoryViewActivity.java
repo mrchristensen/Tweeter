@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -70,6 +71,33 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
             Snackbar.make(userImageView, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         }
+
+        final Button followButton = findViewById(R.id.button_follow);
+        if(new ServerFacade().userFollows(presenter.getCurrentUser(), user)){ //todo make async
+            followButton.setText("Following");
+        }
+        else{
+            followButton.setText("Follow");
+        }
+
+
+        followButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ServerFacade serverFacade = new ServerFacade();
+                if(serverFacade.userFollows(presenter.getCurrentUser(), user)){ //todo make async
+                    //Remove following relation
+                    serverFacade.removeFollowing(user, presenter.getCurrentUser());
+                    followButton.setText("Follow");
+                }
+                else{
+                    //Add following relation
+                    serverFacade.addFollowing(user, presenter.getCurrentUser());
+                    followButton.setText("Following");
+                }
+                //todo
+                // Code here executes on main thread after user presses button
+            }
+        });
 
         // Asynchronously load the user's image
         LoadImageTask loadImageTask = new LoadImageTask(this);

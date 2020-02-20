@@ -67,6 +67,16 @@ public class FollowGenerator {
         return generateFollowsForUsers(users, minFollowersPerUser, maxFollowersPerUser, sortOrder);
     }
 
+    public List<Follow> generateUsersAndFollowsAndFollowers(int userCount, int minFollowersPerUser,
+                                                int maxFollowersPerUser) {
+        List<User> users = UserGenerator.getInstance().generateUsers(userCount);
+
+        List<Follow> follows = generateFollowsForUsers(users, minFollowersPerUser, maxFollowersPerUser, Sort.FOLLOWER_FOLLOWEE);
+        follows.addAll(generateFollowersForUsers(users, minFollowersPerUser, maxFollowersPerUser, Sort.FOLLOWEE_FOLLOWER));
+        return follows;
+
+    }
+
     public List<Follow> generateUsersAndFollowers(int userCount, int minFollowersPerUser,
                                                 int maxFollowersPerUser, Sort sortOrder) {
         List<User> users = UserGenerator.getInstance().generateUsers(userCount);
