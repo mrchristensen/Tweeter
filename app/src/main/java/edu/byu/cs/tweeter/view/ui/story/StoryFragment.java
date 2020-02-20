@@ -1,5 +1,7 @@
-package edu.byu.cs.tweeter.view.main.followers;
+package edu.byu.cs.tweeter.view.ui.story;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,104 +11,127 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import edu.byu.cs.tweeter.R;
+import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.net.request.FollowerRequest;
-import edu.byu.cs.tweeter.net.response.FollowerResponse;
-import edu.byu.cs.tweeter.presenter.FollowerPresenter;
-import edu.byu.cs.tweeter.view.asyncTasks.GetFollowersTask;
+import edu.byu.cs.tweeter.net.request.StoryRequest;
+import edu.byu.cs.tweeter.net.response.StoryResponse;
+import edu.byu.cs.tweeter.presenter.StoryPresenter;
+import edu.byu.cs.tweeter.view.asyncTasks.GetStoryTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
+import edu.byu.cs.tweeter.view.ui.main.MainActivity;
+import edu.byu.cs.tweeter.view.ui.storyView.StoryViewActivity;
 
 /**
- * The fragment that displays on the 'Following' tab.
+ * The fragment that displays on the 'Story' tab.
  */
-public class FollowersFragment extends Fragment implements FollowerPresenter.View {
+public class StoryFragment extends Fragment implements StoryPresenter.View {
 
     private static final int LOADING_DATA_VIEW = 0;
     private static final int ITEM_VIEW = 1;
 
     private static final int PAGE_SIZE = 10;
 
-    private FollowerPresenter presenter;
+    private StoryPresenter presenter;
 
-    private FollowerRecyclerViewAdapter followerRecyclerViewAdapter;
+    private StoryRecyclerViewAdapter storyRecyclerViewAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_followers, container, false);
+        View view = inflater.inflate(R.layout.fragment_story, container, false);
 
-        presenter = new FollowerPresenter(this);
+        presenter = new StoryPresenter(this);
 
-        RecyclerView followerRecyclerView = view.findViewById(R.id.followerRecyclerView);
+        RecyclerView storyRecyclerView = view.findViewById(R.id.storyRecyclerView);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
-        followerRecyclerView.setLayoutManager(layoutManager);
+        storyRecyclerView.setLayoutManager(layoutManager);
 
-        followerRecyclerViewAdapter = new FollowerRecyclerViewAdapter();
-        followerRecyclerView.setAdapter(followerRecyclerViewAdapter);
+        storyRecyclerViewAdapter = new StoryRecyclerViewAdapter();
+        storyRecyclerView.setAdapter(storyRecyclerViewAdapter);
 
-        followerRecyclerView.addOnScrollListener(new FollowRecyclerViewPaginationScrollListener(layoutManager));
+        storyRecyclerView.addOnScrollListener(new StoryRecyclerViewPaginationScrollListener(layoutManager));
 
         return view;
     }
 
     /**
-     * The ViewHolder for the RecyclerView that displays the Following data.
+     * The ViewHolder for the RecyclerView that displays the Story data.
      */
-    private class FollowerHolder extends RecyclerView.ViewHolder {
+    private class StoryHolder extends RecyclerView.ViewHolder {
 
         private final ImageView userImage;
         private final TextView userAlias;
         private final TextView userName;
+        private final TextView date;
+        private final TextView message;
 
-        FollowerHolder(@NonNull View itemView) {
+        StoryHolder(@NonNull final View itemView) {
             super(itemView);
 
             userImage = itemView.findViewById(R.id.userImage);
             userAlias = itemView.findViewById(R.id.userAlias);
             userName = itemView.findViewById(R.id.userName);
+            date = itemView.findViewById(R.id.date);
+            message = itemView.findViewById(R.id.messageBody);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getContext(), "You selected '" + userName.getText() + "'.", Toast.LENGTH_SHORT).show();
+                    String activity = Arrays.toString(new String[]{Objects.requireNonNull(getActivity()).getIntent().getStringExtra("activity")});
+                    if(activity.equals("[null]")){
+                        ((MainActivity) getActivity()).startStoryViewFragment(view, userAlias.getText().toString());
+                    }
+                    else{
+                        ((StoryViewActivity) getActivity()).startStoryViewFragment(view, userAlias.getText().toString());
+                    }
                 }
             });
         }
 
-        void bindUser(User user) {
-            userImage.setImageDrawable(ImageCache.getInstance().getImageDrawable(user));
-            userAlias.setText(user.getAlias());
-            userName.setText(user.getName());
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        void bindStatus(Status status) {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM-dd-yyyy - HH:mm");
+
+            userImage.setImageDrawable(ImageCache.getInstance().getImageDrawable(status.getUser()));
+            userAlias.setText(status.getUser().getAlias());
+            userName.setText(status.getUser().getName());
+            date.setText(dtf.format(status.getDate()));
+            message.setText(status.getMessageBody());
         }
     }
 
     /**
-     * The adapter for the RecyclerView that displays the Following data.
+     * The adapter for the RecyclerView that displays the Story data.
      */
-    private class FollowerRecyclerViewAdapter extends RecyclerView.Adapter<FollowerHolder> implements GetFollowersTask.GetFollowersObserver {
+    private class StoryRecyclerViewAdapter extends RecyclerView.Adapter<StoryHolder> implements GetStoryTask.GetStatusesObserver {
 
-        private final List<User> users = new ArrayList<>();
+        private final List<Status> statuses = new ArrayList<>();
 
-        private User lastFollowee;
+        private Status lastStatus;
 
         private boolean hasMorePages;
         private boolean isLoading = false;
 
         /**
-         * Creates an instance and loads the first page of following data.
+         * Creates an instance and loads the first page of story data.
          */
-        FollowerRecyclerViewAdapter() {
+        StoryRecyclerViewAdapter() {
             loadMoreItems();
         }
 
@@ -114,34 +139,34 @@ public class FollowersFragment extends Fragment implements FollowerPresenter.Vie
          * Adds new users to the list from which the RecyclerView retrieves the users it displays
          * and notifies the RecyclerView that items have been added.
          *
-         * @param newUsers the users to add.
+         * @param newStatuses the users to add.
          */
-        void addItems(List<User> newUsers) {
-            int startInsertPosition = users.size();
-            users.addAll(newUsers);
-            this.notifyItemRangeInserted(startInsertPosition, newUsers.size());
+        void addItems(List<Status> newStatuses) {
+            int startInsertPosition = statuses.size();
+            statuses.addAll(newStatuses);
+            this.notifyItemRangeInserted(startInsertPosition, newStatuses.size());
         }
 
         /**
          * Adds a single user to the list from which the RecyclerView retrieves the users it
          * displays and notifies the RecyclerView that an item has been added.
          *
-         * @param user the user to add.
+         * @param status the user to add.
          */
-        void addItem(User user) {
-            users.add(user);
-            this.notifyItemInserted(users.size() - 1);
+        void addItem(Status status) {
+            statuses.add(status);
+            this.notifyItemInserted(statuses.size() - 1);
         }
 
         /**
          * Removes a user from the list from which the RecyclerView retrieves the users it displays
          * and notifies the RecyclerView that an item has been removed.
          *
-         * @param user the user to remove.
+         * @param status the user to remove.
          */
-        void removeItem(User user) {
-            int position = users.indexOf(user);
-            users.remove(position);
+        void removeItem(Status status) {
+            int position = statuses.indexOf(status);
+            statuses.remove(position);
             this.notifyItemRemoved(position);
         }
 
@@ -155,32 +180,32 @@ public class FollowersFragment extends Fragment implements FollowerPresenter.Vie
          */
         @NonNull
         @Override
-        public FollowerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(FollowersFragment.this.getContext());
+        public StoryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(StoryFragment.this.getContext());
             View view;
 
             if(viewType == LOADING_DATA_VIEW) {
                 view =layoutInflater.inflate(R.layout.loading_row, parent, false);
 
             } else {
-                view = layoutInflater.inflate(R.layout.user_row, parent, false);
+                view = layoutInflater.inflate(R.layout.status_row, parent, false);
             }
 
-            return new FollowerHolder(view);
+            return new StoryHolder(view);
         }
 
         /**
          * Binds the followee at the specified position unless we are currently loading new data. If
          * we are loading new data, the display at that position will be the data loading footer.
          *
-         * @param followingHolder the ViewHolder to which the followee should be bound.
+         * @param storyHolder the ViewHolder to which the followee should be bound.
          * @param position the position (in the list of followees) that contains the followee to be
          *                 bound.
          */
         @Override
-        public void onBindViewHolder(@NonNull FollowerHolder followingHolder, int position) {
+        public void onBindViewHolder(@NonNull StoryHolder storyHolder, int position) {
             if(!isLoading) {
-                followingHolder.bindUser(users.get(position));
+                storyHolder.bindStatus(statuses.get(position));
             }
         }
 
@@ -190,7 +215,7 @@ public class FollowersFragment extends Fragment implements FollowerPresenter.Vie
          */
         @Override
         public int getItemCount() {
-            return users.size();
+            return statuses.size();
         }
 
         /**
@@ -202,7 +227,7 @@ public class FollowersFragment extends Fragment implements FollowerPresenter.Vie
          */
         @Override
         public int getItemViewType(int position) {
-            return (position == users.size() - 1 && isLoading) ? LOADING_DATA_VIEW : ITEM_VIEW;
+            return (position == statuses.size() - 1 && isLoading) ? LOADING_DATA_VIEW : ITEM_VIEW;
         }
 
         /**
@@ -213,27 +238,36 @@ public class FollowersFragment extends Fragment implements FollowerPresenter.Vie
             isLoading = true;
             addLoadingFooter();
 
-            GetFollowersTask getFollowersTask = new GetFollowersTask(presenter, this);
-            FollowerRequest request = new FollowerRequest(presenter.getCurrentUser(), PAGE_SIZE, lastFollowee);
-            getFollowersTask.execute(request);
+            GetStoryTask getStoryTask = new GetStoryTask(presenter, this);
+
+            String activity = Arrays.toString(new String[]{Objects.requireNonNull(getActivity()).getIntent().getStringExtra("activity")});
+            User user;
+            if(!activity.equals("[null]")){
+                user = (User) ((StoryViewActivity)getActivity()).getIntent().getSerializableExtra("user");
+            }
+            else{
+                user = presenter.getCurrentUser();
+            }
+            StoryRequest request = new StoryRequest(user, PAGE_SIZE, lastStatus);
+            getStoryTask.execute(request);
         }
 
         /**
          * A callback indicating more following data has been received. Loads the new followees
          * and removes the loading footer.
          *
-         * @param followerResponse the asynchronous response to the request to load more items.
+         * @param storyResponse the asynchronous response to the request to load more items.
          */
         @Override
-        public void followersRetrieved(FollowerResponse followerResponse) {
-            List<User> followees = followerResponse.getFollowers();
+        public void storyRetrieved(StoryResponse storyResponse) {
+            List<Status> statuses = storyResponse.getStory();
 
-            lastFollowee = (followees.size() > 0) ? followees.get(followees.size() -1) : null;
-            hasMorePages = followerResponse.hasMorePages();
+            lastStatus = (statuses.size() > 0) ? statuses.get(statuses.size() -1) : null;
+            hasMorePages = storyResponse.hasMorePages();
 
             isLoading = false;
             removeLoadingFooter();
-            followerRecyclerViewAdapter.addItems(followees);
+            storyRecyclerViewAdapter.addItems(statuses);
         }
 
         /**
@@ -241,7 +275,7 @@ public class FollowersFragment extends Fragment implements FollowerPresenter.Vie
          * loading footer view) at the bottom of the list.
          */
         private void addLoadingFooter() {
-            addItem(new User("Dummy", "User", ""));
+            addItem(new Status(new User("firstN", "lastN", "ImageURL"), LocalDateTime.now(), "Dummy status"));
         }
 
         /**
@@ -249,7 +283,7 @@ public class FollowersFragment extends Fragment implements FollowerPresenter.Vie
          * the loading footer at the bottom of the list.
          */
         private void removeLoadingFooter() {
-            removeItem(users.get(users.size() - 1));
+            removeItem(statuses.get(statuses.size() - 1));
         }
     }
 
@@ -257,7 +291,7 @@ public class FollowersFragment extends Fragment implements FollowerPresenter.Vie
      * A scroll listener that detects when the user has scrolled to the bottom of the currently
      * available data.
      */
-    private class FollowRecyclerViewPaginationScrollListener extends RecyclerView.OnScrollListener {
+    private class StoryRecyclerViewPaginationScrollListener extends RecyclerView.OnScrollListener {
 
         private final LinearLayoutManager layoutManager;
 
@@ -266,7 +300,7 @@ public class FollowersFragment extends Fragment implements FollowerPresenter.Vie
          *
          * @param layoutManager the layout manager being used by the RecyclerView.
          */
-        FollowRecyclerViewPaginationScrollListener(LinearLayoutManager layoutManager) {
+        StoryRecyclerViewPaginationScrollListener(LinearLayoutManager layoutManager) {
             this.layoutManager = layoutManager;
         }
 
@@ -287,10 +321,10 @@ public class FollowersFragment extends Fragment implements FollowerPresenter.Vie
             int totalItemCount = layoutManager.getItemCount();
             int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
 
-            if (!followerRecyclerViewAdapter.isLoading && followerRecyclerViewAdapter.hasMorePages) {
+            if (!storyRecyclerViewAdapter.isLoading && storyRecyclerViewAdapter.hasMorePages) {
                 if ((visibleItemCount + firstVisibleItemPosition) >=
                         totalItemCount && firstVisibleItemPosition >= 0) {
-                    followerRecyclerViewAdapter.loadMoreItems();
+                    storyRecyclerViewAdapter.loadMoreItems();
                 }
             }
         }

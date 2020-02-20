@@ -1,7 +1,5 @@
-package edu.byu.cs.tweeter.view.main.feed;
+package edu.byu.cs.tweeter.view.ui.followers;
 
-import android.annotation.SuppressLint;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,121 +9,114 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import edu.byu.cs.tweeter.R;
-import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.net.request.FeedRequest;
-import edu.byu.cs.tweeter.net.request.StoryRequest;
-import edu.byu.cs.tweeter.net.response.FeedResponse;
-import edu.byu.cs.tweeter.net.response.StoryResponse;
-import edu.byu.cs.tweeter.presenter.FeedPresenter;
-import edu.byu.cs.tweeter.presenter.StoryPresenter;
-import edu.byu.cs.tweeter.view.asyncTasks.GetFeedTask;
-import edu.byu.cs.tweeter.view.asyncTasks.GetStoryTask;
+import edu.byu.cs.tweeter.net.request.FollowerRequest;
+import edu.byu.cs.tweeter.net.response.FollowerResponse;
+import edu.byu.cs.tweeter.presenter.FollowerPresenter;
+import edu.byu.cs.tweeter.view.asyncTasks.GetFollowersTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
+import edu.byu.cs.tweeter.view.ui.main.MainActivity;
+import edu.byu.cs.tweeter.view.ui.storyView.StoryViewActivity;
 
 /**
- * The fragment that displays on the 'Feed' tab.
+ * The fragment that displays on the 'Following' tab.
  */
-public class FeedFragment extends Fragment implements FeedPresenter.View {
+public class FollowersFragment extends Fragment implements FollowerPresenter.View {
 
     private static final int LOADING_DATA_VIEW = 0;
     private static final int ITEM_VIEW = 1;
 
     private static final int PAGE_SIZE = 10;
 
-    private FeedPresenter presenter;
+    private FollowerPresenter presenter;
 
-    private FeedRecyclerViewAdapter feedRecyclerViewAdapter;
+    private FollowerRecyclerViewAdapter followerRecyclerViewAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_feed, container, false);
+        View view = inflater.inflate(R.layout.fragment_followers, container, false);
 
-        presenter = new FeedPresenter(this);
+        presenter = new FollowerPresenter(this);
 
-        RecyclerView feedRecyclerView = view.findViewById(R.id.feedRecyclerView);
+        RecyclerView followerRecyclerView = view.findViewById(R.id.followerRecyclerView);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
-        feedRecyclerView.setLayoutManager(layoutManager);
+        followerRecyclerView.setLayoutManager(layoutManager);
 
-        feedRecyclerViewAdapter = new FeedRecyclerViewAdapter();
-        feedRecyclerView.setAdapter(feedRecyclerViewAdapter);
+        followerRecyclerViewAdapter = new FollowerRecyclerViewAdapter();
+        followerRecyclerView.setAdapter(followerRecyclerViewAdapter);
 
-        feedRecyclerView.addOnScrollListener(new FeedRecyclerViewPaginationScrollListener(layoutManager));
+        followerRecyclerView.addOnScrollListener(new FollowRecyclerViewPaginationScrollListener(layoutManager));
 
         return view;
     }
 
     /**
-     * The ViewHolder for the RecyclerView that displays the Story data.
+     * The ViewHolder for the RecyclerView that displays the Following data.
      */
-    private class FeedHolder extends RecyclerView.ViewHolder {
+    private class FollowerHolder extends RecyclerView.ViewHolder {
 
         private final ImageView userImage;
         private final TextView userAlias;
         private final TextView userName;
-        private final TextView date;
-        private final TextView message;
 
-        FeedHolder(@NonNull View itemView) {
+        FollowerHolder(@NonNull View itemView) {
             super(itemView);
 
             userImage = itemView.findViewById(R.id.userImage);
             userAlias = itemView.findViewById(R.id.userAlias);
             userName = itemView.findViewById(R.id.userName);
-            date = itemView.findViewById(R.id.date);
-            message = itemView.findViewById(R.id.messageBody);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getContext(), "You selected '" + userName.getText() + "'.", Toast.LENGTH_SHORT).show();
+                    String activity = Arrays.toString(new String[]{Objects.requireNonNull(getActivity()).getIntent().getStringExtra("activity")});
+                    if(activity.equals("[null]")){
+                        ((MainActivity) getActivity()).startStoryViewFragment(view, userAlias.getText().toString());
+                    }
+                    else{
+                        ((StoryViewActivity) getActivity()).startStoryViewFragment(view, userAlias.getText().toString());
+                    }
                 }
             });
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.O)
-        void bindStatus(Status status) {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM-dd-yyyy - HH:mm");
-
-            userImage.setImageDrawable(ImageCache.getInstance().getImageDrawable(status.getUser()));
-            userAlias.setText(status.getUser().getAlias());
-            userName.setText(status.getUser().getName());
-            date.setText(dtf.format(status.getDate()));
-            message.setText(status.getMessageBody());
+        void bindUser(User user) {
+            userImage.setImageDrawable(ImageCache.getInstance().getImageDrawable(user));
+            userAlias.setText(user.getAlias());
+            userName.setText(user.getName());
         }
     }
 
     /**
-     * The adapter for the RecyclerView that displays the Story data.
+     * The adapter for the RecyclerView that displays the Following data.
      */
-    private class FeedRecyclerViewAdapter extends RecyclerView.Adapter<FeedHolder> implements GetFeedTask.GetStatusesObserver {
+    private class FollowerRecyclerViewAdapter extends RecyclerView.Adapter<FollowerHolder> implements GetFollowersTask.GetFollowersObserver {
 
-        private final List<Status> statuses = new ArrayList<>();
+        private final List<User> users = new ArrayList<>();
 
-        private Status lastStatus;
+        private User lastFollowee;
 
         private boolean hasMorePages;
         private boolean isLoading = false;
 
         /**
-         * Creates an instance and loads the first page of story data.
+         * Creates an instance and loads the first page of following data.
          */
-        FeedRecyclerViewAdapter() {
+        FollowerRecyclerViewAdapter() {
             loadMoreItems();
         }
 
@@ -133,34 +124,34 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
          * Adds new users to the list from which the RecyclerView retrieves the users it displays
          * and notifies the RecyclerView that items have been added.
          *
-         * @param newStatuses the users to add.
+         * @param newUsers the users to add.
          */
-        void addItems(List<Status> newStatuses) {
-            int startInsertPosition = statuses.size();
-            statuses.addAll(newStatuses);
-            this.notifyItemRangeInserted(startInsertPosition, newStatuses.size());
+        void addItems(List<User> newUsers) {
+            int startInsertPosition = users.size();
+            users.addAll(newUsers);
+            this.notifyItemRangeInserted(startInsertPosition, newUsers.size());
         }
 
         /**
          * Adds a single user to the list from which the RecyclerView retrieves the users it
          * displays and notifies the RecyclerView that an item has been added.
          *
-         * @param status the user to add.
+         * @param user the user to add.
          */
-        void addItem(Status status) {
-            statuses.add(status);
-            this.notifyItemInserted(statuses.size() - 1);
+        void addItem(User user) {
+            users.add(user);
+            this.notifyItemInserted(users.size() - 1);
         }
 
         /**
          * Removes a user from the list from which the RecyclerView retrieves the users it displays
          * and notifies the RecyclerView that an item has been removed.
          *
-         * @param status the user to remove.
+         * @param user the user to remove.
          */
-        void removeItem(Status status) {
-            int position = statuses.indexOf(status);
-            statuses.remove(position);
+        void removeItem(User user) {
+            int position = users.indexOf(user);
+            users.remove(position);
             this.notifyItemRemoved(position);
         }
 
@@ -174,33 +165,32 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
          */
         @NonNull
         @Override
-        public FeedHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(FeedFragment.this.getContext());
+        public FollowerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(FollowersFragment.this.getContext());
             View view;
 
             if(viewType == LOADING_DATA_VIEW) {
                 view =layoutInflater.inflate(R.layout.loading_row, parent, false);
 
             } else {
-                view = layoutInflater.inflate(R.layout.status_row, parent, false);
+                view = layoutInflater.inflate(R.layout.user_row, parent, false);
             }
 
-            return new FeedHolder(view);
+            return new FollowerHolder(view);
         }
 
         /**
          * Binds the followee at the specified position unless we are currently loading new data. If
          * we are loading new data, the display at that position will be the data loading footer.
          *
-         * @param feedHolder the ViewHolder to which the followee should be bound.
+         * @param followingHolder the ViewHolder to which the followee should be bound.
          * @param position the position (in the list of followees) that contains the followee to be
          *                 bound.
          */
-        @SuppressLint("NewApi")
         @Override
-        public void onBindViewHolder(@NonNull FeedHolder feedHolder, int position) {
+        public void onBindViewHolder(@NonNull FollowerHolder followingHolder, int position) {
             if(!isLoading) {
-                feedHolder.bindStatus(statuses.get(position));
+                followingHolder.bindUser(users.get(position));
             }
         }
 
@@ -210,7 +200,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
          */
         @Override
         public int getItemCount() {
-            return statuses.size();
+            return users.size();
         }
 
         /**
@@ -222,7 +212,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
          */
         @Override
         public int getItemViewType(int position) {
-            return (position == statuses.size() - 1 && isLoading) ? LOADING_DATA_VIEW : ITEM_VIEW;
+            return (position == users.size() - 1 && isLoading) ? LOADING_DATA_VIEW : ITEM_VIEW;
         }
 
         /**
@@ -233,36 +223,44 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
             isLoading = true;
             addLoadingFooter();
 
-            GetFeedTask getFeedTask = new GetFeedTask(presenter, this);
-            FeedRequest request = new FeedRequest(presenter.getCurrentUser(), PAGE_SIZE, lastStatus);
-            getFeedTask.execute(request);
+            GetFollowersTask getFollowersTask = new GetFollowersTask(presenter, this);
+
+            String activity = Arrays.toString(new String[]{Objects.requireNonNull(getActivity()).getIntent().getStringExtra("activity")});
+            User user;
+            if(!activity.equals("[null]")){
+                user = (User) ((StoryViewActivity)getActivity()).getIntent().getSerializableExtra("user");
+            }
+            else{
+                user = presenter.getCurrentUser();
+            }
+            FollowerRequest request = new FollowerRequest(user, PAGE_SIZE, lastFollowee);
+            getFollowersTask.execute(request);
         }
 
         /**
          * A callback indicating more following data has been received. Loads the new followees
          * and removes the loading footer.
          *
-         * @param feedResponse the asynchronous response to the request to load more items.
+         * @param followerResponse the asynchronous response to the request to load more items.
          */
         @Override
-        public void feedRetrieved(FeedResponse feedResponse) {
-            List<Status> statuses = feedResponse.getFeed();
+        public void followersRetrieved(FollowerResponse followerResponse) {
+            List<User> followees = followerResponse.getFollowers();
 
-            lastStatus = (statuses.size() > 0) ? statuses.get(statuses.size() -1) : null;
-            hasMorePages = feedResponse.hasMorePages();
+            lastFollowee = (followees.size() > 0) ? followees.get(followees.size() -1) : null;
+            hasMorePages = followerResponse.hasMorePages();
 
             isLoading = false;
             removeLoadingFooter();
-            feedRecyclerViewAdapter.addItems(statuses);
+            followerRecyclerViewAdapter.addItems(followees);
         }
 
         /**
          * Adds a dummy user to the list of users so the RecyclerView will display a view (the
          * loading footer view) at the bottom of the list.
          */
-        @SuppressLint("NewApi")
         private void addLoadingFooter() {
-            addItem(new Status(new User("firstN", "lastN", "ImageURL"), LocalDateTime.now(), "Dummy status"));
+            addItem(new User("Dummy", "User", ""));
         }
 
         /**
@@ -270,7 +268,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
          * the loading footer at the bottom of the list.
          */
         private void removeLoadingFooter() {
-            removeItem(statuses.get(statuses.size() - 1));
+            removeItem(users.get(users.size() - 1));
         }
     }
 
@@ -278,7 +276,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
      * A scroll listener that detects when the user has scrolled to the bottom of the currently
      * available data.
      */
-    private class FeedRecyclerViewPaginationScrollListener extends RecyclerView.OnScrollListener {
+    private class FollowRecyclerViewPaginationScrollListener extends RecyclerView.OnScrollListener {
 
         private final LinearLayoutManager layoutManager;
 
@@ -287,7 +285,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
          *
          * @param layoutManager the layout manager being used by the RecyclerView.
          */
-        FeedRecyclerViewPaginationScrollListener(LinearLayoutManager layoutManager) {
+        FollowRecyclerViewPaginationScrollListener(LinearLayoutManager layoutManager) {
             this.layoutManager = layoutManager;
         }
 
@@ -308,10 +306,10 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
             int totalItemCount = layoutManager.getItemCount();
             int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
 
-            if (!feedRecyclerViewAdapter.isLoading && feedRecyclerViewAdapter.hasMorePages) {
+            if (!followerRecyclerViewAdapter.isLoading && followerRecyclerViewAdapter.hasMorePages) {
                 if ((visibleItemCount + firstVisibleItemPosition) >=
                         totalItemCount && firstVisibleItemPosition >= 0) {
-                    feedRecyclerViewAdapter.loadMoreItems();
+                    followerRecyclerViewAdapter.loadMoreItems();
                 }
             }
         }

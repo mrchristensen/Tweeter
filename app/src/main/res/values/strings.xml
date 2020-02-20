@@ -15,4 +15,5 @@
     <string name="sampleUserName">The User</string>
     <string name="sampleMessageBody">This is a sample message body</string>
     <string name="sampleDate">00/00/00 - 00:00:00</string>
+    <string name="title_activity_story_view">StoryViewActivity</string>
 </resources>

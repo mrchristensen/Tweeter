@@ -1,40 +1,47 @@
-package edu.byu.cs.tweeter.view.main;
+package edu.byu.cs.tweeter.view.ui.storyView;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.presenter.MainPresenter;
+import edu.byu.cs.tweeter.net.ServerFacade;
+import edu.byu.cs.tweeter.presenter.StoryViewPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadImageTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
 
-/**
- * The main activity for the application. Contains tabs for feed, story, following, and followers.
- */
-public class MainActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, MainPresenter.View {
+import static android.provider.Contacts.SettingsColumns.KEY;
 
-    private MainPresenter presenter;
+/**
+ * The main activity for the application. Contains tabs for story, following, and followers.
+ */
+//Todo: Add follow button
+//Todo: Remove tab for feed
+public class StoryViewActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, StoryViewPresenter.View {
+    private static final String LOG_TAG = "StoryViewActivity";
+
+    private StoryViewPresenter presenter;
     private User user;
     private ImageView userImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_story_view);
 
-        presenter = new MainPresenter(this);
+        presenter = new StoryViewPresenter(this);
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
@@ -53,17 +60,35 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
 
         userImageView = findViewById(R.id.userImage);
 
-        user = presenter.getCurrentUser();
+//        user = presenter.getCurrentUser();
+        Intent intent = getIntent();
+        if (null != intent) { //Null Checking
+            user = (User) intent.getSerializableExtra("user");
+        }
+        else{
+            Log.e(LOG_TAG, "User was not found when starting a StoryViewActivity!");
+            Snackbar.make(userImageView, "Replace with your own action", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
 
         // Asynchronously load the user's image
         LoadImageTask loadImageTask = new LoadImageTask(this);
-        loadImageTask.execute(presenter.getCurrentUser().getImageUrl());
+        loadImageTask.execute(user.getImageUrl());
 
         TextView userName = findViewById(R.id.userName);
         userName.setText(user.getName());
 
         TextView userAlias = findViewById(R.id.userAlias);
         userAlias.setText(user.getAlias());
+    }
+
+    public void startStoryViewFragment(View view, String userAlias){
+        Intent storyViewActivityIntent = new Intent(view.getContext(), StoryViewActivity.class);
+
+        User user = new ServerFacade().findUser(userAlias);
+        storyViewActivityIntent.putExtra("user", user);
+        storyViewActivityIntent.putExtra("activity", "storyViewActivity");
+        startActivity(storyViewActivityIntent);
     }
 
     @Override

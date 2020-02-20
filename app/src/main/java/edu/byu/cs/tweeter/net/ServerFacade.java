@@ -29,10 +29,21 @@ import edu.byu.cs.tweeter.net.response.StoryResponse;
 public class ServerFacade {
     private static final String LOG_TAG = "ServerFacade";
 
-
+    private static List<User> allUsers = new ArrayList<>();
     private static Map<User, List<User>> followeesByFollower;
     private static Map<User, List<User>> followersByFollowee;
     private static Map<User, List<Status>> statusesByUser;
+
+    //
+    public User findUser(String userAlias){
+
+        for (User user : allUsers) {
+            if(user.getAlias().equals(userAlias)){
+                return user;
+            }
+        }
+        return null;
+    }
 
     //Following
 
@@ -134,6 +145,7 @@ public class ServerFacade {
             followees.add(follow.getFollowee());
         }
 
+        registerUsers(followeesByFollower);
         return followeesByFollower;
     }
 
@@ -251,6 +263,7 @@ public class ServerFacade {
             followers.add(follow.getFollower());
         }
 
+        registerUsers(followersByFollowee);
         return followersByFollowee;
     }
 
@@ -262,6 +275,21 @@ public class ServerFacade {
      */
     FollowGenerator getFolleeGenerator() {
         return FollowGenerator.getInstance();
+    }
+
+    private void registerUsers(Map<User, List<User>> map) {
+        for (User user : map.keySet()) {
+            if(!allUsers.contains(user)){
+                allUsers.add(user);
+            }
+        }
+        for (List<User> users : map.values()) {
+            for (User user : users) {
+                if(!allUsers.contains(user)){
+                    allUsers.add(user);
+                }
+            }
+        }
     }
 
     //Statuses
