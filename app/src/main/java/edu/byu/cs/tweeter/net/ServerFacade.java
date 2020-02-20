@@ -7,14 +7,17 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import edu.byu.cs.tweeter.BuildConfig;
 import edu.byu.cs.tweeter.model.domain.Follow;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.net.request.FeedRequest;
 import edu.byu.cs.tweeter.net.request.FollowerRequest;
 import edu.byu.cs.tweeter.net.request.FollowingRequest;
 import edu.byu.cs.tweeter.net.request.StoryRequest;
+import edu.byu.cs.tweeter.net.response.FeedResponse;
 import edu.byu.cs.tweeter.net.response.FollowerResponse;
 import edu.byu.cs.tweeter.net.response.FollowingResponse;
 import edu.byu.cs.tweeter.net.response.StoryResponse;
@@ -305,7 +308,7 @@ public class ServerFacade {
 
         if(request.getLimit() > 0) {
             if (allStatuses != null) {
-                int statusesIndex = getStoryStartingIndex(request.getLastStatus(), allStatuses);
+                int statusesIndex = getStatusesStartingIndex(request.getLastStatus(), allStatuses);
 
                 for(int limitCounter = 0; statusesIndex < allStatuses.size() && limitCounter < request.getLimit(); statusesIndex++, limitCounter++) {
                     responseStatuses.add(allStatuses.get(statusesIndex));
@@ -319,6 +322,76 @@ public class ServerFacade {
     }
 
     /**
+     * Returns the users that the user specified in the request is following. Uses information in
+     * the request object to limit the number of followees returned and to return the next set of
+     * followees after any that were returned in a previous request. The current implementation
+     * returns generated data and doesn't actually make a network request.
+     *
+     * @param request contains information about the user whose followees are to be returned and any
+     *                other information required to satisfy the request.
+     * @return the followees.
+     */
+    public FeedResponse getFeed(FeedRequest request) {
+
+        // Used in place of assert statements because Android does not support them
+        if(BuildConfig.DEBUG) {
+            if(request.getLimit() < 0) {
+                throw new AssertionError();
+            }
+
+            if(request.getUser() == null) {
+                throw new AssertionError();
+            }
+        }
+
+        //Find all the people the user follows (find the followees of the user)
+        if(followeesByFollower == null) {
+            followeesByFollower = initializeFollowees();
+        }
+        List<User> allFollowees = followeesByFollower.get(request.getUser());
+
+        //Find all the followee's statuses
+        if(statusesByUser == null){
+            statusesByUser = new HashMap<>();
+        }
+        List<Status> allStatuses = new ArrayList<>();
+        for (User user : allFollowees) {
+            if (statusesByUser.get(user) == null) {
+                statusesByUser.putAll(initializeStatuses(user));
+            }
+
+            allStatuses.addAll(Objects.requireNonNull(statusesByUser.get(user)));
+
+            //todo sort
+
+        }
+
+
+
+
+        if (allStatuses != null) {
+            Collections.sort(allStatuses);
+        }
+        List<Status> responseStatuses = new ArrayList<>(request.getLimit());
+
+        boolean hasMorePages = false;
+
+        if(request.getLimit() > 0) {
+            if (allStatuses != null) {
+                int statusesIndex = getStatusesStartingIndex(request.getLastStatus(), allStatuses);
+
+                for(int limitCounter = 0; statusesIndex < allStatuses.size() && limitCounter < request.getLimit(); statusesIndex++, limitCounter++) {
+                    responseStatuses.add(allStatuses.get(statusesIndex));
+                }
+
+                hasMorePages = statusesIndex < allStatuses.size();
+            }
+        }
+
+        return new FeedResponse(responseStatuses, hasMorePages);
+    }
+
+    /**
      * Determines the index for the first status in the specified 'allStatuses' list that should
      * be returned in the current request. This will be the index of the next status after the
      * specified 'lastStatus'.
@@ -328,7 +401,7 @@ public class ServerFacade {
      * @param allStatuses the generated list of statuses from which we are returning paged results.
      * @return the index of the first followee to be returned.
      */
-    private int getStoryStartingIndex(Status lastStatus, List<Status> allStatuses) {
+    private int getStatusesStartingIndex(Status lastStatus, List<Status> allStatuses) {
 
         int statusIndex = 0;
 

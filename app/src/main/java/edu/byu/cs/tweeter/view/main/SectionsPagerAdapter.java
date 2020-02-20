@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import edu.byu.cs.tweeter.R;
+import edu.byu.cs.tweeter.view.main.feed.FeedFragment;
 import edu.byu.cs.tweeter.view.main.followers.FollowersFragment;
 import edu.byu.cs.tweeter.view.main.following.FollowingFragment;
 import edu.byu.cs.tweeter.view.main.story.StoryFragment;
@@ -40,7 +41,7 @@ class SectionsPagerAdapter extends FragmentPagerAdapter {
         switch(position) {
             case FEED_FRAGMENT_POSITION:
                 Log.i(LOG_TAG, "Clicked pos: " + position + " - Created new Feed");
-                return PlaceholderFragment.newInstance(position + 1); //TODO: Make this return the right fragment (not the placeholder)
+                return new FeedFragment();
             case STORY_FRAGMENT_POSITION:
                 Log.i(LOG_TAG, "Clicked pos: " + position + " - Created new Story");
                 return new StoryFragment();

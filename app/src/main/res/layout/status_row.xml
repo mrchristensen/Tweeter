@@ -37,13 +37,6 @@
                 tools:text="@string/sampleUserName"/>
 
             <TextView
-                android:id="@+id/userAlias"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20px"
-                tools:text="@string/sampleAlias" />
-
-            <TextView
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,11 +45,24 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/userAlias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/sampleAlias" />
+
+        <TextView
             android:id="@+id/messageBody"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="@string/sampleMessageBody"/>
+
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#c0c0c0"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" />
 
 </RelativeLayout>
