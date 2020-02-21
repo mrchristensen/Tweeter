@@ -16,8 +16,9 @@ import edu.byu.cs.tweeter.net.request.RegisterRequest;
 import edu.byu.cs.tweeter.net.response.RegisterResponse;
 import edu.byu.cs.tweeter.presenter.MainPresenter;
 import edu.byu.cs.tweeter.presenter.RegisterPresenter;
+import edu.byu.cs.tweeter.presenter.StoryViewPresenter;
 
-class MainPresenterTest implements MainPresenter.View, RegisterPresenter.View{
+class StoryViewPresenterTest implements StoryViewPresenter.View, RegisterPresenter.View{
 
     private final User user1 = new User("Dafney", "Daffy", "test", "");
     private final User user2 = new User("Fred", "Flintstone", "");
@@ -58,7 +59,7 @@ class MainPresenterTest implements MainPresenter.View, RegisterPresenter.View{
             follow16);
 
     private ServerFacade serverFacadeSpy;
-    private MainPresenter mainPresenter;
+    private StoryViewPresenter storyViewPresenter;
     private RegisterPresenter presenter;
 
 
@@ -69,7 +70,7 @@ class MainPresenterTest implements MainPresenter.View, RegisterPresenter.View{
         Mockito.when(mockFollowGenerator.generateUsersAndFollowsAndFollowers(Mockito.anyInt(), Mockito.anyInt(), Mockito.anyInt(), (User) Mockito.any())).thenReturn(follows);
         Mockito.when(serverFacadeSpy.getFollowGenerator()).thenReturn(mockFollowGenerator);
 
-        mainPresenter = new MainPresenter(this);
+        storyViewPresenter = new StoryViewPresenter(this);
         presenter = new RegisterPresenter(this);
 
     }
@@ -84,11 +85,11 @@ class MainPresenterTest implements MainPresenter.View, RegisterPresenter.View{
         Assertions.assertEquals("@username", loginResponse.getCurrentUser().getAlias());
 
 
-        User user = mainPresenter.getCurrentUser();
+        User user = storyViewPresenter.getCurrentUser();
 
         Assertions.assertNotNull(user);
         Assertions.assertEquals(user.getAlias(), "@username");
-        Assertions.assertEquals(mainPresenter.getClass(), MainPresenter.class);
+        Assertions.assertEquals(storyViewPresenter.getClass(), StoryViewPresenter.class);
     }
 
     @Test
@@ -101,9 +102,9 @@ class MainPresenterTest implements MainPresenter.View, RegisterPresenter.View{
         Assertions.assertFalse(loginResponse2.registerSuccessful());
         Assertions.assertNull(loginResponse2.getCurrentUser());
 
-        User user = mainPresenter.getCurrentUser();
+        User user = storyViewPresenter.getCurrentUser();
 
-        Assertions.assertEquals(mainPresenter.getClass(), MainPresenter.class);
-        Assertions.assertNotEquals(user.getAlias(), "@username2");
+        Assertions.assertEquals(storyViewPresenter.getClass(), StoryViewPresenter.class);
+        Assertions.assertNotEquals(user.getAlias(), "username1");
     }
 }
