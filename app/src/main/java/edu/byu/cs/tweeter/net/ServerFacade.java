@@ -33,9 +33,15 @@ public class ServerFacade {
     private static Map<User, List<User>> followeesByFollower; //og
     private static Map<User, List<User>> followersByFollowee;
     private static Map<User, List<Status>> statusesByUser;
+    private static User currentUser;
 
-    //
+
     public User findUser(String userAlias){
+        //Hardcoded user:
+        User dummyUser = new User("Test", "User", "test", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
+        if(!allUsers.contains(dummyUser)){
+            allUsers.add(dummyUser);
+        }
 
         for (User user : allUsers) {
             if(user.getAlias().equals(userAlias)){
@@ -152,7 +158,7 @@ public class ServerFacade {
         Map<User, List<User>> followeesByFollower = new HashMap<>();
 
         List<Follow> follows = getFollowGenerator().generateUsersAndFollowsAndFollowers(100,
-                0, 50);
+                0, 50, currentUser); //todo: Find current user
 
         // Populate a map of followees, keyed by follower so we can easily handle followee requests
         for(Follow follow : follows) {
@@ -534,6 +540,10 @@ public class ServerFacade {
         statusesByUser.put(user, statuses);
 
         return statusesByUser;
+    }
+
+    public static void setCurrentUser(User currentUser) {
+        ServerFacade.currentUser = currentUser;
     }
 
     /**

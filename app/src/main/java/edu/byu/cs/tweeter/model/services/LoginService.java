@@ -1,6 +1,9 @@
 package edu.byu.cs.tweeter.model.services;
 
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.net.ServerFacade;
+import edu.byu.cs.tweeter.net.request.LoginRequest;
+import edu.byu.cs.tweeter.net.response.LoginResponse;
 
 /**
  * Contains the business logic for login and sign up.
@@ -11,6 +14,8 @@ public class LoginService {
      * The singleton instance.
      */
     private static LoginService instance;
+
+    private final ServerFacade serverFacade;
 
     /**
      * The logged in user.
@@ -35,10 +40,13 @@ public class LoginService {
      * cannot be instantiated by external classes).
      */
     private LoginService() {
+        serverFacade = new ServerFacade();
+
+
         // TODO: Remove when the actual login functionality exists.
-        currentUser = new User("Test", "User",
-                "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
-        setCurrentUser(currentUser);
+//        currentUser = new User("Test", "User",
+//                "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
+//        setCurrentUser(currentUser);
     }
 
     /**
@@ -52,5 +60,15 @@ public class LoginService {
 
     private void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
+    }
+
+    public LoginResponse getLogin(LoginRequest request) {
+        User currentUser =serverFacade.findUser(request.getAlias());
+
+        if(currentUser == null){
+            return new LoginResponse(false, null);
+        }
+        setCurrentUser(currentUser);
+        return new LoginResponse(true, currentUser);
     }
 }

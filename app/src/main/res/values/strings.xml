@@ -17,4 +17,15 @@
     <string name="sampleDate">00/00/00 - 00:00:00</string>
     <string name="title_activity_story_view">StoryViewActivity</string>
     <string name="follow_button">FOLLOWING</string>
+    <string name="loginTabTitle">Login</string>
+    <string name="signupTabTitle">Signup</string>
+    <string name="title_activity_start">StartActivity</string>
+    <string name="user_name">Username:</string>
+    <string name="password">Password:</string>
+    <string name="sign_in">Sign In</string>
+    <string name="first_name">First Name:</string>
+    <string name="last_name">Last Name:</string>
+    <string name="image_url">Profile Image URL:</string>
+    <string name="register">Register</string>
+    <string name="default_image_url">https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png</string>
 </resources>

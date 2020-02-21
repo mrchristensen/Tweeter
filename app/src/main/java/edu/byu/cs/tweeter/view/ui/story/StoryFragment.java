@@ -1,6 +1,5 @@
 package edu.byu.cs.tweeter.view.ui.story;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -95,7 +93,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
                 public void onClick(View view) {
                     String activity = Arrays.toString(new String[]{Objects.requireNonNull(getActivity()).getIntent().getStringExtra("activity")});
                     if(activity.equals("[null]")){
-                        ((MainActivity) getActivity()).startStoryViewFragment(view, userAlias.getText().toString());
+                        ((MainActivity) getActivity()).startStoryViewActivity(view, userAlias.getText().toString());
                     }
                     else{
                         ((StoryViewActivity) getActivity()).startStoryViewFragment(view, userAlias.getText().toString());
@@ -109,7 +107,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM-dd-yyyy - HH:mm");
 
             userImage.setImageDrawable(ImageCache.getInstance().getImageDrawable(status.getUser()));
-            userAlias.setText(status.getUser().getAlias());
+            userAlias.setText(String.format("@%s", status.getUser().getAlias()));
             userName.setText(status.getUser().getName());
             date.setText(dtf.format(status.getDate()));
             message.setText(status.getMessageBody());

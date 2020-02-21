@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -86,7 +85,7 @@ public class FollowingFragment extends Fragment implements FollowingPresenter.Vi
                 public void onClick(View view) {
                     String activity = Arrays.toString(new String[]{Objects.requireNonNull(getActivity()).getIntent().getStringExtra("activity")});
                     if(activity.equals("[null]")){
-                        ((MainActivity) getActivity()).startStoryViewFragment(view, userAlias.getText().toString());
+                        ((MainActivity) getActivity()).startStoryViewActivity(view, userAlias.getText().toString());
                     }
                     else{
                         ((StoryViewActivity) getActivity()).startStoryViewFragment(view, userAlias.getText().toString());

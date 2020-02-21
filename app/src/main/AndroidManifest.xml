@@ -13,14 +13,23 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".view.ui.main.MainActivity"
-            android:label="@string/title_activity_main"
+            android:name=".view.ui.start.StartActivity"
+            android:label="@string/title_activity_start"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".view.ui.main.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.byu.cs.tweeter.view.ui.start.StartActivity" />
         </activity>
 
         <activity

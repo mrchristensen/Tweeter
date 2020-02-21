@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         });
 
         user = presenter.getCurrentUser();
+        ServerFacade.setCurrentUser(user);
         userImageView = findViewById(R.id.userImage);
 
         // Asynchronously load the user's image
@@ -66,13 +67,13 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         userName.setText(user.getName());
 
         TextView userAlias = findViewById(R.id.userAlias);
-        userAlias.setText(user.getAlias());
+        userAlias.setText(String.format("@%s", user.getAlias()));
     }
 
-    public void startStoryViewFragment(View view, String userAlias){
+    public void startStoryViewActivity(View view, String userAlias){
         Intent storyViewActivityIntent = new Intent(view.getContext(), StoryViewActivity.class);
 
-        User user = new ServerFacade().findUser(userAlias);
+        User user = new ServerFacade().findUser(userAlias); //todo: make this async
         storyViewActivityIntent.putExtra("user", user);
         storyViewActivityIntent.putExtra("activity", "storyViewActivity");
         startActivity(storyViewActivityIntent);

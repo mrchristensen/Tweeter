@@ -68,9 +68,9 @@ public class FollowGenerator {
     }
 
     public List<Follow> generateUsersAndFollowsAndFollowers(int userCount, int minFollowersPerUser,
-                                                int maxFollowersPerUser) {
+                                                int maxFollowersPerUser, User currentUser) {
         List<User> users = UserGenerator.getInstance().generateUsers(userCount);
-
+        users.add(currentUser);
         List<Follow> follows = generateFollowsForUsers(users, minFollowersPerUser, maxFollowersPerUser, Sort.FOLLOWER_FOLLOWEE);
         follows.addAll(generateFollowersForUsers(users, minFollowersPerUser, maxFollowersPerUser, Sort.FOLLOWEE_FOLLOWER));
         return follows;
