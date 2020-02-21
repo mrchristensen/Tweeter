@@ -1,6 +1,13 @@
 package edu.byu.cs.tweeter.net;
 
+import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.URLSpan;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -54,6 +61,12 @@ public class ServerFacade {
     }
 
     public void postStatus(User user, String statusMessage){
+
+        
+
+
+
+
         statusesByUser.get(user).add(new Status(user, LocalDateTime.now(), statusMessage));
     }
 

@@ -2,6 +2,9 @@ package edu.byu.cs.tweeter.view.ui.story;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
+import android.text.style.URLSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
@@ -22,10 +27,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.net.request.StoryRequest;
 import edu.byu.cs.tweeter.net.response.StoryResponse;
 import edu.byu.cs.tweeter.presenter.StoryPresenter;
@@ -110,7 +118,52 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
             userAlias.setText(status.getUser().getAlias());
             userName.setText(status.getUser().getName());
             date.setText(dtf.format(status.getDate()));
-            message.setText(status.getMessageBody());
+
+
+
+            CharSequence input = status.getMessageBody();
+            SpannableStringBuilder builder = new SpannableStringBuilder(input);
+
+            Pattern pattern = Pattern.compile("\\B@\\w+");
+            Matcher matcher = pattern.matcher(input);
+            while (matcher.find()) {
+                int start = matcher.start();
+                int end = matcher.end();
+
+                String text = input.subSequence(start, end).toString();
+
+                ClickableURLSpan url = new ClickableURLSpan(text);
+                builder.setSpan(url, start, end, 0);
+            }
+
+            message.setText(builder);
+            message.setMovementMethod(LinkMovementMethod.getInstance());
+        }
+    }
+
+    public class ClickableURLSpan extends URLSpan {
+        public ClickableURLSpan(String url) {
+            super(url);
+        }
+
+        @Override
+        public void onClick(View widget) {
+            String clickedText = getURL();
+
+            User user = new ServerFacade().findUser(clickedText); //todo: make this async
+            if(user != null){
+                String activity = Arrays.toString(new String[]{Objects.requireNonNull(getActivity()).getIntent().getStringExtra("activity")});
+                if(activity.equals("[null]")){
+                    ((MainActivity) getActivity()).startStoryViewActivity(getView(), clickedText);
+                }
+                else{
+                    ((StoryViewActivity) getActivity()).startStoryViewFragment(getView(), clickedText);
+                }
+            }
+            else{
+                Snackbar.make(getView(), "The user: \"" + clickedText + "\", does not exit.",
+                        Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
         }
     }
 

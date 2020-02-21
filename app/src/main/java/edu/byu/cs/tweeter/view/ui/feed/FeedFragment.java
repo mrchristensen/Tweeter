@@ -3,6 +3,9 @@ package edu.byu.cs.tweeter.view.ui.feed;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
+import android.text.style.URLSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
@@ -23,16 +28,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.net.request.FeedRequest;
 import edu.byu.cs.tweeter.net.response.FeedResponse;
 import edu.byu.cs.tweeter.presenter.FeedPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFeedTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
 import edu.byu.cs.tweeter.view.ui.main.MainActivity;
+import edu.byu.cs.tweeter.view.ui.story.StoryFragment;
 import edu.byu.cs.tweeter.view.ui.storyView.StoryViewActivity;
 
 /**
@@ -111,9 +120,54 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
             userAlias.setText(status.getUser().getAlias());
             userName.setText(status.getUser().getName());
             date.setText(dtf.format(status.getDate()));
-            message.setText(status.getMessageBody());
+
+
+            CharSequence input = status.getMessageBody();
+            SpannableStringBuilder builder = new SpannableStringBuilder(input);
+
+            Pattern pattern = Pattern.compile("\\B@\\w+");
+            Matcher matcher = pattern.matcher(input);
+            while (matcher.find()) {
+                int start = matcher.start();
+                int end = matcher.end();
+
+                String text = input.subSequence(start, end).toString();
+
+                FeedFragment.ClickableURLSpan url = new FeedFragment.ClickableURLSpan(text);
+                builder.setSpan(url, start, end, 0);
+            }
+
+            message.setText(builder);
+            message.setMovementMethod(LinkMovementMethod.getInstance());
         }
     }
+
+    public class ClickableURLSpan extends URLSpan {
+        public ClickableURLSpan(String url) {
+            super(url);
+        }
+
+        @Override
+        public void onClick(View widget) {
+            String clickedText = getURL();
+
+            User user = new ServerFacade().findUser(clickedText); //todo: make this async
+            if(user != null){
+                String activity = Arrays.toString(new String[]{Objects.requireNonNull(getActivity()).getIntent().getStringExtra("activity")});
+                if(activity.equals("[null]")){
+                    ((MainActivity) getActivity()).startStoryViewActivity(getView(), clickedText);
+                }
+                else{
+                    ((StoryViewActivity) getActivity()).startStoryViewFragment(getView(), clickedText);
+                }
+            }
+            else{
+                Snackbar.make(getView(), "The user: \"" + clickedText + "\", does not exit.",
+                        Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
+        }
+    }
+
 
     /**
      * The adapter for the RecyclerView that displays the Story data.

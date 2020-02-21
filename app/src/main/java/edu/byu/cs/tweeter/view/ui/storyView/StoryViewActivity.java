@@ -52,7 +52,7 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
 
         userImageView = findViewById(R.id.userImage);
 
-//        user = presenter.getCurrentUser();
+//        user = presenter.getCurrentUser(); //todo: is this needed?
         Intent intent = getIntent();
         if (null != intent) { //Null Checking
             user = (User) intent.getSerializableExtra("user");
@@ -104,7 +104,7 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
     public void startStoryViewFragment(View view, String userAlias){
         Intent storyViewActivityIntent = new Intent(view.getContext(), StoryViewActivity.class);
 
-        User user = new ServerFacade().findUser(userAlias);
+        User user = new ServerFacade().findUser(userAlias); //todo: make this async????????
         storyViewActivityIntent.putExtra("user", user);
         storyViewActivityIntent.putExtra("activity", "storyViewActivity");
         startActivity(storyViewActivityIntent);
