@@ -16,6 +16,7 @@ import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.net.request.FeedRequest;
 import edu.byu.cs.tweeter.net.request.FollowerRequest;
 import edu.byu.cs.tweeter.net.request.FollowingRequest;
+import edu.byu.cs.tweeter.net.request.RegisterRequest;
 import edu.byu.cs.tweeter.net.request.StoryRequest;
 import edu.byu.cs.tweeter.net.response.FeedResponse;
 import edu.byu.cs.tweeter.net.response.FollowerResponse;
@@ -50,6 +51,27 @@ public class ServerFacade {
         }
         return null;
     }
+
+    public User registerUser(RegisterRequest request){
+
+        if(findUser(request.getAlias()) != null){
+            return null; //There already exists such a user
+        }
+
+        User newUser = new User(request.getFistName(), request.getLastName(), request.getAlias(), request.getProfileImageURL());
+
+        if(!allUsers.contains(newUser)){
+            allUsers.add(newUser);
+        }
+        else{
+            return null; //There already exists such a user
+        }
+
+        //dfd
+
+        return newUser;
+    }
+
 
     //
     public boolean userFollows(User follower, User followee){
@@ -173,7 +195,12 @@ public class ServerFacade {
         }
 
         registerUsers(followeesByFollower);
-        ServerFacade.followeesByFollower = followeesByFollower;
+
+        if(ServerFacade.followeesByFollower == null){
+            ServerFacade.followeesByFollower = new HashMap<>();
+        }
+
+        ServerFacade.followeesByFollower.putAll(followeesByFollower);
 
         Map<User, List<User>> followersByFollowee = new HashMap<>();
 
@@ -318,35 +345,36 @@ public class ServerFacade {
         return followersIndex;
     }
 
+    //TODO Clean up this codes comments
     /**
      * Generates the follower data.
      */
-    private Map<User, List<User>> initializeFollowers() {
-
-        Map<User, List<User>> followersByFollowee = new HashMap<>();
-
-        List<Follow> follows = getFollowGenerator().generateUsersAndFollowers(100,
-                0, 50, FollowGenerator.Sort.FOLLOWEE_FOLLOWER);
-
-        // Populate a map of followers, keyed by followee so we can easily handle follower requests
-        for(Follow follow : follows) {
-            Log.d(LOG_TAG, "Followee (person being followed): " + follow.getFollowee().getFirstName()
-                    + " " + follow.getFollowee().getLastName() + " - Follower: " + follow.getFollower().getFirstName()
-                    + " " + follow.getFollower().getLastName());
-
-            List<User> followers = followersByFollowee.get(follow.getFollowee());
-
-            if(followers == null) {
-                followers = new ArrayList<>();
-                followersByFollowee.put(follow.getFollowee(), followers);
-            }
-
-            followers.add(follow.getFollower());
-        }
-
-        registerUsers(followersByFollowee);
-        return followersByFollowee;
-    }
+//    private Map<User, List<User>> initializeFollowers() {
+//
+//        Map<User, List<User>> followersByFollowee = new HashMap<>();
+//
+//        List<Follow> follows = getFollowGenerator().generateUsersAndFollowers(100,
+//                0, 50, FollowGenerator.Sort.FOLLOWEE_FOLLOWER);
+//
+//        // Populate a map of followers, keyed by followee so we can easily handle follower requests
+//        for(Follow follow : follows) {
+//            Log.d(LOG_TAG, "Followee (person being followed): " + follow.getFollowee().getFirstName()
+//                    + " " + follow.getFollowee().getLastName() + " - Follower: " + follow.getFollower().getFirstName()
+//                    + " " + follow.getFollower().getLastName());
+//
+//            List<User> followers = followersByFollowee.get(follow.getFollowee());
+//
+//            if(followers == null) {
+//                followers = new ArrayList<>();
+//                followersByFollowee.put(follow.getFollowee(), followers);
+//            }
+//
+//            followers.add(follow.getFollower());
+//        }
+//
+//        registerUsers(followersByFollowee);
+//        return followersByFollowee;
+//    }
 
     /**
      * Returns an instance of FollowGenerator that can be used to generate Follow data. This is
@@ -458,6 +486,13 @@ public class ServerFacade {
             initializeFollowees();
         }
         List<User> allFollowees = followeesByFollower.get(request.getUser());
+
+        if(allFollowees == null){ //For generating fake data for the second user
+            initializeFollowees();
+            allFollowees = followeesByFollower.get(request.getUser());
+        }
+
+        Log.i(LOG_TAG, request.getUser().toString());
 
         //Find all the followee's statuses
         if(statusesByUser == null){

@@ -15,6 +15,7 @@ import edu.byu.cs.tweeter.view.ui.feed.FeedFragment;
 import edu.byu.cs.tweeter.view.ui.followers.FollowersFragment;
 import edu.byu.cs.tweeter.view.ui.following.FollowingFragment;
 import edu.byu.cs.tweeter.view.ui.start.login.LoginFragment;
+import edu.byu.cs.tweeter.view.ui.start.register.RegisterFragment;
 import edu.byu.cs.tweeter.view.ui.story.StoryFragment;
 
 /**
@@ -40,11 +41,11 @@ class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch(position) {
             case LOGIN_FRAGMENT_POSITION:
-                Log.i(LOG_TAG, "Clicked pos: " + position + " - Created new Feed");
+                Log.i(LOG_TAG, "Clicked pos: " + position + " - Created new Login Fragment");
                 return new LoginFragment();
             case SIGNUP_FRAGMENT_POSITION:
-                Log.i(LOG_TAG, "Clicked pos: " + position + " - Created new Story");
-                return new LoginFragment();  //TODO: change to Signup Fragment
+                Log.i(LOG_TAG, "Clicked pos: " + position + " - Created new Register Fragment");
+                return new RegisterFragment();
             default:
                 Log.e(LOG_TAG, "Clicked pos: " + position + " - where did NOT match any selection. Created new placeholder");
                 return PlaceholderFragment.newInstance(position + 1);

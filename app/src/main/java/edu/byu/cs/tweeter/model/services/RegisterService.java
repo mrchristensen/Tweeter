@@ -3,17 +3,19 @@ package edu.byu.cs.tweeter.model.services;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.net.request.LoginRequest;
+import edu.byu.cs.tweeter.net.request.RegisterRequest;
 import edu.byu.cs.tweeter.net.response.LoginResponse;
+import edu.byu.cs.tweeter.net.response.RegisterResponse;
 
 /**
  * Contains the business logic for login and sign up.
  */
-public class LoginService {
+public class RegisterService {
 
     /**
      * The singleton instance.
      */
-    private static LoginService instance;
+    private static RegisterService instance;
 
     private final ServerFacade serverFacade;
 
@@ -27,9 +29,9 @@ public class LoginService {
      *
      * @return the instance.
      */
-    public static LoginService getInstance() {
+    public static RegisterService getInstance() {
         if(instance == null) {
-            instance = new LoginService();
+            instance = new RegisterService();
         }
 
         return instance;
@@ -39,7 +41,7 @@ public class LoginService {
      * A private constructor created to ensure that this class is a singleton (i.e. that it
      * cannot be instantiated by external classes).
      */
-    private LoginService() {
+    private RegisterService() {
         serverFacade = new ServerFacade();
 
 
@@ -58,17 +60,18 @@ public class LoginService {
         return currentUser;
     }
 
-    void setCurrentUser(User currentUser) {
+    private void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
+        LoginService.getInstance().setCurrentUser(currentUser);
     }
 
-    public LoginResponse getLogin(LoginRequest request) {
-        User currentUser =serverFacade.findUser(request.getAlias());
+    public RegisterResponse getRegister(RegisterRequest request) {
+        User currentUser = serverFacade.registerUser(request); //Create a new user
 
-        if(currentUser == null){
-            return new LoginResponse(false, null);
+        if(currentUser == null){ //Such a user already exists (username taken)
+            return new RegisterResponse(false, null);
         }
-        setCurrentUser(currentUser);
-        return new LoginResponse(true, currentUser);
+        setCurrentUser(currentUser); //No such user already exited, return the created user
+        return new RegisterResponse(true, currentUser);
     }
 }
