@@ -1,5 +1,6 @@
 package edu.byu.cs.tweeter.view.ui.main;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -9,14 +10,18 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,6 +38,7 @@ import edu.byu.cs.tweeter.view.ui.storyView.StoryViewActivity;
  * The main activity for the application. Contains tabs for feed, story, following, and followers.
  */
 public class MainActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, MainPresenter.View, View.OnCreateContextMenuListener {
+    private static final String LOG_TAG = "MainActivity";
 
     private MainPresenter presenter;
     private User user;
@@ -45,10 +51,6 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-//        Toolbar toolbar = findViewById(R.id.toolbar); //todo: do we need this?
-//        setSupportActionBar(toolbar);
-
 
         presenter = new MainPresenter(this);
 
@@ -97,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.searchMenuItem:
-                //todo: search
+                search();
                 return true;
             case R.id.logoutMenuItem:
                 logout();
@@ -105,6 +107,45 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void search() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Search");
+
+        // Set up the input
+        final EditText input = new EditText(this);
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String searchInput = input.getText().toString();
+                View view = findViewById(android.R.id.content);
+                Log.i(LOG_TAG, "Searched for: " + searchInput);
+
+                User user = new ServerFacade().findUser(searchInput); //todo: make this async
+                if(user != null){
+                    startStoryViewActivity(view, searchInput);
+                }
+                else{
+                    Snackbar.make(view, "The user: " + searchInput + ", does not exit.",
+                            Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     private void logout() {
