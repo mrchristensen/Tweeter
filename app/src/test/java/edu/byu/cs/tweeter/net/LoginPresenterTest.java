@@ -10,14 +10,18 @@ import java.util.List;
 
 import edu.byu.cs.tweeter.model.domain.Follow;
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.net.request.FollowingRequest;
 import edu.byu.cs.tweeter.net.request.LoginRequest;
 import edu.byu.cs.tweeter.net.request.RegisterRequest;
+import edu.byu.cs.tweeter.net.response.FollowingResponse;
 import edu.byu.cs.tweeter.net.response.LoginResponse;
 import edu.byu.cs.tweeter.net.response.RegisterResponse;
 import edu.byu.cs.tweeter.presenter.LoginPresenter;
+import edu.byu.cs.tweeter.presenter.Presenter;
 import edu.byu.cs.tweeter.presenter.RegisterPresenter;
+import edu.byu.cs.tweeter.view.ui.start.login.LoginFragment;
 
-class RegisterPresenterTest implements RegisterPresenter.View {
+class LoginPresenterTest implements LoginPresenter.View, RegisterPresenter.View{
 
     private final User user1 = new User("Dafney", "Daffy", "test", "");
     private final User user2 = new User("Fred", "Flintstone", "");
@@ -57,37 +61,41 @@ class RegisterPresenterTest implements RegisterPresenter.View {
             follow7, follow8, follow9, follow10, follow11, follow12, follow13, follow14, follow15,
             follow16);
 
+    private ServerFacade serverFacadeSpy;
+    private LoginPresenter loginPresenter;
     private RegisterPresenter presenter;
 
 
     @BeforeEach
     void setup() {
+        serverFacadeSpy = Mockito.spy(new ServerFacade());
+        FollowGenerator mockFollowGenerator = Mockito.mock(FollowGenerator.class);
+        Mockito.when(mockFollowGenerator.generateUsersAndFollowsAndFollowers(Mockito.anyInt(), Mockito.anyInt(), Mockito.anyInt(), (User) Mockito.any())).thenReturn(follows);
+        Mockito.when(serverFacadeSpy.getFollowGenerator()).thenReturn(mockFollowGenerator);
+
+        loginPresenter = new LoginPresenter(this);
         presenter = new RegisterPresenter(this);
+
+
+
     }
 
     @Test
-    void testSuccessfulRegister() {
-        RegisterRequest request = new RegisterRequest("username", "password", "f", "l", "");
-        RegisterResponse response = presenter.getRegister(request);
+    void testSuccessfulLogin() {
+        RegisterRequest loginRequest = new RegisterRequest("username", "password", "f", "l", "");
+        RegisterResponse loginResponse = presenter.getRegister(loginRequest);
 
-        Assertions.assertTrue(response.registerSuccessful());
-        Assertions.assertNotNull(response.getCurrentUser());
-        Assertions.assertEquals("@username", response.getCurrentUser().getAlias());
+        Assertions.assertTrue(loginResponse.registerSuccessful());
+        Assertions.assertNotNull(loginResponse.getCurrentUser());
+        Assertions.assertEquals("@username", loginResponse.getCurrentUser().getAlias());
     }
 
     @Test
     void testUnsuccessfulLogin() {
-        RegisterRequest request = new RegisterRequest("username2", "password", "f", "l", "");
-        RegisterResponse response = presenter.getRegister(request);
+        RegisterRequest loginRequest = new RegisterRequest("test", "password", "f", "l", "");
+        RegisterResponse loginResponse = presenter.getRegister(loginRequest);
 
-        Assertions.assertTrue(response.registerSuccessful());
-        Assertions.assertNotNull(response.getCurrentUser());
-        Assertions.assertEquals("@username2", response.getCurrentUser().getAlias());
-
-        request = new RegisterRequest("username2", "password", "f", "l", "");
-        response = presenter.getRegister(request);
-
-        Assertions.assertFalse(response.registerSuccessful());
-        Assertions.assertNull(response.getCurrentUser());
+        Assertions.assertFalse(loginResponse.registerSuccessful());
+        Assertions.assertNull(loginResponse.getCurrentUser());
     }
 }

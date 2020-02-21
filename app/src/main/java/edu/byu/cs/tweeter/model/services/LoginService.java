@@ -57,7 +57,7 @@ public class LoginService {
     }
 
     public LoginResponse getLogin(LoginRequest request) {
-        User currentUser =serverFacade.findUser(request.getAlias());
+        User currentUser = serverFacade.findUser(request.getAlias());
 
         if(currentUser == null){
             return new LoginResponse(false, null);
