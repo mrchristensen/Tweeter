@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.net;
+package edu.byu.cs.tweeter.net.presenter;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

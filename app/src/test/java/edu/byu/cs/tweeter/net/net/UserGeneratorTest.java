@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.net;
+package edu.byu.cs.tweeter.net.net;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.net.UserGenerator;
 
 class UserGeneratorTest {
 

@@ -85,16 +85,12 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         userAlias.setText(user.getAlias());
     }
 
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_activity_menu, menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -185,7 +181,6 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
-
 
     public void startStoryViewActivity(View view, String userAlias){
         storyView = view;

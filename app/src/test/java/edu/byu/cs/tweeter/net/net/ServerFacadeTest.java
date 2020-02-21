@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.net;
+package edu.byu.cs.tweeter.net.net;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +10,8 @@ import java.util.List;
 
 import edu.byu.cs.tweeter.model.domain.Follow;
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.net.FollowGenerator;
+import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.net.request.FollowingRequest;
 import edu.byu.cs.tweeter.net.response.FollowingResponse;
 

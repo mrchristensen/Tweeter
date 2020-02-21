@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.net;
+package edu.byu.cs.tweeter.net.presenter;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,18 +10,14 @@ import java.util.List;
 
 import edu.byu.cs.tweeter.model.domain.Follow;
 import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.net.request.FollowingRequest;
-import edu.byu.cs.tweeter.net.request.LoginRequest;
+import edu.byu.cs.tweeter.net.FollowGenerator;
+import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.net.request.RegisterRequest;
-import edu.byu.cs.tweeter.net.response.FollowingResponse;
-import edu.byu.cs.tweeter.net.response.LoginResponse;
 import edu.byu.cs.tweeter.net.response.RegisterResponse;
-import edu.byu.cs.tweeter.presenter.LoginPresenter;
-import edu.byu.cs.tweeter.presenter.Presenter;
+import edu.byu.cs.tweeter.presenter.MainPresenter;
 import edu.byu.cs.tweeter.presenter.RegisterPresenter;
-import edu.byu.cs.tweeter.view.ui.start.login.LoginFragment;
 
-class LoginPresenterTest implements LoginPresenter.View, RegisterPresenter.View{
+class MainPresenterTest implements MainPresenter.View, RegisterPresenter.View{
 
     private final User user1 = new User("Dafney", "Daffy", "test", "");
     private final User user2 = new User("Fred", "Flintstone", "");
@@ -62,7 +58,7 @@ class LoginPresenterTest implements LoginPresenter.View, RegisterPresenter.View{
             follow16);
 
     private ServerFacade serverFacadeSpy;
-    private LoginPresenter loginPresenter;
+    private MainPresenter mainPresenter;
     private RegisterPresenter presenter;
 
 
@@ -73,29 +69,38 @@ class LoginPresenterTest implements LoginPresenter.View, RegisterPresenter.View{
         Mockito.when(mockFollowGenerator.generateUsersAndFollowsAndFollowers(Mockito.anyInt(), Mockito.anyInt(), Mockito.anyInt(), (User) Mockito.any())).thenReturn(follows);
         Mockito.when(serverFacadeSpy.getFollowGenerator()).thenReturn(mockFollowGenerator);
 
-        loginPresenter = new LoginPresenter(this);
+        mainPresenter = new MainPresenter(this);
         presenter = new RegisterPresenter(this);
-
-
 
     }
 
     @Test
-    void testSuccessfulLogin() {
+    void mainSuccess() {
         RegisterRequest loginRequest = new RegisterRequest("username", "password", "f", "l", "");
         RegisterResponse loginResponse = presenter.getRegister(loginRequest);
 
         Assertions.assertTrue(loginResponse.registerSuccessful());
         Assertions.assertNotNull(loginResponse.getCurrentUser());
         Assertions.assertEquals("@username", loginResponse.getCurrentUser().getAlias());
+
+
+        User user = mainPresenter.getCurrentUser();
+
+        Assertions.assertEquals(mainPresenter.getClass(), MainPresenter.class);
     }
 
     @Test
-    void testUnsuccessfulLogin() {
-        RegisterRequest loginRequest = new RegisterRequest("test", "password", "f", "l", "");
+    void mainUnsuccessful() {
+        RegisterRequest loginRequest = new RegisterRequest("username1", "password", "f", "l", "");
         RegisterResponse loginResponse = presenter.getRegister(loginRequest);
+        loginRequest = new RegisterRequest("username2", "password", "f", "l", "");
+        loginResponse = presenter.getRegister(loginRequest);
 
-        Assertions.assertFalse(loginResponse.registerSuccessful());
-        Assertions.assertNull(loginResponse.getCurrentUser());
+
+
+        User user = mainPresenter.getCurrentUser();
+
+        Assertions.assertEquals(mainPresenter.getClass(), MainPresenter.class);
+        Assertions.assertNotEquals(user.getAlias(), "@username1");
     }
 }

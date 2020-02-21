@@ -235,7 +235,7 @@ public class ServerFacade {
      *
      * @return the generator.
      */
-    FollowGenerator getFollowGenerator() {
+    public FollowGenerator getFollowGenerator() {
         return FollowGenerator.getInstance();
     }
 
