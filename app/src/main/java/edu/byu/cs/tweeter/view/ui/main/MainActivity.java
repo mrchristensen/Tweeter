@@ -8,9 +8,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,12 +26,13 @@ import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.presenter.MainPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadImageTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
+import edu.byu.cs.tweeter.view.ui.start.StartActivity;
 import edu.byu.cs.tweeter.view.ui.storyView.StoryViewActivity;
 
 /**
  * The main activity for the application. Contains tabs for feed, story, following, and followers.
  */
-public class MainActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, MainPresenter.View {
+public class MainActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, MainPresenter.View, View.OnCreateContextMenuListener {
 
     private MainPresenter presenter;
     private User user;
@@ -36,6 +42,13 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+//        Toolbar toolbar = findViewById(R.id.toolbar); //todo: do we need this?
+//        setSupportActionBar(toolbar);
+
 
         presenter = new MainPresenter(this);
 
@@ -67,8 +80,39 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         userName.setText(user.getName());
 
         TextView userAlias = findViewById(R.id.userAlias);
-        userAlias.setText(String.format("@%s", user.getAlias()));
+        userAlias.setText(user.getAlias());
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_activity_menu, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.searchMenuItem:
+                //todo: search
+                return true;
+            case R.id.logoutMenuItem:
+                logout();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void logout() {
+        Intent intent = new Intent(this, StartActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
 
     public void startStoryViewActivity(View view, String userAlias){
         Intent storyViewActivityIntent = new Intent(view.getContext(), StoryViewActivity.class);

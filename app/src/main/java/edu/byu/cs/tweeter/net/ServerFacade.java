@@ -39,7 +39,7 @@ public class ServerFacade {
 
     public User findUser(String userAlias){
         //Hardcoded user:
-        User dummyUser = new User("Test", "User", "test", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
+        User dummyUser = new User("Test", "User", "@test", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
         if(!allUsers.contains(dummyUser)){
             allUsers.add(dummyUser);
         }
@@ -58,7 +58,7 @@ public class ServerFacade {
             return null; //There already exists such a user
         }
 
-        User newUser = new User(request.getFistName(), request.getLastName(), request.getAlias(), request.getProfileImageURL());
+        User newUser = new User(request.getFistName(), request.getLastName(), "@" + request.getAlias(), request.getProfileImageURL());
 
         if(!allUsers.contains(newUser)){
             allUsers.add(newUser);
@@ -505,9 +505,6 @@ public class ServerFacade {
             }
 
             allStatuses.addAll(Objects.requireNonNull(statusesByUser.get(user)));
-
-            //todo sort
-
         }
 
 

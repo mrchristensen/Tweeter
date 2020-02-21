@@ -107,7 +107,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM-dd-yyyy - HH:mm");
 
             userImage.setImageDrawable(ImageCache.getInstance().getImageDrawable(status.getUser()));
-            userAlias.setText(String.format("@%s", status.getUser().getAlias()));
+            userAlias.setText(status.getUser().getAlias());
             userName.setText(status.getUser().getName());
             date.setText(dtf.format(status.getDate()));
             message.setText(status.getMessageBody());
@@ -241,7 +241,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
             String activity = Arrays.toString(new String[]{Objects.requireNonNull(getActivity()).getIntent().getStringExtra("activity")});
             User user;
             if(!activity.equals("[null]")){
-                user = (User) ((StoryViewActivity)getActivity()).getIntent().getSerializableExtra("user");
+                user = (User) getActivity().getIntent().getSerializableExtra("user");
             }
             else{
                 user = presenter.getCurrentUser();

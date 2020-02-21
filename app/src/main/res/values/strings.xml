@@ -4,7 +4,7 @@
     <string name="homePageTitle">Home</string>
     <string name="userImageContentDescription">The user\'s image</string>
 
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Tweeter</string>
     <string name="loadingData">Loading More Data…</string>
     <string name="feedTabTitle">Feed</string>
     <string name="storyTabTitle">Story</string>
@@ -28,4 +28,6 @@
     <string name="image_url">Profile Image URL:</string>
     <string name="register">Register</string>
     <string name="default_image_url">https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png</string>
+    <string name="searchMenu">Search</string>
+    <string name="logoutMenu">Logout</string>
 </resources>

@@ -106,7 +106,7 @@ public class LoginFragment extends Fragment implements LoginPresenter.View {
         void loginCheck(String userAlias, String userPassword){
             GetLoginTask getLoginTask = new GetLoginTask(presenter, this);
 
-            LoginRequest request = new LoginRequest(userAlias, userPassword);
+            LoginRequest request = new LoginRequest("@" + userAlias, userPassword);
             getLoginTask.execute(request);
         }
 
