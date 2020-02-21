@@ -64,6 +64,10 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
         }
 
         final Button followButton = findViewById(R.id.button_follow);
+        if(presenter.getCurrentUser().equals(user)){
+            followButton.setVisibility(View.GONE);
+            followButton.setEnabled(false);
+        }
         if(new ServerFacade().userFollows(presenter.getCurrentUser(), user)){ //todo make async
             followButton.setText("Following");
         }
