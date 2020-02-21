@@ -72,7 +72,7 @@ class ServerFacadeTest {
         FollowingRequest request = new FollowingRequest(user1, 10, null);
         FollowingResponse response = serverFacadeSpy.getFollowees(request);
 
-        Assertions.assertEquals(0, response.getFollowees().size());
+        Assertions.assertEquals("No followees exist for such a user", response.getMessage());
         Assertions.assertFalse(response.hasMorePages());
     }
 

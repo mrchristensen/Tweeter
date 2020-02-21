@@ -123,6 +123,11 @@ public class ServerFacade {
         }
 
         List<User> allFollowees = followeesByFollower.get(request.getFollower());
+
+        if(allFollowees == null){
+            return new FollowingResponse("No followees exist for such a user");
+        }
+
         Collections.sort(allFollowees);
         List<User> responseFollowees = new ArrayList<>(request.getLimit());
 
