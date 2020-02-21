@@ -28,6 +28,7 @@ import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.presenter.MainPresenter;
+import edu.byu.cs.tweeter.view.asyncTasks.FindUserTask;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadImageTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
 import edu.byu.cs.tweeter.view.ui.main.storyView.StoryViewActivity;
@@ -36,12 +37,13 @@ import edu.byu.cs.tweeter.view.ui.start.startActivity.StartActivity;
 /**
  * The main activity for the application. Contains tabs for feed, story, following, and followers.
  */
-public class MainActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, MainPresenter.View, View.OnCreateContextMenuListener {
+public class MainActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, FindUserTask.FindUserObserver, MainPresenter.View, View.OnCreateContextMenuListener {
     private static final String LOG_TAG = "MainActivity";
 
     private MainPresenter presenter;
     private User user;
     private ImageView userImageView;
+    private View storyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
                 View view = findViewById(android.R.id.content);
                 Log.i(LOG_TAG, "New status post: " + statusMessage);
 
-                new ServerFacade().postStatus(presenter.getCurrentUser(), statusMessage); //todo: make this async
+                new ServerFacade().postStatus(presenter.getCurrentUser(), statusMessage);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -140,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         builder.show();
     }
 
-    private void search() { //todo: should this be moved out of the view?
+    private void search() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Search");
 
@@ -158,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
                 View view = findViewById(android.R.id.content);
                 Log.i(LOG_TAG, "Searched for: " + searchInput);
 
-                User user = new ServerFacade().findUser(searchInput); //todo: make this async
+                User user = new ServerFacade().findUser(searchInput);
                 if(user != null){
                     startStoryViewActivity(view, searchInput);
                 }
@@ -186,12 +188,10 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
 
 
     public void startStoryViewActivity(View view, String userAlias){
-        Intent storyViewActivityIntent = new Intent(view.getContext(), StoryViewActivity.class);
+        storyView = view;
 
-        User user = new ServerFacade().findUser(userAlias); //todo: make this async
-        storyViewActivityIntent.putExtra("user", user);
-        storyViewActivityIntent.putExtra("activity", "storyViewActivity");
-        startActivity(storyViewActivityIntent);
+        FindUserTask findUserTask = new FindUserTask(this);
+        findUserTask.execute(userAlias);
     }
 
     @Override
@@ -212,5 +212,13 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         if(drawables[0] != null) {
             userImageView.setImageDrawable(drawables[0]);
         }
+    }
+
+    @Override
+    public void getUser(User user) {
+        Intent storyViewActivityIntent = new Intent(storyView.getContext(), StoryViewActivity.class);
+        storyViewActivityIntent.putExtra("user", user);
+        storyViewActivityIntent.putExtra("activity", "storyViewActivity");
+        startActivity(storyViewActivityIntent);
     }
 }

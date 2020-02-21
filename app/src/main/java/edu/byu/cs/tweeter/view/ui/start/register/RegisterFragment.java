@@ -72,7 +72,6 @@ public class RegisterFragment extends Fragment implements RegisterPresenter.View
         return view;
     }
 
-    //TODO: move here down into presenter?
     private class FieldWatcher implements TextWatcher {
         FieldWatcher() {
         }

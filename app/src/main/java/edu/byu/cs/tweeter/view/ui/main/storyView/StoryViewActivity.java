@@ -62,7 +62,7 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
             followButton.setVisibility(View.GONE);
             followButton.setEnabled(false);
         }
-        if(new ServerFacade().userFollows(presenter.getCurrentUser(), user)){ //todo make async
+        if(new ServerFacade().userFollows(presenter.getCurrentUser(), user)){
             followButton.setText("Following");
         }
         else{
@@ -73,7 +73,7 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
         followButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ServerFacade serverFacade = new ServerFacade();
-                if(serverFacade.userFollows(presenter.getCurrentUser(), user)){ //todo make async
+                if(serverFacade.userFollows(presenter.getCurrentUser(), user)){
                     //Remove following relation
                     serverFacade.removeFollowing(user, presenter.getCurrentUser());
                     followButton.setText("Follow");
@@ -100,7 +100,7 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
     public void startStoryViewFragment(View view, String userAlias){
         Intent storyViewActivityIntent = new Intent(view.getContext(), StoryViewActivity.class);
 
-        User user = new ServerFacade().findUser(userAlias); //todo: make this async????????
+        User user = new ServerFacade().findUser(userAlias);
         storyViewActivityIntent.putExtra("user", user);
         storyViewActivityIntent.putExtra("activity", "storyViewActivity");
         startActivity(storyViewActivityIntent);

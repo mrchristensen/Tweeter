@@ -40,15 +40,17 @@ import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.net.request.StoryRequest;
 import edu.byu.cs.tweeter.net.response.StoryResponse;
 import edu.byu.cs.tweeter.presenter.StoryPresenter;
+import edu.byu.cs.tweeter.view.asyncTasks.FindUserTask;
 import edu.byu.cs.tweeter.view.asyncTasks.GetStoryTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
+import edu.byu.cs.tweeter.view.ui.main.feed.FeedFragment;
 import edu.byu.cs.tweeter.view.ui.main.mainActivity.MainActivity;
 import edu.byu.cs.tweeter.view.ui.main.storyView.StoryViewActivity;
 
 /**
  * The fragment that displays on the 'Story' tab.
  */
-public class StoryFragment extends Fragment implements StoryPresenter.View {
+public class StoryFragment extends Fragment implements StoryPresenter.View, FindUserTask.FindUserObserver {
 
     private static final int LOADING_DATA_VIEW = 0;
     private static final int ITEM_VIEW = 1;
@@ -56,6 +58,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
     private static final int PAGE_SIZE = 10;
 
     private StoryPresenter presenter;
+    private StoryFragment fragment;
 
     private StoryRecyclerViewAdapter storyRecyclerViewAdapter;
 
@@ -75,6 +78,8 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
         storyRecyclerView.setAdapter(storyRecyclerViewAdapter);
 
         storyRecyclerView.addOnScrollListener(new StoryRecyclerViewPaginationScrollListener(layoutManager));
+
+        fragment = this;
 
         return view;
     }
@@ -182,20 +187,8 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
         public void onClick(View widget) {
             String clickedMention = getURL();
 
-            User user = new ServerFacade().findUser(clickedMention); //todo: make this async
-            if(user != null){
-                String activity = Arrays.toString(new String[]{Objects.requireNonNull(getActivity()).getIntent().getStringExtra("activity")});
-                if(activity.equals("[null]")){
-                    ((MainActivity) getActivity()).startStoryViewActivity(getView(), clickedMention);
-                }
-                else{
-                    ((StoryViewActivity) getActivity()).startStoryViewFragment(getView(), clickedMention);
-                }
-            }
-            else{
-                Snackbar.make(getView(), "The user: \"" + clickedMention + "\", does not exit.",
-                        Snackbar.LENGTH_LONG).setAction("Action", null).show();
-            }
+            FindUserTask findUserTask = new FindUserTask(fragment);
+            findUserTask.execute(clickedMention);
         }
     }
 
@@ -410,6 +403,23 @@ public class StoryFragment extends Fragment implements StoryPresenter.View {
                     storyRecyclerViewAdapter.loadMoreItems();
                 }
             }
+        }
+    }
+
+    @Override
+    public void getUser(User user) {
+        if(user != null){
+            String activity = Arrays.toString(new String[]{Objects.requireNonNull(getActivity()).getIntent().getStringExtra("activity")});
+            if(activity.equals("[null]")){
+                ((MainActivity) getActivity()).startStoryViewActivity(getView(), user.getAlias());
+            }
+            else{
+                ((StoryViewActivity) getActivity()).startStoryViewFragment(getView(), user.getAlias());
+            }
+        }
+        else{
+            Snackbar.make(getView(), "The user: \"" + user.getAlias() + "\", does not exit.",
+                    Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }
     }
 }

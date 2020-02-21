@@ -41,7 +41,9 @@ import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.net.request.FeedRequest;
 import edu.byu.cs.tweeter.net.response.FeedResponse;
 import edu.byu.cs.tweeter.presenter.FeedPresenter;
+import edu.byu.cs.tweeter.view.asyncTasks.FindUserTask;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFeedTask;
+import edu.byu.cs.tweeter.view.asyncTasks.LoadImageTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
 import edu.byu.cs.tweeter.view.ui.main.mainActivity.MainActivity;
 import edu.byu.cs.tweeter.view.ui.main.storyView.StoryViewActivity;
@@ -49,7 +51,7 @@ import edu.byu.cs.tweeter.view.ui.main.storyView.StoryViewActivity;
 /**
  * The fragment that displays on the 'Feed' tab.
  */
-public class FeedFragment extends Fragment implements FeedPresenter.View {
+public class FeedFragment extends Fragment implements FeedPresenter.View, FindUserTask.FindUserObserver{
 
     private static final int LOADING_DATA_VIEW = 0;
     private static final int ITEM_VIEW = 1;
@@ -57,6 +59,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
     private static final int PAGE_SIZE = 10;
 
     private FeedPresenter presenter;
+    private FeedFragment fragment;
 
     private FeedRecyclerViewAdapter feedRecyclerViewAdapter;
 
@@ -77,7 +80,26 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
 
         feedRecyclerView.addOnScrollListener(new FeedRecyclerViewPaginationScrollListener(layoutManager));
 
+        fragment = this;
+
         return view;
+    }
+
+    @Override
+    public void getUser(User user) {
+        if(user != null){
+            String activity = Arrays.toString(new String[]{Objects.requireNonNull(getActivity()).getIntent().getStringExtra("activity")});
+            if(activity.equals("[null]")){
+                ((MainActivity) getActivity()).startStoryViewActivity(getView(), user.getAlias());
+            }
+            else{
+                ((StoryViewActivity) getActivity()).startStoryViewFragment(getView(), user.getAlias());
+            }
+        }
+        else{
+            Snackbar.make(getView(), "The user: \"" + user.getAlias() + "\", does not exit.",
+                    Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        }
     }
 
     /**
@@ -183,20 +205,8 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
         public void onClick(View widget) {
             String clickedMention = getURL();
 
-            User user = new ServerFacade().findUser(clickedMention); //todo: make this async
-            if(user != null){
-                String activity = Arrays.toString(new String[]{Objects.requireNonNull(getActivity()).getIntent().getStringExtra("activity")});
-                if(activity.equals("[null]")){
-                    ((MainActivity) getActivity()).startStoryViewActivity(getView(), clickedMention);
-                }
-                else{
-                    ((StoryViewActivity) getActivity()).startStoryViewFragment(getView(), clickedMention);
-                }
-            }
-            else{
-                Snackbar.make(getView(), "The user: \"" + clickedMention + "\", does not exit.",
-                        Snackbar.LENGTH_LONG).setAction("Action", null).show();
-            }
+            FindUserTask findUserTask = new FindUserTask(fragment);
+            findUserTask.execute(clickedMention);
         }
     }
 
