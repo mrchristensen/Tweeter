@@ -2,6 +2,7 @@ package edu.byu.cs.tweeter.net;
 
 import android.util.Log;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -50,6 +51,10 @@ public class ServerFacade {
             }
         }
         return null;
+    }
+
+    public void postStatus(User user, String statusMessage){
+        statusesByUser.get(user).add(new Status(user, LocalDateTime.now(), statusMessage));
     }
 
     public User registerUser(RegisterRequest request){

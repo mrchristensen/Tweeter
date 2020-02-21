@@ -65,8 +65,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                createNewStatus();
             }
         });
 
@@ -84,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         TextView userAlias = findViewById(R.id.userAlias);
         userAlias.setText(user.getAlias());
     }
+
+
 
 
     @Override
@@ -109,15 +110,45 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         }
     }
 
-    private void search() {
+    private void createNewStatus() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("New Status");
 
+        // Set up the input
+        final EditText input = new EditText(this);
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("Post", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String statusMessage = input.getText().toString();
+                View view = findViewById(android.R.id.content);
+                Log.i(LOG_TAG, "New status post: " + statusMessage);
+
+                new ServerFacade().postStatus(presenter.getCurrentUser(), statusMessage); //todo: make this async
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    private void search() { //todo: should this be moved out of the view?
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Search");
 
         // Set up the input
         final EditText input = new EditText(this);
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
 
         // Set up the buttons
@@ -133,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
                     startStoryViewActivity(view, searchInput);
                 }
                 else{
-                    Snackbar.make(view, "The user: " + searchInput + ", does not exit.",
+                    Snackbar.make(view, "The user: \"" + searchInput + "\", does not exit.",
                             Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 }
             }
