@@ -1,22 +1,24 @@
-package edu.byu.cs.tweeter.net.presenter;
+package edu.byu.cs.tweeter.presenter;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.List;
 
 import edu.byu.cs.tweeter.model.domain.Follow;
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.net.FollowGenerator;
+import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.net.request.RegisterRequest;
-import edu.byu.cs.tweeter.net.request.StoryRequest;
 import edu.byu.cs.tweeter.net.response.RegisterResponse;
-import edu.byu.cs.tweeter.net.response.StoryResponse;
+import edu.byu.cs.tweeter.presenter.MainPresenter;
 import edu.byu.cs.tweeter.presenter.RegisterPresenter;
-import edu.byu.cs.tweeter.presenter.StoryPresenter;
+import edu.byu.cs.tweeter.presenter.StoryViewPresenter;
 
-class StoryPresenterTest implements RegisterPresenter.View, StoryPresenter.View {
+class StoryViewPresenterTest implements StoryViewPresenter.View, RegisterPresenter.View{
 
     private final User user1 = new User("Dafney", "Daffy", "test", "");
     private final User user2 = new User("Fred", "Flintstone", "");
@@ -56,48 +58,53 @@ class StoryPresenterTest implements RegisterPresenter.View, StoryPresenter.View 
             follow7, follow8, follow9, follow10, follow11, follow12, follow13, follow14, follow15,
             follow16);
 
+    private ServerFacade serverFacadeSpy;
+    private StoryViewPresenter storyViewPresenter;
     private RegisterPresenter presenter;
-    private StoryPresenter storyPresenter;
 
 
     @BeforeEach
     void setup() {
+        serverFacadeSpy = Mockito.spy(new ServerFacade());
+        FollowGenerator mockFollowGenerator = Mockito.mock(FollowGenerator.class);
+        Mockito.when(mockFollowGenerator.generateUsersAndFollowsAndFollowers(Mockito.anyInt(), Mockito.anyInt(), Mockito.anyInt(), (User) Mockito.any())).thenReturn(follows);
+        Mockito.when(serverFacadeSpy.getFollowGenerator()).thenReturn(mockFollowGenerator);
+
+        storyViewPresenter = new StoryViewPresenter(this);
         presenter = new RegisterPresenter(this);
-        storyPresenter = new StoryPresenter(this);
+
     }
 
     @Test
-    void testSuccessfulRegister() {
-        RegisterRequest request = new RegisterRequest("username", "password", "f", "l", "");
-        RegisterResponse response = presenter.getRegister(request);
+    void testSuccessStoryView() {
+        RegisterRequest loginRequest = new RegisterRequest("username16", "password", "f", "l", "");
+        RegisterResponse loginResponse = presenter.getRegister(loginRequest);
 
-        Assertions.assertTrue(response.registerSuccessful());
-        Assertions.assertNotNull(response.getCurrentUser());
-        Assertions.assertEquals("@username", response.getCurrentUser().getAlias());
+        Assertions.assertTrue(loginResponse.registerSuccessful());
+        Assertions.assertNotNull(loginResponse.getCurrentUser());
+        Assertions.assertEquals("@username16", loginResponse.getCurrentUser().getAlias());
 
-        StoryRequest storyRequest = new StoryRequest(new User("f", "l", "username", ""), 1, null);
-        StoryResponse storyResponse = storyPresenter.getStory(storyRequest);
 
-        Assertions.assertNotNull(storyResponse);
-        Assertions.assertTrue(storyResponse.getStory().size() > 0);
-        Assertions.assertTrue(storyResponse.isSuccess());
-        Assertions.assertTrue(storyResponse.hasMorePages());
+        User user = storyViewPresenter.getCurrentUser();
+
+        Assertions.assertNotNull(user);
+        Assertions.assertEquals(user.getAlias(), "@username16");
+        Assertions.assertEquals(storyViewPresenter.getClass(), StoryViewPresenter.class);
     }
 
     @Test
-    void testUnsuccessfulLogin() {
-        RegisterRequest request = new RegisterRequest("username2", "password", "f", "l", "");
-        RegisterResponse response = presenter.getRegister(request);
-        RegisterRequest request2 = new RegisterRequest("username2", "password", "f", "l", "");
-        RegisterResponse response2 = presenter.getRegister(request);
+    void testUnsuccessfulStoryView() {
+        RegisterRequest loginRequest = new RegisterRequest("username15", "password", "f", "l", "");
+        RegisterResponse loginResponse1 = presenter.getRegister(loginRequest);
+        loginRequest = new RegisterRequest("username15", "password", "f", "l", "");
+        RegisterResponse loginResponse2 = presenter.getRegister(loginRequest);
 
-        Assertions.assertFalse(response2.registerSuccessful());
-        Assertions.assertNull(response2.getCurrentUser());
+        Assertions.assertFalse(loginResponse2.registerSuccessful());
+        Assertions.assertNull(loginResponse2.getCurrentUser());
 
-        StoryRequest storyRequest = new StoryRequest(new User("f", "l", "username2", ""), 1, null);
-        StoryResponse storyResponse = storyPresenter.getStory(storyRequest);
+        User user = storyViewPresenter.getCurrentUser();
 
-        Assertions.assertNotNull(storyResponse);
-        Assertions.assertFalse(storyResponse.getStory().size() < 0);
+        Assertions.assertEquals(storyViewPresenter.getClass(), StoryViewPresenter.class);
+        Assertions.assertNotEquals(user.getAlias(), "username15");
     }
 }

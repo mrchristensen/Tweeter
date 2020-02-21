@@ -1,23 +1,26 @@
-package edu.byu.cs.tweeter.net.presenter;
+package edu.byu.cs.tweeter.presenter;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.List;
 
 import edu.byu.cs.tweeter.model.domain.Follow;
 import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.net.request.LoginRequest;
+import edu.byu.cs.tweeter.net.ServerFacade;
+import edu.byu.cs.tweeter.net.request.FollowerRequest;
+import edu.byu.cs.tweeter.net.request.FollowingRequest;
 import edu.byu.cs.tweeter.net.request.RegisterRequest;
-import edu.byu.cs.tweeter.net.response.LoginResponse;
+import edu.byu.cs.tweeter.net.response.FollowerResponse;
+import edu.byu.cs.tweeter.net.response.FollowingResponse;
 import edu.byu.cs.tweeter.net.response.RegisterResponse;
-import edu.byu.cs.tweeter.presenter.LoginPresenter;
+import edu.byu.cs.tweeter.presenter.FollowerPresenter;
+import edu.byu.cs.tweeter.presenter.FollowingPresenter;
 import edu.byu.cs.tweeter.presenter.RegisterPresenter;
 
-class RegisterPresenterTest implements RegisterPresenter.View {
+class FollowingPresenterTest implements RegisterPresenter.View, FollowingPresenter.View {
 
     private final User user1 = new User("Dafney", "Daffy", "test", "");
     private final User user2 = new User("Fred", "Flintstone", "");
@@ -58,36 +61,51 @@ class RegisterPresenterTest implements RegisterPresenter.View {
             follow16);
 
     private RegisterPresenter presenter;
+    private FollowingPresenter followerPresenter;
 
 
     @BeforeEach
     void setup() {
         presenter = new RegisterPresenter(this);
+        followerPresenter = new FollowingPresenter(this);
     }
 
     @Test
-    void testSuccessfulRegister() {
-        RegisterRequest request = new RegisterRequest("username", "password", "f", "l", "");
+    void testSuccessfulGetFollowing() {
+        RegisterRequest request = new RegisterRequest("username14", "password", "f", "l", "");
         RegisterResponse response = presenter.getRegister(request);
 
         Assertions.assertTrue(response.registerSuccessful());
         Assertions.assertNotNull(response.getCurrentUser());
-        Assertions.assertEquals("@username", response.getCurrentUser().getAlias());
+        Assertions.assertEquals("@username14", response.getCurrentUser().getAlias());
+
+        ServerFacade.setCurrentUser(new User("f", "l", "username14", ""));
+
+        FollowingRequest followingRequest = new FollowingRequest(new User("f", "l", "username14", ""), 1, null);
+        FollowingResponse followingResponse = followerPresenter.getFollowing(followingRequest);
+
+        Assertions.assertNotNull(followingResponse);
+        Assertions.assertTrue(followingResponse.getFollowees().size() > 0);
+        Assertions.assertTrue(followingResponse.isSuccess());
+        Assertions.assertTrue(followingResponse.hasMorePages());
     }
 
     @Test
-    void testUnsuccessfulLogin() {
-        RegisterRequest request = new RegisterRequest("username2", "password", "f", "l", "");
+    void testUnsuccessfulGetFollowing() {
+        RegisterRequest request = new RegisterRequest("username5", "password", "f", "l", "");
         RegisterResponse response = presenter.getRegister(request);
+        RegisterRequest request2 = new RegisterRequest("username5", "password", "f", "l", "");
+        RegisterResponse response2 = presenter.getRegister(request);
 
-        Assertions.assertTrue(response.registerSuccessful());
-        Assertions.assertNotNull(response.getCurrentUser());
-        Assertions.assertEquals("@username2", response.getCurrentUser().getAlias());
+        Assertions.assertFalse(response2.registerSuccessful());
+        Assertions.assertNull(response2.getCurrentUser());
 
-        request = new RegisterRequest("username2", "password", "f", "l", "");
-        response = presenter.getRegister(request);
+        ServerFacade.setCurrentUser(new User("f", "l", "username15", ""));
 
-        Assertions.assertFalse(response.registerSuccessful());
-        Assertions.assertNull(response.getCurrentUser());
+        FollowingRequest followingRequest = new FollowingRequest(new User("f", "l", "username5", ""), 1, null);
+        FollowingResponse followingResponse = followerPresenter.getFollowing(followingRequest);
+
+        Assertions.assertNotNull(followingResponse);
+        Assertions.assertNull(followingResponse.getFollowees());
     }
 }

@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.net.presenter;
+package edu.byu.cs.tweeter.presenter;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,14 +10,14 @@ import java.util.List;
 
 import edu.byu.cs.tweeter.model.domain.Follow;
 import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.net.FollowGenerator;
-import edu.byu.cs.tweeter.net.ServerFacade;
+import edu.byu.cs.tweeter.net.request.LoginRequest;
 import edu.byu.cs.tweeter.net.request.RegisterRequest;
+import edu.byu.cs.tweeter.net.response.LoginResponse;
 import edu.byu.cs.tweeter.net.response.RegisterResponse;
-import edu.byu.cs.tweeter.presenter.MainPresenter;
+import edu.byu.cs.tweeter.presenter.LoginPresenter;
 import edu.byu.cs.tweeter.presenter.RegisterPresenter;
 
-class MainPresenterTest implements MainPresenter.View, RegisterPresenter.View{
+class RegisterPresenterTest implements RegisterPresenter.View {
 
     private final User user1 = new User("Dafney", "Daffy", "test", "");
     private final User user2 = new User("Fred", "Flintstone", "");
@@ -57,53 +57,37 @@ class MainPresenterTest implements MainPresenter.View, RegisterPresenter.View{
             follow7, follow8, follow9, follow10, follow11, follow12, follow13, follow14, follow15,
             follow16);
 
-    private ServerFacade serverFacadeSpy;
-    private MainPresenter mainPresenter;
     private RegisterPresenter presenter;
 
 
     @BeforeEach
     void setup() {
-        serverFacadeSpy = Mockito.spy(new ServerFacade());
-        FollowGenerator mockFollowGenerator = Mockito.mock(FollowGenerator.class);
-        Mockito.when(mockFollowGenerator.generateUsersAndFollowsAndFollowers(Mockito.anyInt(), Mockito.anyInt(), Mockito.anyInt(), (User) Mockito.any())).thenReturn(follows);
-        Mockito.when(serverFacadeSpy.getFollowGenerator()).thenReturn(mockFollowGenerator);
-
-        mainPresenter = new MainPresenter(this);
         presenter = new RegisterPresenter(this);
-
     }
 
     @Test
-    void mainSuccess() {
-        RegisterRequest loginRequest = new RegisterRequest("username", "password", "f", "l", "");
-        RegisterResponse loginResponse = presenter.getRegister(loginRequest);
+    void testSuccessfulRegister() {
+        RegisterRequest request = new RegisterRequest("username10", "password", "f", "l", "");
+        RegisterResponse response = presenter.getRegister(request);
 
-        Assertions.assertTrue(loginResponse.registerSuccessful());
-        Assertions.assertNotNull(loginResponse.getCurrentUser());
-        Assertions.assertEquals("@username", loginResponse.getCurrentUser().getAlias());
-
-
-        User user = mainPresenter.getCurrentUser();
-
-        Assertions.assertNotNull(user);
-        Assertions.assertEquals(user.getAlias(), "@username");
-        Assertions.assertEquals(mainPresenter.getClass(), MainPresenter.class);
+        Assertions.assertTrue(response.registerSuccessful());
+        Assertions.assertNotNull(response.getCurrentUser());
+        Assertions.assertEquals("@username10", response.getCurrentUser().getAlias());
     }
 
     @Test
-    void mainUnsuccessful() {
-        RegisterRequest loginRequest = new RegisterRequest("username1", "password", "f", "l", "");
-        RegisterResponse loginResponse1 = presenter.getRegister(loginRequest);
-        loginRequest = new RegisterRequest("username1", "password", "f", "l", "");
-        RegisterResponse loginResponse2 = presenter.getRegister(loginRequest);
+    void testUnsuccessfulLogin() {
+        RegisterRequest request = new RegisterRequest("username11", "password", "f", "l", "");
+        RegisterResponse response = presenter.getRegister(request);
 
-        Assertions.assertFalse(loginResponse2.registerSuccessful());
-        Assertions.assertNull(loginResponse2.getCurrentUser());
+        Assertions.assertTrue(response.registerSuccessful());
+        Assertions.assertNotNull(response.getCurrentUser());
+        Assertions.assertEquals("@username11", response.getCurrentUser().getAlias());
 
-        User user = mainPresenter.getCurrentUser();
+        request = new RegisterRequest("username11", "password", "f", "l", "");
+        response = presenter.getRegister(request);
 
-        Assertions.assertEquals(mainPresenter.getClass(), MainPresenter.class);
-        Assertions.assertNotEquals(user.getAlias(), "@username2");
+        Assertions.assertFalse(response.registerSuccessful());
+        Assertions.assertNull(response.getCurrentUser());
     }
 }

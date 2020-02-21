@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.net.presenter;
+package edu.byu.cs.tweeter.presenter;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,18 +9,14 @@ import java.util.List;
 
 import edu.byu.cs.tweeter.model.domain.Follow;
 import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.net.ServerFacade;
-import edu.byu.cs.tweeter.net.request.FollowerRequest;
-import edu.byu.cs.tweeter.net.request.FollowingRequest;
 import edu.byu.cs.tweeter.net.request.RegisterRequest;
-import edu.byu.cs.tweeter.net.response.FollowerResponse;
-import edu.byu.cs.tweeter.net.response.FollowingResponse;
+import edu.byu.cs.tweeter.net.request.StoryRequest;
 import edu.byu.cs.tweeter.net.response.RegisterResponse;
-import edu.byu.cs.tweeter.presenter.FollowerPresenter;
-import edu.byu.cs.tweeter.presenter.FollowingPresenter;
+import edu.byu.cs.tweeter.net.response.StoryResponse;
 import edu.byu.cs.tweeter.presenter.RegisterPresenter;
+import edu.byu.cs.tweeter.presenter.StoryPresenter;
 
-class FollowingPresenterTest implements RegisterPresenter.View, FollowingPresenter.View {
+class StoryPresenterTest implements RegisterPresenter.View, StoryPresenter.View {
 
     private final User user1 = new User("Dafney", "Daffy", "test", "");
     private final User user2 = new User("Fred", "Flintstone", "");
@@ -61,51 +57,47 @@ class FollowingPresenterTest implements RegisterPresenter.View, FollowingPresent
             follow16);
 
     private RegisterPresenter presenter;
-    private FollowingPresenter followerPresenter;
+    private StoryPresenter storyPresenter;
 
 
     @BeforeEach
     void setup() {
         presenter = new RegisterPresenter(this);
-        followerPresenter = new FollowingPresenter(this);
+        storyPresenter = new StoryPresenter(this);
     }
 
     @Test
-    void testSuccessfulGetFollowing() {
-        RegisterRequest request = new RegisterRequest("username", "password", "f", "l", "");
+    void testSuccessfulStory() {
+        RegisterRequest request = new RegisterRequest("username12", "password", "f", "l", "");
         RegisterResponse response = presenter.getRegister(request);
 
         Assertions.assertTrue(response.registerSuccessful());
         Assertions.assertNotNull(response.getCurrentUser());
-        Assertions.assertEquals("@username", response.getCurrentUser().getAlias());
+        Assertions.assertEquals("@username12", response.getCurrentUser().getAlias());
 
-        ServerFacade.setCurrentUser(new User("f", "l", "username", ""));
+        StoryRequest storyRequest = new StoryRequest(new User("f", "l", "username12", ""), 1, null);
+        StoryResponse storyResponse = storyPresenter.getStory(storyRequest);
 
-        FollowingRequest followingRequest = new FollowingRequest(new User("f", "l", "username", ""), 1, null);
-        FollowingResponse followingResponse = followerPresenter.getFollowing(followingRequest);
-
-        Assertions.assertNotNull(followingResponse);
-        Assertions.assertTrue(followingResponse.getFollowees().size() > 0);
-        Assertions.assertTrue(followingResponse.isSuccess());
-        Assertions.assertTrue(followingResponse.hasMorePages());
+        Assertions.assertNotNull(storyResponse);
+        Assertions.assertTrue(storyResponse.getStory().size() > 0);
+        Assertions.assertTrue(storyResponse.isSuccess());
+        Assertions.assertTrue(storyResponse.hasMorePages());
     }
 
     @Test
-    void testUnsuccessfulGetFollowing() {
-        RegisterRequest request = new RegisterRequest("username2", "password", "f", "l", "");
+    void testUnsuccessfulStory() {
+        RegisterRequest request = new RegisterRequest("username13", "password", "f", "l", "");
         RegisterResponse response = presenter.getRegister(request);
-        RegisterRequest request2 = new RegisterRequest("username2", "password", "f", "l", "");
+        RegisterRequest request2 = new RegisterRequest("username13", "password", "f", "l", "");
         RegisterResponse response2 = presenter.getRegister(request);
 
         Assertions.assertFalse(response2.registerSuccessful());
         Assertions.assertNull(response2.getCurrentUser());
 
-        ServerFacade.setCurrentUser(new User("f", "l", "username", ""));
+        StoryRequest storyRequest = new StoryRequest(new User("f", "l", "username13", ""), 1, null);
+        StoryResponse storyResponse = storyPresenter.getStory(storyRequest);
 
-        FollowingRequest followingRequest = new FollowingRequest(new User("f", "l", "username2", ""), 1, null);
-        FollowingResponse followingResponse = followerPresenter.getFollowing(followingRequest);
-
-        Assertions.assertNotNull(followingResponse);
-        Assertions.assertNull(followingResponse.getFollowees());
+        Assertions.assertNotNull(storyResponse);
+        Assertions.assertFalse(storyResponse.getStory().size() < 0);
     }
 }
