@@ -13,8 +13,6 @@ import edu.byu.cs.tweeter.net.request.RegisterRequest;
 import edu.byu.cs.tweeter.net.request.StoryRequest;
 import edu.byu.cs.tweeter.net.response.RegisterResponse;
 import edu.byu.cs.tweeter.net.response.StoryResponse;
-import edu.byu.cs.tweeter.presenter.RegisterPresenter;
-import edu.byu.cs.tweeter.presenter.StoryPresenter;
 
 class StoryPresenterTest implements RegisterPresenter.View, StoryPresenter.View {
 

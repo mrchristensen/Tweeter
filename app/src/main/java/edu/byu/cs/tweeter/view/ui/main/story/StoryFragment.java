@@ -416,7 +416,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View, Find
             }
         }
         else{
-            Snackbar.make(getView(), "The user: \"" + user.getAlias() + "\", does not exit.",
+            Snackbar.make(getView(), "The user does not exit.",
                     Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }
     }
