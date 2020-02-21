@@ -1,11 +1,15 @@
 package edu.byu.cs.tweeter.view.ui.feed;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
+import android.text.util.Linkify;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,11 +125,11 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
             userName.setText(status.getUser().getName());
             date.setText(dtf.format(status.getDate()));
 
-
             CharSequence input = status.getMessageBody();
             SpannableStringBuilder builder = new SpannableStringBuilder(input);
 
-            Pattern pattern = Pattern.compile("\\B@\\w+");
+            //Find url's - "http://..."
+            Pattern pattern = Patterns.WEB_URL;
             Matcher matcher = pattern.matcher(input);
             while (matcher.find()) {
                 int start = matcher.start();
@@ -133,7 +137,20 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
 
                 String text = input.subSequence(start, end).toString();
 
-                FeedFragment.ClickableURLSpan url = new FeedFragment.ClickableURLSpan(text);
+                ClickableURLSpan url = new ClickableURLSpan(text);
+                builder.setSpan(url, start, end, 0);
+            }
+
+            //Find mentions - "@"
+            pattern = Pattern.compile("\\B@\\w+");
+            matcher = pattern.matcher(input);
+            while (matcher.find()) {
+                int start = matcher.start();
+                int end = matcher.end();
+
+                String text = input.subSequence(start, end).toString();
+
+                ClickableMentionSpan url = new ClickableMentionSpan(text);
                 builder.setSpan(url, start, end, 0);
             }
 
@@ -143,26 +160,43 @@ public class FeedFragment extends Fragment implements FeedPresenter.View {
     }
 
     public class ClickableURLSpan extends URLSpan {
-        public ClickableURLSpan(String url) {
+        ClickableURLSpan(String url) {
             super(url);
         }
 
         @Override
         public void onClick(View widget) {
-            String clickedText = getURL();
+            String clickedURL = getURL();
 
-            User user = new ServerFacade().findUser(clickedText); //todo: make this async
+            if (!clickedURL.startsWith("http://") && !clickedURL.startsWith("https://")){
+                clickedURL = "http://" + clickedURL;
+            }
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(clickedURL));
+            startActivity(browserIntent);
+        }
+    }
+
+    public class ClickableMentionSpan extends URLSpan {
+        ClickableMentionSpan(String url) {
+            super(url);
+        }
+
+        @Override
+        public void onClick(View widget) {
+            String clickedMention = getURL();
+
+            User user = new ServerFacade().findUser(clickedMention); //todo: make this async
             if(user != null){
                 String activity = Arrays.toString(new String[]{Objects.requireNonNull(getActivity()).getIntent().getStringExtra("activity")});
                 if(activity.equals("[null]")){
-                    ((MainActivity) getActivity()).startStoryViewActivity(getView(), clickedText);
+                    ((MainActivity) getActivity()).startStoryViewActivity(getView(), clickedMention);
                 }
                 else{
-                    ((StoryViewActivity) getActivity()).startStoryViewFragment(getView(), clickedText);
+                    ((StoryViewActivity) getActivity()).startStoryViewFragment(getView(), clickedMention);
                 }
             }
             else{
-                Snackbar.make(getView(), "The user: \"" + clickedText + "\", does not exit.",
+                Snackbar.make(getView(), "The user: \"" + clickedMention + "\", does not exit.",
                         Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         }
