@@ -42,30 +42,8 @@ public class GetStoryTask extends AsyncTask<StoryRequest, Void, StoryResponse> {
     @Override
     protected StoryResponse doInBackground(StoryRequest... storyRequests) {
         StoryResponse response = presenter.getStory(storyRequests[0]);
-//        loadImages(response); //todo: is this needed?
         return response;
     }
-
-    /**
-     * Loads the image associated with each followee included in the response.
-     *
-     * @param response the response from the followee request.
-     */
-//    private void loadImages(FollowingResponse response) {
-//        for(User user : response.getFollowees()) {
-//
-//            Drawable drawable;
-//
-//            try {
-//                drawable = ImageUtils.drawableFromUrl(user.getImageUrl());
-//            } catch (IOException e) {
-//                Log.e(this.getClass().getName(), e.toString(), e);
-//                drawable = null;
-//            }
-//
-//            ImageCache.getInstance().cacheImage(user, drawable);
-//        }
-//    }
 
     /**
      * Notifies the observer (on the UI thread) when the task completes.

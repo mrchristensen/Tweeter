@@ -11,28 +11,15 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-
 import edu.byu.cs.tweeter.R;
-import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.net.request.FollowingRequest;
 import edu.byu.cs.tweeter.net.request.LoginRequest;
 import edu.byu.cs.tweeter.net.response.LoginResponse;
 import edu.byu.cs.tweeter.presenter.LoginPresenter;
-import edu.byu.cs.tweeter.view.asyncTasks.GetFollowingTask;
 import edu.byu.cs.tweeter.view.asyncTasks.GetLoginTask;
-import edu.byu.cs.tweeter.view.ui.following.FollowingFragment;
-import edu.byu.cs.tweeter.view.ui.main.MainActivity;
-import edu.byu.cs.tweeter.view.ui.start.StartActivity;
-import edu.byu.cs.tweeter.view.ui.storyView.StoryViewActivity;
-
-import static android.nfc.tech.MifareUltralight.PAGE_SIZE;
+import edu.byu.cs.tweeter.view.ui.start.startActivity.StartActivity;
 
 /**
  * The fragment that displays on the 'Following' tab.

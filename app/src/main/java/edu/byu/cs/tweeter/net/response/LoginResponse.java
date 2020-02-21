@@ -1,7 +1,5 @@
 package edu.byu.cs.tweeter.net.response;
 
-import java.util.List;
-
 import edu.byu.cs.tweeter.model.domain.User;
 
 /**

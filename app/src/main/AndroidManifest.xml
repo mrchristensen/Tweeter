@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".view.ui.start.StartActivity"
+            android:name=".view.ui.start.startActivity.StartActivity"
             android:label="@string/title_activity_start"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -24,22 +24,22 @@
         </activity>
 
         <activity
-            android:name=".view.ui.main.MainActivity"
+            android:name=".view.ui.main.mainActivity.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.byu.cs.tweeter.view.ui.start.StartActivity" />
+                android:value="edu.byu.cs.tweeter.view.ui.start.startActivity.StartActivity" />
         </activity>
 
         <activity
-            android:name=".view.ui.storyView.StoryViewActivity"
+            android:name=".view.ui.main.storyView.StoryViewActivity"
             android:label="@string/title_activity_story_view"
             android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".view.ui.main.MainActivity">
+            android:parentActivityName=".view.ui.main.mainActivity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.byu.cs.tweeter.view.ui.main.MainActivity" />
+                android:value="edu.byu.cs.tweeter.view.ui.main.mainActivity.MainActivity" />
         </activity>
 
      </application>

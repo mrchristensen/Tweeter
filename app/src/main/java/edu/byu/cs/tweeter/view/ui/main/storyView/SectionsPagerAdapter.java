@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.view.ui.storyView;
+package edu.byu.cs.tweeter.view.ui.main.storyView;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,10 +10,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import edu.byu.cs.tweeter.R;
-import edu.byu.cs.tweeter.view.ui.PlaceholderFragment;
-import edu.byu.cs.tweeter.view.ui.followers.FollowersFragment;
-import edu.byu.cs.tweeter.view.ui.following.FollowingFragment;
-import edu.byu.cs.tweeter.view.ui.story.StoryFragment;
+import edu.byu.cs.tweeter.view.ui.main.PlaceholderFragment;
+import edu.byu.cs.tweeter.view.ui.main.followers.FollowersFragment;
+import edu.byu.cs.tweeter.view.ui.main.following.FollowingFragment;
+import edu.byu.cs.tweeter.view.ui.main.story.StoryFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to one of the sections/tabs/pages
@@ -35,7 +35,6 @@ class SectionsPagerAdapter extends FragmentPagerAdapter {
         mContext = context;
     }
 
-    //Todo: use bundles to get the right user for the story and following/followers
     @Override
     public Fragment getItem(int position) {
         switch(position) {

@@ -2,11 +2,8 @@ package edu.byu.cs.tweeter.view.asyncTasks;
 
 import android.os.AsyncTask;
 
-import edu.byu.cs.tweeter.net.request.LoginRequest;
 import edu.byu.cs.tweeter.net.request.RegisterRequest;
-import edu.byu.cs.tweeter.net.response.LoginResponse;
 import edu.byu.cs.tweeter.net.response.RegisterResponse;
-import edu.byu.cs.tweeter.presenter.LoginPresenter;
 import edu.byu.cs.tweeter.presenter.RegisterPresenter;
 
 /**
@@ -45,30 +42,8 @@ public class GetRegisterTask extends AsyncTask<RegisterRequest, Void, RegisterRe
     @Override
     protected RegisterResponse doInBackground(RegisterRequest... registerRequests) {
         RegisterResponse response = presenter.getRegister(registerRequests[0]);
-//        loadImages(response); //TODO: is this needed?
         return response;
     }
-
-    /**
-     * Loads the image associated with each followee included in the response.
-     *
-     * @param response the response from the followee request.
-     */
-//    private void loadImages(LoginResponse response) {
-//        for(User user : response.getFollowers()) {
-//
-//            Drawable drawable;
-//
-//            try {
-//                drawable = ImageUtils.drawableFromUrl(user.getImageUrl());
-//            } catch (IOException e) {
-//                Log.e(this.getClass().getName(), e.toString(), e);
-//                drawable = null;
-//            }
-//
-//            ImageCache.getInstance().cacheImage(user, drawable);
-//        }
-//    }
 
     /**
      * Notifies the observer (on the UI thread) when the task completes.

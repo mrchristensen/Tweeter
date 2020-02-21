@@ -1,32 +1,26 @@
-package edu.byu.cs.tweeter.view.ui.start;
+package edu.byu.cs.tweeter.view.ui.start.startActivity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.presenter.MainPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadImageTask;
-import edu.byu.cs.tweeter.view.cache.ImageCache;
-import edu.byu.cs.tweeter.view.ui.main.MainActivity;
+import edu.byu.cs.tweeter.view.ui.main.mainActivity.MainActivity;
 
 /**
  * The start activity for the application. Contains tabs for sign in and register.
  */
 public class StartActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, MainPresenter.View {
-//todo clean up this files comments
 
 //    private MainPresenter presenter;
 //    private User user;
@@ -44,21 +38,6 @@ public class StartActivity extends AppCompatActivity implements LoadImageTask.Lo
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-
-
-
-//        user = presenter.getCurrentUser();
-//        logoImageView = findViewById(R.id.logoImage);
-//        logoImageView.setImageDrawable(R.drawable.tweeter_logo);
-        // Asynchronously load the logo image
-//        LoadImageTask loadImageTask = new LoadImageTask(this);
-//        loadImageTask.execute(presenter.getCurrentUser().getImageUrl());
-
-//        TextView userName = findViewById(R.id.userName);
-//        userName.setText(user.getName());
-
-//        TextView userAlias = findViewById(R.id.userAlias);
-//        userAlias.setText(user.getAlias());
     }
 
     public void startMainActivity(View view, User currentUser){

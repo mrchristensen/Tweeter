@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.view.ui.start;
+package edu.byu.cs.tweeter.view.ui.start.startActivity;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,13 +10,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import edu.byu.cs.tweeter.R;
-import edu.byu.cs.tweeter.view.ui.PlaceholderFragment;
-import edu.byu.cs.tweeter.view.ui.feed.FeedFragment;
-import edu.byu.cs.tweeter.view.ui.followers.FollowersFragment;
-import edu.byu.cs.tweeter.view.ui.following.FollowingFragment;
+import edu.byu.cs.tweeter.view.ui.main.PlaceholderFragment;
 import edu.byu.cs.tweeter.view.ui.start.login.LoginFragment;
 import edu.byu.cs.tweeter.view.ui.start.register.RegisterFragment;
-import edu.byu.cs.tweeter.view.ui.story.StoryFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to one of the sections/tabs/pages

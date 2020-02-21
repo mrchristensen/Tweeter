@@ -3,7 +3,6 @@ package edu.byu.cs.tweeter.net.response;
 import java.util.List;
 
 import edu.byu.cs.tweeter.model.domain.Status;
-import edu.byu.cs.tweeter.model.domain.User;
 
 /**
  * A paged response for a {@link edu.byu.cs.tweeter.net.request.StoryRequest}.

@@ -77,12 +77,6 @@ public class FollowGenerator {
 
     }
 
-    public List<Follow> generateUsersAndFollowers(int userCount, int minFollowersPerUser,
-                                                int maxFollowersPerUser, Sort sortOrder) {
-        List<User> users = UserGenerator.getInstance().generateUsers(userCount);
-        return generateFollowersForUsers(users, minFollowersPerUser, maxFollowersPerUser, sortOrder);
-    }
-
     /**
      * Randomly Generates {@link Follow} objects from the specified list of users. Ensures that each
      * {@link User} has between 'minFollowersPerUser' and 'maxFollowersPerUser'. Makes no guarantees
@@ -123,14 +117,6 @@ public class FollowGenerator {
                     maxFollowersPerUser - minFollowersPerUser) + minFollowersPerUser;
 
             generateFollowersForUser(numbFollowersToGenerate, user, users, follows);
-        }
-
-        // Add the test user and make him follow everyone
-        User testUser = new User("Test", "User", "@test", UserGenerator.MALE_IMAGE_URL);
-
-        for(User user : users) {
-            Follow follow = new Follow(testUser, user);
-            follows.add(follow);
         }
 
         // Sort by the specified sort order
@@ -219,14 +205,6 @@ public class FollowGenerator {
                     maxFollowersPerUser - minFollowersPerUser) + minFollowersPerUser;
 
             generateFollowersForUser(numbFollowersToGenerate, user, users, followers);
-        }
-
-        // Add the test user and make him follow everyone
-        User testUser = new User("Test", "User", "@test", UserGenerator.MALE_IMAGE_URL);
-
-        for(User user : users) {
-            Follow follow = new Follow(user, testUser);
-            followers.add(follow);
         }
 
         // Sort by the specified sort order

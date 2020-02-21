@@ -41,12 +41,6 @@ public class LoginService {
      */
     private LoginService() {
         serverFacade = new ServerFacade();
-
-
-        // TODO: Remove when the actual login functionality exists.
-//        currentUser = new User("Test", "User",
-//                "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
-//        setCurrentUser(currentUser);
     }
 
     /**

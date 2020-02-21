@@ -1,13 +1,6 @@
 package edu.byu.cs.tweeter.net;
 
-import android.text.Html;
-import android.text.SpannableStringBuilder;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.text.style.URLSpan;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -44,7 +37,7 @@ public class ServerFacade {
     private static Map<User, List<Status>> statusesByUser;
     private static User currentUser;
 
-
+    //
     public User findUser(String userAlias){
         //Hardcoded user:
         User dummyUser = new User("Test", "User", "@test", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
@@ -61,12 +54,6 @@ public class ServerFacade {
     }
 
     public void postStatus(User user, String statusMessage){
-
-        
-
-
-
-
         statusesByUser.get(user).add(new Status(user, LocalDateTime.now(), statusMessage));
     }
 
@@ -85,11 +72,8 @@ public class ServerFacade {
             return null; //There already exists such a user
         }
 
-        //dfd
-
         return newUser;
     }
-
 
     //
     public boolean userFollows(User follower, User followee){
@@ -108,8 +92,6 @@ public class ServerFacade {
         followeesByFollower.get(follower).add(followee);
         Log.i("test","test");
     }
-
-
 
     //Following
 
@@ -198,7 +180,7 @@ public class ServerFacade {
         Map<User, List<User>> followeesByFollower = new HashMap<>();
 
         List<Follow> follows = getFollowGenerator().generateUsersAndFollowsAndFollowers(100,
-                0, 50, currentUser); //todo: Find current user
+                0, 50, currentUser);
 
         // Populate a map of followees, keyed by follower so we can easily handle followee requests
         for(Follow follow : follows) {
@@ -277,27 +259,6 @@ public class ServerFacade {
             }
         }
 
-//        if(followersByFollowee == null) {
-//            initializeFollowees();
-//        }
-//
-//        List<User> allFollowers = followersByFollowee.get(request.getFollowee());
-//        List<User> responseFollowers = new ArrayList<>(request.getLimit());
-//
-//        boolean hasMorePages = false;
-//
-//        if(request.getLimit() > 0) {
-//            if (allFollowers != null) {
-//                int followersIndex = getFollowersStartingIndex(request.getLastFollower(), allFollowers);
-//
-//                for(int limitCounter = 0; followersIndex < allFollowers.size() && limitCounter < request.getLimit(); followersIndex++, limitCounter++) {
-//                    responseFollowers.add(allFollowers.get(followersIndex));
-//                }
-//
-//                hasMorePages = followersIndex < allFollowers.size();
-//            }
-//        }
-
         if(followeesByFollower == null) {
             initializeFollowees();
         }
@@ -363,37 +324,6 @@ public class ServerFacade {
         return followersIndex;
     }
 
-    //TODO Clean up this codes comments
-    /**
-     * Generates the follower data.
-     */
-//    private Map<User, List<User>> initializeFollowers() {
-//
-//        Map<User, List<User>> followersByFollowee = new HashMap<>();
-//
-//        List<Follow> follows = getFollowGenerator().generateUsersAndFollowers(100,
-//                0, 50, FollowGenerator.Sort.FOLLOWEE_FOLLOWER);
-//
-//        // Populate a map of followers, keyed by followee so we can easily handle follower requests
-//        for(Follow follow : follows) {
-//            Log.d(LOG_TAG, "Followee (person being followed): " + follow.getFollowee().getFirstName()
-//                    + " " + follow.getFollowee().getLastName() + " - Follower: " + follow.getFollower().getFirstName()
-//                    + " " + follow.getFollower().getLastName());
-//
-//            List<User> followers = followersByFollowee.get(follow.getFollowee());
-//
-//            if(followers == null) {
-//                followers = new ArrayList<>();
-//                followersByFollowee.put(follow.getFollowee(), followers);
-//            }
-//
-//            followers.add(follow.getFollower());
-//        }
-//
-//        registerUsers(followersByFollowee);
-//        return followersByFollowee;
-//    }
-
     /**
      * Returns an instance of FollowGenerator that can be used to generate Follow data. This is
      * written as a separate method to allow mocking of the generator.
@@ -444,7 +374,6 @@ public class ServerFacade {
             }
         }
 
-        //TODO from here down
         if(statusesByUser == null){
             statusesByUser = new HashMap<>();
         }
@@ -524,9 +453,6 @@ public class ServerFacade {
 
             allStatuses.addAll(Objects.requireNonNull(statusesByUser.get(user)));
         }
-
-
-
 
         if (allStatuses != null) {
             Collections.sort(allStatuses);

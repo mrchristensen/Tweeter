@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.view.ui.story;
+package edu.byu.cs.tweeter.view.ui.main.story;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -42,9 +42,8 @@ import edu.byu.cs.tweeter.net.response.StoryResponse;
 import edu.byu.cs.tweeter.presenter.StoryPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.GetStoryTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
-import edu.byu.cs.tweeter.view.ui.feed.FeedFragment;
-import edu.byu.cs.tweeter.view.ui.main.MainActivity;
-import edu.byu.cs.tweeter.view.ui.storyView.StoryViewActivity;
+import edu.byu.cs.tweeter.view.ui.main.mainActivity.MainActivity;
+import edu.byu.cs.tweeter.view.ui.main.storyView.StoryViewActivity;
 
 /**
  * The fragment that displays on the 'Story' tab.

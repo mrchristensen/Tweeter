@@ -2,14 +2,6 @@ package edu.byu.cs.tweeter.net;
 
 import android.annotation.SuppressLint;
 
-import com.google.gson.Gson;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -26,9 +18,6 @@ import edu.byu.cs.tweeter.model.domain.User;
  * the server is created and the ServerFacade no longer needs to return dummy data.
  */
 public class StatusGenerator {
-
-    private static int index = 1;
-
     private static StatusGenerator instance;
 
     /**
@@ -67,7 +56,6 @@ public class StatusGenerator {
         while(statuses.size() < count) {
             // Generate a generic status
             statuses.add(new Status(user, getRandomDateTime(), "This is a very generic tweet. This is a very generic tweet. This is a very generic tweet. This is a very generic tweet. This is a very generic tweet. This is a very generic tweet."));
-            index++;
         }
 
         return statuses;

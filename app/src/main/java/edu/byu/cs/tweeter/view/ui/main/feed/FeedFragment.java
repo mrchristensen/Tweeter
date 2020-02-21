@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.view.ui.feed;
+package edu.byu.cs.tweeter.view.ui.main.feed;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
-import android.text.util.Linkify;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,9 +43,8 @@ import edu.byu.cs.tweeter.net.response.FeedResponse;
 import edu.byu.cs.tweeter.presenter.FeedPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFeedTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
-import edu.byu.cs.tweeter.view.ui.main.MainActivity;
-import edu.byu.cs.tweeter.view.ui.story.StoryFragment;
-import edu.byu.cs.tweeter.view.ui.storyView.StoryViewActivity;
+import edu.byu.cs.tweeter.view.ui.main.mainActivity.MainActivity;
+import edu.byu.cs.tweeter.view.ui.main.storyView.StoryViewActivity;
 
 /**
  * The fragment that displays on the 'Feed' tab.

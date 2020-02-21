@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.view.ui.storyView;
+package edu.byu.cs.tweeter.view.ui.main.storyView;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
@@ -23,13 +22,9 @@ import edu.byu.cs.tweeter.presenter.StoryViewPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadImageTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
 
-import static android.provider.Contacts.SettingsColumns.KEY;
-
 /**
  * The main activity for the application. Contains tabs for story, following, and followers.
  */
-//Todo: Add follow button
-//Todo: Remove tab for feed
 public class StoryViewActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, StoryViewPresenter.View {
     private static final String LOG_TAG = "StoryViewActivity";
 
@@ -52,7 +47,6 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
 
         userImageView = findViewById(R.id.userImage);
 
-//        user = presenter.getCurrentUser(); //todo: is this needed?
         Intent intent = getIntent();
         if (null != intent) { //Null Checking
             user = (User) intent.getSerializableExtra("user");
@@ -89,8 +83,6 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
                     serverFacade.addFollowing(user, presenter.getCurrentUser());
                     followButton.setText("Following");
                 }
-                //todo
-                // Code here executes on main thread after user presses button
             }
         });
 

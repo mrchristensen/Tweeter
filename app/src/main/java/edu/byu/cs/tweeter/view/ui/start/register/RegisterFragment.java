@@ -19,7 +19,7 @@ import edu.byu.cs.tweeter.net.request.RegisterRequest;
 import edu.byu.cs.tweeter.net.response.RegisterResponse;
 import edu.byu.cs.tweeter.presenter.RegisterPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.GetRegisterTask;
-import edu.byu.cs.tweeter.view.ui.start.StartActivity;
+import edu.byu.cs.tweeter.view.ui.start.startActivity.StartActivity;
 
 /**
  * The fragment that displays on the 'Following' tab.
