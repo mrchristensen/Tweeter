@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.byu.cs.tweeter.model.domain.Follow;
-import edu.byu.cs.tweeter.model.domain.User;
-import edu.byu.cs.tweeter.model.service.request.FollowingRequest;
-import edu.byu.cs.tweeter.model.service.response.FollowingResponse;
+import edu.byu.cs.tweeter.shared.model.domain.Follow;
+import edu.byu.cs.tweeter.shared.model.domain.User;
+import edu.byu.cs.tweeter.shared.model.service.request.FollowingRequest;
+import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
 
 /**
  * A DAO for accessing 'following' data from the database.

@@ -35,8 +35,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.byu.cs.tweeter.R;
-import edu.byu.cs.tweeter.model.domain.Status;
-import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.shared.model.domain.Status;
+import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.net.request.FeedRequest;
 import edu.byu.cs.tweeter.net.response.FeedResponse;
 import edu.byu.cs.tweeter.presenter.FeedPresenter;

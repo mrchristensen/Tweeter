@@ -1,8 +1,8 @@
 package edu.byu.cs.tweeter.server.service;
 
-import edu.byu.cs.tweeter.model.service.FollowingService;
-import edu.byu.cs.tweeter.model.service.request.FollowingRequest;
-import edu.byu.cs.tweeter.model.service.response.FollowingResponse;
+import edu.byu.cs.tweeter.shared.model.service.FollowingService;
+import edu.byu.cs.tweeter.shared.model.service.request.FollowingRequest;
+import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
 import edu.byu.cs.tweeter.server.dao.FollowingDAO;
 
 /**

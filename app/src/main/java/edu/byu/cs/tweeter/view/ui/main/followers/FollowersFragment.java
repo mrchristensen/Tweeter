@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Objects;
 
 import edu.byu.cs.tweeter.R;
-import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.net.request.FollowerRequest;
 import edu.byu.cs.tweeter.net.response.FollowerResponse;
 import edu.byu.cs.tweeter.presenter.FollowerPresenter;

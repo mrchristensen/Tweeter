@@ -11,8 +11,8 @@ import java.util.Random;
 import java.util.Set;
 
 import edu.byu.cs.tweeter.BuildConfig;
-import edu.byu.cs.tweeter.model.domain.Follow;
-import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.shared.model.domain.Follow;
+import edu.byu.cs.tweeter.shared.model.domain.User;
 
 /**
  * A temporary class that generates and returns Follow objects. This class may be removed when the

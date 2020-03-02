@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import edu.byu.cs.tweeter.model.domain.Follow;
-import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.shared.model.domain.Follow;
+import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.net.request.RegisterRequest;
 import edu.byu.cs.tweeter.net.response.RegisterResponse;
 

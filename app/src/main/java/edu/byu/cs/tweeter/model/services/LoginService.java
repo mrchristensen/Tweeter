@@ -1,6 +1,6 @@
 package edu.byu.cs.tweeter.model.services;
 
-import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.net.request.LoginRequest;
 import edu.byu.cs.tweeter.net.response.LoginResponse;

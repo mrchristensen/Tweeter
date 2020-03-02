@@ -58,7 +58,7 @@ public class GetFeedTask extends AsyncTask<FeedRequest, Void, FeedResponse> {
      * @param response the response from the followee request.
      */
     private void loadImages(FeedResponse response) {
-        for(edu.byu.cs.tweeter.model.domain.Status status : response.getFeed()) {
+        for(edu.byu.cs.tweeter.shared.model.domain.Status status : response.getFeed()) {
 
             Drawable drawable;
 

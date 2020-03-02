@@ -1,8 +1,4 @@
-package edu.byu.cs.tweeter.model.domain;
-
-import android.annotation.SuppressLint;
-
-import org.jetbrains.annotations.NotNull;
+package edu.byu.cs.tweeter.shared.model.domain;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -15,7 +11,7 @@ public class Status implements Comparable<Status> {
     private final LocalDateTime date;
     private final String messageBody;
 
-    public Status(@NotNull User user, LocalDateTime date,@NotNull String messageBody) {
+    public Status(User user, LocalDateTime date, String messageBody) {
         this.user = user;
         this.date = date;
         this.messageBody = messageBody;
@@ -57,7 +53,6 @@ public class Status implements Comparable<Status> {
                 '}';
     }
 
-    @SuppressLint("NewApi")
     @Override
     public int compareTo(Status o) {
         return o.getDate().compareTo(getDate());

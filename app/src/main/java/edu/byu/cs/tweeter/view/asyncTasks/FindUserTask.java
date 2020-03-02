@@ -2,7 +2,7 @@ package edu.byu.cs.tweeter.view.asyncTasks;
 
 import android.os.AsyncTask;
 
-import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.net.ServerFacade;
 
 /**

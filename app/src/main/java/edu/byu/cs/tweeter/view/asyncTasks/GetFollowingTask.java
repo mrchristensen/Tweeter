@@ -6,7 +6,7 @@ import android.util.Log;
 
 import java.io.IOException;
 
-import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.net.request.FollowingRequest;
 import edu.byu.cs.tweeter.net.response.FollowingResponse;
 import edu.byu.cs.tweeter.presenter.FollowingPresenter;

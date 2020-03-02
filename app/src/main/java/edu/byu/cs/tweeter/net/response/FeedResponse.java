@@ -2,7 +2,7 @@ package edu.byu.cs.tweeter.net.response;
 
 import java.util.List;
 
-import edu.byu.cs.tweeter.model.domain.Status;
+import edu.byu.cs.tweeter.shared.model.domain.Status;
 
 /**
  * A paged response for a {@link edu.byu.cs.tweeter.net.request.FeedRequest}.

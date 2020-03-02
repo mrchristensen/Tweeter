@@ -25,7 +25,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import edu.byu.cs.tweeter.R;
-import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.presenter.MainPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.FindUserTask;
