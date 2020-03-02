@@ -15,8 +15,8 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.snackbar.Snackbar;
 
 import edu.byu.cs.tweeter.R;
-import edu.byu.cs.tweeter.net.request.RegisterRequest;
-import edu.byu.cs.tweeter.net.response.RegisterResponse;
+import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
+import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
 import edu.byu.cs.tweeter.presenter.RegisterPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.GetRegisterTask;
 import edu.byu.cs.tweeter.view.ui.start.startActivity.StartActivity;

@@ -1,15 +1,15 @@
-package edu.byu.cs.tweeter.net.response;
+package edu.byu.cs.tweeter.shared.model.service.response;
 
 import java.util.List;
 
 import edu.byu.cs.tweeter.shared.model.domain.User;
 
 /**
- * A paged response for a {@link edu.byu.cs.tweeter.net.request.FollowingRequest}.
+ * A paged response for a {@link edu.byu.cs.tweeter.shared.model.service.request.FollowingRequest}.
  */
-public class FollowerResponse extends PagedResponse {
+public class FollowingResponse extends PagedResponse {
 
-    private List<User> followers;
+    private List<User> followees;
 
     /**
      * Creates a response indicating that the corresponding request was unsuccessful. Sets the
@@ -17,19 +17,19 @@ public class FollowerResponse extends PagedResponse {
      *
      * @param message a message describing why the request was unsuccessful.
      */
-    public FollowerResponse(String message) {
+    public FollowingResponse(String message) {
         super(false, message, false);
     }
 
     /**
      * Creates a response indicating that the corresponding request was successful.
      *
-     * @param followers the followees to be included in the result.
+     * @param followees the followees to be included in the result.
      * @param hasMorePages an indicator or whether more data is available for the request.
      */
-    public FollowerResponse(List<User> followers, boolean hasMorePages) {
+    public FollowingResponse(List<User> followees, boolean hasMorePages) {
         super(true, hasMorePages);
-        this.followers = followers;
+        this.followees = followees;
     }
 
     /**
@@ -37,7 +37,7 @@ public class FollowerResponse extends PagedResponse {
      *
      * @return the followees.
      */
-    public List<User> getFollowers() {
-        return followers;
+    public List<User> getFollowees() {
+        return followees;
     }
 }

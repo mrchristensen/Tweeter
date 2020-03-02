@@ -1,11 +1,11 @@
-package edu.byu.cs.tweeter.net.response;
+package edu.byu.cs.tweeter.shared.model.service.response;
 
 import java.util.List;
 
 import edu.byu.cs.tweeter.shared.model.domain.Status;
 
 /**
- * A paged response for a {@link edu.byu.cs.tweeter.net.request.StoryRequest}.
+ * A paged response for a {@link edu.byu.cs.tweeter.shared.model.service.request.StoryRequest}.
  */
 public class StoryResponse extends PagedResponse {
 

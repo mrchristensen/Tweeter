@@ -1,9 +1,9 @@
-package edu.byu.cs.tweeter.net.response;
+package edu.byu.cs.tweeter.shared.model.service.response;
 
 import edu.byu.cs.tweeter.shared.model.domain.User;
 
 /**
- * A paged response for a {@link edu.byu.cs.tweeter.net.request.FollowingRequest}.
+ * A paged response for a {@link edu.byu.cs.tweeter.shared.model.service.request.FollowingRequest}.
  */
 public class LoginResponse {
 

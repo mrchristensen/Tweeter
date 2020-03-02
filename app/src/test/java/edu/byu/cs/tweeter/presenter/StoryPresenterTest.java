@@ -9,10 +9,10 @@ import java.util.List;
 
 import edu.byu.cs.tweeter.shared.model.domain.Follow;
 import edu.byu.cs.tweeter.shared.model.domain.User;
-import edu.byu.cs.tweeter.net.request.RegisterRequest;
-import edu.byu.cs.tweeter.net.request.StoryRequest;
-import edu.byu.cs.tweeter.net.response.RegisterResponse;
-import edu.byu.cs.tweeter.net.response.StoryResponse;
+import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
+import edu.byu.cs.tweeter.shared.model.service.request.StoryRequest;
+import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
+import edu.byu.cs.tweeter.shared.model.service.response.StoryResponse;
 
 class StoryPresenterTest implements RegisterPresenter.View, StoryPresenter.View {
 

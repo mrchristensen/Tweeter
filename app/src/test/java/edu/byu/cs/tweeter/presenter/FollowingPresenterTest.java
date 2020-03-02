@@ -10,10 +10,10 @@ import java.util.List;
 import edu.byu.cs.tweeter.shared.model.domain.Follow;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.net.ServerFacade;
-import edu.byu.cs.tweeter.net.request.FollowingRequest;
-import edu.byu.cs.tweeter.net.request.RegisterRequest;
-import edu.byu.cs.tweeter.net.response.FollowingResponse;
-import edu.byu.cs.tweeter.net.response.RegisterResponse;
+import edu.byu.cs.tweeter.shared.model.service.request.FollowingRequest;
+import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
+import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
+import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
 
 class FollowingPresenterTest implements RegisterPresenter.View, FollowingPresenter.View {
 

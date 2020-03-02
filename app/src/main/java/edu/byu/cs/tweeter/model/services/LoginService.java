@@ -2,8 +2,8 @@ package edu.byu.cs.tweeter.model.services;
 
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.net.ServerFacade;
-import edu.byu.cs.tweeter.net.request.LoginRequest;
-import edu.byu.cs.tweeter.net.response.LoginResponse;
+import edu.byu.cs.tweeter.shared.model.service.request.LoginRequest;
+import edu.byu.cs.tweeter.shared.model.service.response.LoginResponse;
 
 /**
  * Contains the business logic for login and sign up.

@@ -1,8 +1,8 @@
 package edu.byu.cs.tweeter.presenter;
 
 import edu.byu.cs.tweeter.model.services.StoryService;
-import edu.byu.cs.tweeter.net.request.StoryRequest;
-import edu.byu.cs.tweeter.net.response.StoryResponse;
+import edu.byu.cs.tweeter.shared.model.service.request.StoryRequest;
+import edu.byu.cs.tweeter.shared.model.service.response.StoryResponse;
 
 /**
  * The presenter for the "following" functionality of the application.

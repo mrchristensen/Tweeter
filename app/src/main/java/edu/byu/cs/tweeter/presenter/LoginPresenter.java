@@ -1,8 +1,8 @@
 package edu.byu.cs.tweeter.presenter;
 
 import edu.byu.cs.tweeter.model.services.LoginService;
-import edu.byu.cs.tweeter.net.request.LoginRequest;
-import edu.byu.cs.tweeter.net.response.LoginResponse;
+import edu.byu.cs.tweeter.shared.model.service.request.LoginRequest;
+import edu.byu.cs.tweeter.shared.model.service.response.LoginResponse;
 
 /**
  * The presenter for the "following" functionality of the application.

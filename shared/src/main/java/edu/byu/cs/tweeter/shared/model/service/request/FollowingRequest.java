@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.net.request;
+package edu.byu.cs.tweeter.shared.model.service.request;
 
 import edu.byu.cs.tweeter.shared.model.domain.User;
 

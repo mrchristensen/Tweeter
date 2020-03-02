@@ -21,8 +21,8 @@ import java.util.Objects;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.shared.model.domain.User;
-import edu.byu.cs.tweeter.net.request.FollowerRequest;
-import edu.byu.cs.tweeter.net.response.FollowerResponse;
+import edu.byu.cs.tweeter.shared.model.service.request.FollowerRequest;
+import edu.byu.cs.tweeter.shared.model.service.response.FollowerResponse;
 import edu.byu.cs.tweeter.presenter.FollowerPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFollowersTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;

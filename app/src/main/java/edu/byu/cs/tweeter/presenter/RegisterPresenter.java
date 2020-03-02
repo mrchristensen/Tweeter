@@ -1,8 +1,8 @@
 package edu.byu.cs.tweeter.presenter;
 
 import edu.byu.cs.tweeter.model.services.RegisterService;
-import edu.byu.cs.tweeter.net.request.RegisterRequest;
-import edu.byu.cs.tweeter.net.response.RegisterResponse;
+import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
+import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
 
 /**
  * The presenter for the "following" functionality of the application.

@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.net.response;
+package edu.byu.cs.tweeter.shared.model.service.response;
 
 /**
  * A base class for server responses.

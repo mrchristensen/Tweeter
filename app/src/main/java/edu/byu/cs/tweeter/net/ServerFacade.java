@@ -14,15 +14,15 @@ import edu.byu.cs.tweeter.BuildConfig;
 import edu.byu.cs.tweeter.shared.model.domain.Follow;
 import edu.byu.cs.tweeter.shared.model.domain.Status;
 import edu.byu.cs.tweeter.shared.model.domain.User;
-import edu.byu.cs.tweeter.net.request.FeedRequest;
-import edu.byu.cs.tweeter.net.request.FollowerRequest;
-import edu.byu.cs.tweeter.net.request.FollowingRequest;
-import edu.byu.cs.tweeter.net.request.RegisterRequest;
-import edu.byu.cs.tweeter.net.request.StoryRequest;
-import edu.byu.cs.tweeter.net.response.FeedResponse;
-import edu.byu.cs.tweeter.net.response.FollowerResponse;
-import edu.byu.cs.tweeter.net.response.FollowingResponse;
-import edu.byu.cs.tweeter.net.response.StoryResponse;
+import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
+import edu.byu.cs.tweeter.shared.model.service.request.FollowerRequest;
+import edu.byu.cs.tweeter.shared.model.service.request.FollowingRequest;
+import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
+import edu.byu.cs.tweeter.shared.model.service.request.StoryRequest;
+import edu.byu.cs.tweeter.shared.model.service.response.FeedResponse;
+import edu.byu.cs.tweeter.shared.model.service.response.FollowerResponse;
+import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
+import edu.byu.cs.tweeter.shared.model.service.response.StoryResponse;
 
 /**
  * Acts as a Facade to the Tweeter server. All network requests to the server should go through

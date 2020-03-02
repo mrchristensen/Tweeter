@@ -9,8 +9,8 @@ import java.util.List;
 
 import edu.byu.cs.tweeter.shared.model.domain.Follow;
 import edu.byu.cs.tweeter.shared.model.domain.User;
-import edu.byu.cs.tweeter.net.request.RegisterRequest;
-import edu.byu.cs.tweeter.net.response.RegisterResponse;
+import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
+import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
 
 class RegisterPresenterTest implements RegisterPresenter.View {
 
