@@ -26,6 +26,7 @@ import edu.byu.cs.tweeter.shared.model.service.response.FeedResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowerResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.LoginResponse;
+import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.StoryResponse;
 
 /**
@@ -554,6 +555,11 @@ public class ServerFacade {
         return clientCommunicator.doPost(urlPath, request, null, LoginResponse.class);
     }
 
+    public RegisterResponse getRegister(RegisterRequest request, String urlPath) throws IOException {
+        ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
+        return clientCommunicator.doPost(urlPath, request, null, RegisterResponse.class);
+    }
+
     public static void setCurrentUser(User currentUser) {
         ServerFacade.currentUser = currentUser;
     }
@@ -567,5 +573,6 @@ public class ServerFacade {
     StatusGenerator getStatusGenerator() {
         return StatusGenerator.getInstance();
     }
+
 }
 

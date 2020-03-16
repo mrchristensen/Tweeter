@@ -5,11 +5,11 @@ package edu.byu.cs.tweeter.shared.model.service.request;
  * followees for a specified follower.
  */
 public class RegisterRequest {
-    public String alias;
-    public String password;
-    public String fistName;
-    public String lastName;
-    public String profileImageURL;
+    private String alias;
+    private String password;
+    private String fistName;
+    private String lastName;
+    private String profileImageURL;
 
     /**
      * Creates an instance.
@@ -22,23 +22,46 @@ public class RegisterRequest {
         this.profileImageURL = profileImageURL;
     }
 
+    public RegisterRequest() {
+    }
+
     public String getAlias() {
         return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 
     public String getPassword() {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getFistName() {
         return fistName;
+    }
+
+    public void setFistName(String fistName) {
+        this.fistName = fistName;
     }
 
     public String getLastName() {
         return lastName;
     }
 
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public String getProfileImageURL() {
         return profileImageURL;
+    }
+
+    public void setProfileImageURL(String profileImageURL) {
+        this.profileImageURL = profileImageURL;
     }
 }

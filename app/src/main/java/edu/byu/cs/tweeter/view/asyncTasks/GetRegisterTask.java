@@ -2,6 +2,8 @@ package edu.byu.cs.tweeter.view.asyncTasks;
 
 import android.os.AsyncTask;
 
+import java.io.IOException;
+
 import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
 import edu.byu.cs.tweeter.presenter.RegisterPresenter;
@@ -13,6 +15,7 @@ public class GetRegisterTask extends AsyncTask<RegisterRequest, Void, RegisterRe
 
     private final RegisterPresenter presenter;
     private final GetRegisterObserver observer;
+    private Exception exception;
 
     /**
      * An observer interface to be implemented by observers who want to be notified when this task
@@ -41,7 +44,13 @@ public class GetRegisterTask extends AsyncTask<RegisterRequest, Void, RegisterRe
      */
     @Override
     protected RegisterResponse doInBackground(RegisterRequest... registerRequests) {
-        RegisterResponse response = presenter.getRegister(registerRequests[0]);
+        RegisterResponse response = null;
+        try {
+            response = presenter.getRegister(registerRequests[0]);
+        } catch (IOException e) {
+            exception = e;
+            e.printStackTrace();
+        }
         return response;
     }
 
