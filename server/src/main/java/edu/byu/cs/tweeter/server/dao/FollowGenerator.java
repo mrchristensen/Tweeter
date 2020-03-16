@@ -64,6 +64,16 @@ public class FollowGenerator {
         return generateFollowsForUsers(users, minFollowersPerUser, maxFollowersPerUser, sortOrder);
     }
 
+    public List<Follow> generateUsersAndFollowsAndFollowers(int userCount, int minFollowersPerUser,
+                                                int maxFollowersPerUser, User currentUser) {
+        List<User> users = UserGenerator.getInstance().generateUsers(userCount);
+        users.add(currentUser);
+        List<Follow> follows = generateFollowsForUsers(users, minFollowersPerUser, maxFollowersPerUser, Sort.FOLLOWER_FOLLOWEE);
+        follows.addAll(generateFollowersForUsers(users, minFollowersPerUser, maxFollowersPerUser, Sort.FOLLOWEE_FOLLOWER));
+        return follows;
+
+    }
+
     /**
      * Randomly Generates {@link Follow} objects from the specified list of users. Ensures that each
      * {@link User} has between 'minFollowersPerUser' and 'maxFollowersPerUser'. Makes no guarantees
@@ -86,6 +96,7 @@ public class FollowGenerator {
             return follows;
         }
 
+        // Used in place of assert statements because Android doesn't support assertions.
         assert minFollowersPerUser >= 0 : minFollowersPerUser;
         assert maxFollowersPerUser < users.size() : maxFollowersPerUser;
 
@@ -96,14 +107,6 @@ public class FollowGenerator {
                     maxFollowersPerUser - minFollowersPerUser) + minFollowersPerUser;
 
             generateFollowersForUser(numbFollowersToGenerate, user, users, follows);
-        }
-
-        // Add the test user and make him follow everyone
-        User testUser = new User("Test", "User", UserGenerator.MALE_IMAGE_URL);
-
-        for(User user : users) {
-            Follow follow = new Follow(testUser, user);
-            follows.add(follow);
         }
 
         // Sort by the specified sort order
@@ -147,6 +150,82 @@ public class FollowGenerator {
 
 
         return follows;
+    }
+
+    /**
+     * Randomly Generates {@link Follow} objects from the specified list of users. Ensures that each
+     * {@link User} has between 'minFollowersPerUser' and 'maxFollowersPerUser'. Makes no guarantees
+     * about how many users a user follows.
+     *
+     * @param users the list of users to be used to generate follow objects.
+     * @param minFollowersPerUser the minimum number of followers each user will have.
+     * @param maxFollowersPerUser the maximum number of followers each user will have.
+     * @param sortOrder specifies the sort order or returned results.
+     * @return the generated {@link Follow} objects.
+     */
+    @SuppressWarnings("WeakerAccess")
+    public List<Follow> generateFollowersForUsers(List<User> users,
+                                                int minFollowersPerUser,
+                                                int maxFollowersPerUser,
+                                                Sort sortOrder) {
+        List<Follow> followers = new ArrayList<>();
+
+        if(users.size() == 0) {
+            return followers;
+        }
+
+        assert minFollowersPerUser >= 0 : minFollowersPerUser;
+        assert maxFollowersPerUser < users.size() : maxFollowersPerUser;
+
+        // For each user, generate a random number of followers between the specified min and max
+        Random random = new Random();
+        for(User user : users) {
+            int numbFollowersToGenerate = random.nextInt(
+                    maxFollowersPerUser - minFollowersPerUser) + minFollowersPerUser;
+
+            generateFollowersForUser(numbFollowersToGenerate, user, users, followers);
+        }
+
+        // Sort by the specified sort order
+        switch (sortOrder) {
+            case FOLLOWEE_FOLLOWER:
+                Collections.sort(followers, new Comparator<Follow>() {
+                    @Override
+                    public int compare(Follow follow1, Follow follow2) {
+                        int result = follow1.getFollowee().compareTo(
+                                follow2.getFollowee());
+
+                        if(result == 0) {
+                            return follow1.getFollower().compareTo(
+                                    follow2.getFollower());
+                        }
+
+                        return result;
+                    }
+                });
+                break;
+            case FOLLOWER_FOLLOWEE:
+                Collections.sort(followers, new Comparator<Follow>() {
+                    @Override
+                    public int compare(Follow follow1, Follow follow2) {
+                        int result = follow1.getFollower().compareTo(
+                                follow2.getFollower());
+
+                        if(result == 0) {
+                            return follow1.getFollowee().compareTo(
+                                    follow2.getFollowee());
+                        }
+
+                        return result;
+                    }
+                });
+                break;
+            default:
+                assert false;
+        }
+
+
+        return followers;
     }
 
     private void generateFollowersForUser(int numbFollowersToGenerate, User user, List<User> users, List<Follow> follows) {

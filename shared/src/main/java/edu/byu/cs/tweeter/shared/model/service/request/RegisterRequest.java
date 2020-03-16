@@ -5,11 +5,11 @@ package edu.byu.cs.tweeter.shared.model.service.request;
  * followees for a specified follower.
  */
 public class RegisterRequest {
-    private final String alias;
-    private final String password;
-    private final String fistName;
-    private final String lastName;
-    private final String profileImageURL;
+    public String alias;
+    public String password;
+    public String fistName;
+    public String lastName;
+    public String profileImageURL;
 
     /**
      * Creates an instance.

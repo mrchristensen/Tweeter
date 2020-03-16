@@ -8,9 +8,9 @@ import edu.byu.cs.tweeter.shared.model.domain.User;
  */
 public class FollowerRequest {
 
-    private final User followee;
-    private final int limit;
-    private final User lastFollower;
+    public User followee;
+    public int limit;
+    public User lastFollower;
 
     /**
      * Creates an instance.

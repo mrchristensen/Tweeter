@@ -9,9 +9,9 @@ import edu.byu.cs.tweeter.shared.model.domain.User;
  */
 public class FeedRequest {
 
-    private final User user;
-    private final int limit;
-    private final Status lastStatus;
+    public User user;
+    public int limit;
+    public Status lastStatus;
 
     /**
      * Creates an instance.

@@ -1,7 +1,9 @@
 package edu.byu.cs.tweeter.net;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +33,8 @@ import edu.byu.cs.tweeter.shared.model.service.response.StoryResponse;
 public class ServerFacade {
     private static final String LOG_TAG = "ServerFacade";
 
+    private static final String SERVER_URL = "https://SERVER_URL_API.execute-api.us-west-2.amazonaws.com/dev";
+
     private static List<User> allUsers = new ArrayList<>();
     private static Map<User, List<User>> followeesByFollower; //og
     private static Map<User, List<User>> followersByFollowee;
@@ -53,6 +57,7 @@ public class ServerFacade {
         return null;
     }
 
+    @SuppressLint("NewApi")
     public void postStatus(User user, String statusMessage){
         statusesByUser.get(user).add(new Status(user, LocalDateTime.now(), statusMessage));
     }
@@ -94,58 +99,71 @@ public class ServerFacade {
     }
 
     //Following
-
+//OG
+//    /**
+//     * Returns the users that the user specified in the request is following. Uses information in
+//     * the request object to limit the number of followees returned and to return the next set of
+//     * followees after any that were returned in a previous request. The current implementation
+//     * returns generated data and doesn't actually make a network request.
+//     *
+//     * @param request contains information about the user whose followees are to be returned and any
+//     *                other information required to satisfy the request.
+//     * @return the followees.
+//     */
+//    public FollowingResponse getFollowees(FollowingRequest request) {
+//
+//        // Used in place of assert statements because Android does not support them
+//        if(BuildConfig.DEBUG) {
+//            if(request.getLimit() < 0) {
+//                throw new AssertionError();
+//            }
+//
+//            if(request.getFollower() == null) {
+//                throw new AssertionError();
+//            }
+//        }
+//
+//        if(followeesByFollower == null) {
+//            initializeFollowees();
+//        }
+//
+//        List<User> allFollowees = followeesByFollower.get(request.getFollower());
+//
+//        if(allFollowees == null){
+//            return new FollowingResponse("No followees exist for such a user");
+//        }
+//
+//        Collections.sort(allFollowees);
+//        List<User> responseFollowees = new ArrayList<>(request.getLimit());
+//
+//        boolean hasMorePages = false;
+//
+//        if(request.getLimit() > 0) {
+//            if (allFollowees != null) {
+//                int followeesIndex = getFolloweesStartingIndex(request.getLastFollowee(), allFollowees);
+//
+//                for(int limitCounter = 0; followeesIndex < allFollowees.size() && limitCounter < request.getLimit(); followeesIndex++, limitCounter++) {
+//                    responseFollowees.add(allFollowees.get(followeesIndex));
+//                }
+//
+//                hasMorePages = followeesIndex < allFollowees.size();
+//            }
+//        }
+//
+//        return new FollowingResponse(responseFollowees, hasMorePages);
+//    }
     /**
      * Returns the users that the user specified in the request is following. Uses information in
      * the request object to limit the number of followees returned and to return the next set of
-     * followees after any that were returned in a previous request. The current implementation
-     * returns generated data and doesn't actually make a network request.
+     * followees after any that were returned in a previous request.
      *
      * @param request contains information about the user whose followees are to be returned and any
      *                other information required to satisfy the request.
      * @return the followees.
      */
-    public FollowingResponse getFollowees(FollowingRequest request) {
-
-        // Used in place of assert statements because Android does not support them
-        if(BuildConfig.DEBUG) {
-            if(request.getLimit() < 0) {
-                throw new AssertionError();
-            }
-
-            if(request.getFollower() == null) {
-                throw new AssertionError();
-            }
-        }
-
-        if(followeesByFollower == null) {
-            initializeFollowees();
-        }
-
-        List<User> allFollowees = followeesByFollower.get(request.getFollower());
-
-        if(allFollowees == null){
-            return new FollowingResponse("No followees exist for such a user");
-        }
-
-        Collections.sort(allFollowees);
-        List<User> responseFollowees = new ArrayList<>(request.getLimit());
-
-        boolean hasMorePages = false;
-
-        if(request.getLimit() > 0) {
-            if (allFollowees != null) {
-                int followeesIndex = getFolloweesStartingIndex(request.getLastFollowee(), allFollowees);
-
-                for(int limitCounter = 0; followeesIndex < allFollowees.size() && limitCounter < request.getLimit(); followeesIndex++, limitCounter++) {
-                    responseFollowees.add(allFollowees.get(followeesIndex));
-                }
-
-                hasMorePages = followeesIndex < allFollowees.size();
-            }
-        }
-
-        return new FollowingResponse(responseFollowees, hasMorePages);
+    public FollowingResponse getFollowees(FollowingRequest request, String urlPath) throws IOException {
+        ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
+        return clientCommunicator.doPost(urlPath, request, null, FollowingResponse.class);
     }
 
     /**

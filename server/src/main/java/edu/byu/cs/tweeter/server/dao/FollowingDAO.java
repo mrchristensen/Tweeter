@@ -16,6 +16,8 @@ import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
 public class FollowingDAO {
 
     private static Map<User, List<User>> followeesByFollower;
+    static final String MALE_IMAGE_URL = "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png";
+
 
     /**
      * Gets the users from the database that the user specified in the request is following. Uses
@@ -29,38 +31,51 @@ public class FollowingDAO {
      */
     public FollowingResponse getFollowees(FollowingRequest request) {
 
-        assert request.getLimit() > 0;
-        assert request.getFollower() != null;
+//        assert request.getLimit() > 0;
+////        assert request.getFollower() != null;
+////
+////        if(followeesByFollower == null) {
+////            followeesByFollower = initializeFollowees();
+////        }
+////
+////        List<User> allFollowees = followeesByFollower.get(request.getFollower());
+////        List<User> responseFollowees = new ArrayList<>(request.getLimit());
+////
+////        boolean hasMorePages = false;
+////
+////        if(request.getLimit() > 0) {
+////            if (allFollowees != null) {
+////                int followeesIndex = getFolloweesStartingIndex(request.getLastFollowee(), allFollowees);
+////
+////                for(int limitCounter = 0; followeesIndex < allFollowees.size() && limitCounter < request.getLimit(); followeesIndex++, limitCounter++) {
+////                    responseFollowees.add(allFollowees.get(followeesIndex));
+////                }
+////
+////                hasMorePages = followeesIndex < allFollowees.size();
+////            }
+////        }
+////
+////        return new FollowingResponse(responseFollowees, hasMorePages);
 
-        if(followeesByFollower == null) {
-            followeesByFollower = initializeFollowees();
+        return new FollowingResponse(getNUsers(request.limit), true);
+    }
+
+    private List<User> getNUsers(int n){
+        List<User> users = new ArrayList<>();
+        for(int i=0; i < n; i++){
+            users.add(new User("fname" + Integer.toString(i),
+                    "lname" + Integer.toString(i),
+                    "@tempAlias" + Integer.toString(i),
+                    MALE_IMAGE_URL));
         }
-
-        List<User> allFollowees = followeesByFollower.get(request.getFollower());
-        List<User> responseFollowees = new ArrayList<>(request.getLimit());
-
-        boolean hasMorePages = false;
-
-        if(request.getLimit() > 0) {
-            if (allFollowees != null) {
-                int followeesIndex = getFolloweesStartingIndex(request.getLastFollowee(), allFollowees);
-
-                for(int limitCounter = 0; followeesIndex < allFollowees.size() && limitCounter < request.getLimit(); followeesIndex++, limitCounter++) {
-                    responseFollowees.add(allFollowees.get(followeesIndex));
-                }
-
-                hasMorePages = followeesIndex < allFollowees.size();
-            }
-        }
-
-        return new FollowingResponse(responseFollowees, hasMorePages);
+        return users;
     }
 
     /**
      * Generates the followee data.
      */
     private Map<User, List<User>> initializeFollowees() {
-
+a
         Map<User, List<User>> followeesByFollower = new HashMap<>();
 
         List<Follow> follows = getFollowGenerator().generateUsersAndFollows(100,

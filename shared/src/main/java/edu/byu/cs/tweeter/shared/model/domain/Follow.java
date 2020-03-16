@@ -7,8 +7,8 @@ import java.util.Objects;
  */
 public class Follow {
 
-    private final User follower;
-    private final User followee; //The person being followed
+    public User follower;
+    public User followee; //The person being followed
 
     public Follow(User follower, User followee) {
         this.follower = follower;

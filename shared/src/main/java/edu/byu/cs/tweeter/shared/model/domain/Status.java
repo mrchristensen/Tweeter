@@ -7,9 +7,9 @@ import java.util.Objects;
  * Represents a follow relationship.
  */
 public class Status implements Comparable<Status> {
-    private final User user;
-    private final LocalDateTime date;
-    private final String messageBody;
+    public User user;
+    public LocalDateTime date;
+    public String messageBody;
 
     public Status(User user, LocalDateTime date, String messageBody) {
         this.user = user;

@@ -6,8 +6,8 @@ package edu.byu.cs.tweeter.shared.model.service.request;
  */
 public class LoginRequest {
 
-    private final String alias;
-    private final String password;
+    public String alias;
+    public String password;
 
     /**
      * Creates an instance.
