@@ -2,6 +2,8 @@ package edu.byu.cs.tweeter.view.asyncTasks;
 
 import android.os.AsyncTask;
 
+import java.io.IOException;
+
 import edu.byu.cs.tweeter.shared.model.service.request.LoginRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.LoginResponse;
 import edu.byu.cs.tweeter.presenter.LoginPresenter;
@@ -13,6 +15,7 @@ public class GetLoginTask extends AsyncTask<LoginRequest, Void, LoginResponse> {
 
     private final LoginPresenter presenter;
     private final GetLoginObserver observer;
+    private Exception exception;
 
     /**
      * An observer interface to be implemented by observers who want to be notified when this task
@@ -41,7 +44,13 @@ public class GetLoginTask extends AsyncTask<LoginRequest, Void, LoginResponse> {
      */
     @Override
     protected LoginResponse doInBackground(LoginRequest... loginRequests) {
-        LoginResponse response = presenter.getLogin(loginRequests[0]);
+        LoginResponse response = null;
+        try {
+            response = presenter.getLogin(loginRequests[0]);
+        } catch (IOException e) {
+            exception = e;
+            e.printStackTrace();
+        }
         return response;
     }
 

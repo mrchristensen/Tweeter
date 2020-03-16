@@ -1,6 +1,9 @@
 package edu.byu.cs.tweeter.presenter;
 
-import edu.byu.cs.tweeter.model.services.LoginService;
+import java.io.IOException;
+
+import edu.byu.cs.tweeter.model.services.LoginServiceProxy;
+import edu.byu.cs.tweeter.shared.model.service.LoginService;
 import edu.byu.cs.tweeter.shared.model.service.request.LoginRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.LoginResponse;
 
@@ -35,7 +38,8 @@ public class LoginPresenter extends Presenter {
      * @param request contains the data required to fulfill the request.
      * @return the followees.
      */
-    public LoginResponse getLogin(LoginRequest request) {
-        return LoginService.getInstance().getLogin(request);
+    public LoginResponse getLogin(LoginRequest request) throws IOException {
+        LoginService service = new LoginServiceProxy();
+        return service.getLogin(request);
     }
 }
