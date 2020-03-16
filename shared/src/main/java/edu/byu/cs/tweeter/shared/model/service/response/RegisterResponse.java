@@ -16,11 +16,23 @@ public class RegisterResponse {
         this.currentUser = currentUser;
     }
 
-    public boolean registerSuccessful() {
+    //Default constructor
+    public RegisterResponse() {
+    }
+
+    public boolean isRegisterSuccessful() {
         return registerSuccessful;
+    }
+
+    public void setRegisterSuccessful(boolean registerSuccessful) {
+        this.registerSuccessful = registerSuccessful;
     }
 
     public User getCurrentUser() {
         return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 }

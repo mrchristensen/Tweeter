@@ -120,7 +120,7 @@ public class RegisterFragment extends Fragment implements RegisterPresenter.View
          */
         @Override
         public void registerRetrieved(RegisterResponse registerResponse) {
-            if(registerResponse.registerSuccessful()){
+            if(registerResponse.isRegisterSuccessful()){
                 ((StartActivity) getActivity()).startMainActivity(getView(), registerResponse.getCurrentUser());
             }
             else{
