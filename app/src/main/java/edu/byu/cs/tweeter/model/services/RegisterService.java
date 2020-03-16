@@ -54,7 +54,7 @@ public class RegisterService {
 
     private void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
-        LoginService.getInstance().setCurrentUser(currentUser);
+//        LoginService.getInstance().setCurrentUser(currentUser); todo is the needed
     }
 
     public RegisterResponse getRegister(RegisterRequest request) {

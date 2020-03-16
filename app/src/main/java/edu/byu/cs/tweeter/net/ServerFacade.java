@@ -19,11 +19,13 @@ import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowerRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowingRequest;
+import edu.byu.cs.tweeter.shared.model.service.request.LoginRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.StoryRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FeedResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowerResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
+import edu.byu.cs.tweeter.shared.model.service.response.LoginResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.StoryResponse;
 
 /**
@@ -545,6 +547,11 @@ public class ServerFacade {
         statusesByUser.put(user, statuses);
 
         return statusesByUser;
+    }
+
+    public LoginResponse getLogin(LoginRequest request, String urlPath) throws IOException {
+        ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
+        return clientCommunicator.doPost(urlPath, request, null, LoginResponse.class);
     }
 
     public static void setCurrentUser(User currentUser) {

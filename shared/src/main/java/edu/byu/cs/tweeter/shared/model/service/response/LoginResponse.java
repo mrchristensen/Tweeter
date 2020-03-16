@@ -20,7 +20,19 @@ public class LoginResponse {
         return loginSuccessful;
     }
 
+    public boolean isLoginSuccessful() {
+        return loginSuccessful;
+    }
+
+    public void setLoginSuccessful(boolean loginSuccessful) {
+        this.loginSuccessful = loginSuccessful;
+    }
+
     public User getCurrentUser() {
         return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 }
