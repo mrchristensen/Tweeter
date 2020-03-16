@@ -21,6 +21,8 @@ public class GetFollowingTask extends AsyncTask<FollowingRequest, Void, Followin
     private final FollowingPresenter presenter;
     private final GetFolloweesObserver observer;
 
+    private Exception exception;
+
     /**
      * An observer interface to be implemented by observers who want to be notified when this task
      * completes.
@@ -48,8 +50,14 @@ public class GetFollowingTask extends AsyncTask<FollowingRequest, Void, Followin
      */
     @Override
     protected FollowingResponse doInBackground(FollowingRequest... followingRequests) {
-        FollowingResponse response = presenter.getFollowing(followingRequests[0]);
-        loadImages(response);
+        FollowingResponse response = null;
+        try {
+            response = presenter.getFollowing(followingRequests[0]);
+            loadImages(response);
+        } catch (IOException e) {
+            exception = e;
+            e.printStackTrace();
+        }
         return response;
     }
 

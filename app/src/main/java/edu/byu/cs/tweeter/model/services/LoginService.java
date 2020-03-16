@@ -40,6 +40,7 @@ public class LoginService {
      * cannot be instantiated by external classes).
      */
     private LoginService() {
+        // TODO: Remove when the actual login functionality exists.
         serverFacade = new ServerFacade();
     }
 

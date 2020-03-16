@@ -7,10 +7,12 @@ import java.util.Objects;
  */
 public class User implements Comparable<User>, java.io.Serializable  {
 
-    private final String firstName;
-    private final String lastName;
-    private final String alias;
-    private final String imageUrl;
+   public String firstName;
+   public String lastName;
+   public String alias;
+   public String imageUrl;
+
+    public User() {}
 
     public User(String firstName, String lastName, String imageURL) {
         this(firstName, lastName, String.format("@%s%s", firstName, lastName), imageURL);
@@ -23,8 +25,16 @@ public class User implements Comparable<User>, java.io.Serializable  {
         this.imageUrl = imageURL;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
     public String getFirstName() {
         return firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getLastName() {
@@ -35,8 +45,16 @@ public class User implements Comparable<User>, java.io.Serializable  {
         return String.format("%s %s", firstName, lastName);
     }
 
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
     public String getAlias() {
         return alias;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getImageUrl() {
