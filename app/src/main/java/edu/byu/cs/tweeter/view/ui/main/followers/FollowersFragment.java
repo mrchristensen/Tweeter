@@ -107,7 +107,7 @@ public class FollowersFragment extends Fragment implements FollowerPresenter.Vie
 
         private final List<User> users = new ArrayList<>();
 
-        private User lastFollowee;
+        private User lastFollower;
 
         private boolean hasMorePages;
         private boolean isLoading = false;
@@ -232,7 +232,7 @@ public class FollowersFragment extends Fragment implements FollowerPresenter.Vie
             else{
                 user = presenter.getCurrentUser();
             }
-            FollowerRequest request = new FollowerRequest(user, PAGE_SIZE, lastFollowee);
+            FollowerRequest request = new FollowerRequest(user, PAGE_SIZE, lastFollower);
             getFollowersTask.execute(request);
         }
 
@@ -244,14 +244,14 @@ public class FollowersFragment extends Fragment implements FollowerPresenter.Vie
          */
         @Override
         public void followersRetrieved(FollowerResponse followerResponse) {
-            List<User> followees = followerResponse.getFollowers();
+            List<User> followers = followerResponse.getFollowers();
 
-            lastFollowee = (followees.size() > 0) ? followees.get(followees.size() -1) : null;
+            lastFollower = (followers.size() > 0) ? followers.get(followers.size() -1) : null;
             hasMorePages = followerResponse.hasMorePages();
 
             isLoading = false;
             removeLoadingFooter();
-            followerRecyclerViewAdapter.addItems(followees);
+            followerRecyclerViewAdapter.addItems(followers);
         }
 
         /**

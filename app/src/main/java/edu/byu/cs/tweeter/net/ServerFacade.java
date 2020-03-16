@@ -259,64 +259,70 @@ public class ServerFacade {
 
     //Followers
 
-    /**
-     * Returns the users that the user specified in the request is following. Uses information in
-     * the request object to limit the number of followers returned and to return the next set of
-     * followers after any that were returned in a previous request. The current implementation
-     * returns generated data and doesn't actually make a network request.
-     *
-     * @param request contains information about the user whose followers are to be returned and any
-     *                other information required to satisfy the request.
-     * @return the followers.
-     */
-    public FollowerResponse getFollowers(FollowerRequest request) {
 
-        // Used in place of assert statements because Android does not support them
-        if(BuildConfig.DEBUG) {
-            if(request.getLimit() < 0) {
-                throw new AssertionError();
-            }
-
-            if(request.getFollowee() == null) {
-                throw new AssertionError();
-            }
-        }
-
-        if(followeesByFollower == null) {
-            initializeFollowees();
-        }
-
-        List<User> allFollowers = new ArrayList<>();
-        for (User follower : followeesByFollower.keySet()) {
-            for (User followee : followeesByFollower.get(follower)) {
-                if(followee.equals(request.getFollowee())){
-                    if(!allFollowers.contains(follower)) {
-                        allFollowers.add(follower);
-                    }
-                    break;
-                }
-            }
-        }
-        Collections.sort(allFollowers);
-
-        List<User> responseFollowers = new ArrayList<>(request.getLimit());
-
-        boolean hasMorePages = false;
-
-        if(request.getLimit() > 0) {
-            if (allFollowers != null) {
-                int followersIndex = getFollowersStartingIndex(request.getLastFollower(), allFollowers);
-
-                for(int limitCounter = 0; followersIndex < allFollowers.size() && limitCounter < request.getLimit(); followersIndex++, limitCounter++) {
-                    responseFollowers.add(allFollowers.get(followersIndex));
-                }
-
-                hasMorePages = followersIndex < allFollowers.size();
-            }
-        }
-
-        return new FollowerResponse(responseFollowers, hasMorePages);
+    public FollowerResponse getFollowers(FollowerRequest request, String urlPath) throws IOException {
+        ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
+        return clientCommunicator.doPost(urlPath, request, null, FollowerResponse.class);
     }
+//
+//    /**
+//     * Returns the users that the user specified in the request is following. Uses information in
+//     * the request object to limit the number of followers returned and to return the next set of
+//     * followers after any that were returned in a previous request. The current implementation
+//     * returns generated data and doesn't actually make a network request.
+//     *
+//     * @param request contains information about the user whose followers are to be returned and any
+//     *                other information required to satisfy the request.
+//     * @return the followers.
+//     */
+//    public FollowerResponse getFollowers(FollowerRequest request) {
+//
+//        // Used in place of assert statements because Android does not support them
+//        if(BuildConfig.DEBUG) {
+//            if(request.getLimit() < 0) {
+//                throw new AssertionError();
+//            }
+//
+//            if(request.getFollowee() == null) {
+//                throw new AssertionError();
+//            }
+//        }
+//
+//        if(followeesByFollower == null) {
+//            initializeFollowees();
+//        }
+//
+//        List<User> allFollowers = new ArrayList<>();
+//        for (User follower : followeesByFollower.keySet()) {
+//            for (User followee : followeesByFollower.get(follower)) {
+//                if(followee.equals(request.getFollowee())){
+//                    if(!allFollowers.contains(follower)) {
+//                        allFollowers.add(follower);
+//                    }
+//                    break;
+//                }
+//            }
+//        }
+//        Collections.sort(allFollowers);
+//
+//        List<User> responseFollowers = new ArrayList<>(request.getLimit());
+//
+//        boolean hasMorePages = false;
+//
+//        if(request.getLimit() > 0) {
+//            if (allFollowers != null) {
+//                int followersIndex = getFollowersStartingIndex(request.getLastFollower(), allFollowers);
+//
+//                for(int limitCounter = 0; followersIndex < allFollowers.size() && limitCounter < request.getLimit(); followersIndex++, limitCounter++) {
+//                    responseFollowers.add(allFollowers.get(followersIndex));
+//                }
+//
+//                hasMorePages = followersIndex < allFollowers.size();
+//            }
+//        }
+//
+//        return new FollowerResponse(responseFollowers, hasMorePages);
+//    }
 
     /**
      * Determines the index for the first follower in the specified 'allFollowers' list that should

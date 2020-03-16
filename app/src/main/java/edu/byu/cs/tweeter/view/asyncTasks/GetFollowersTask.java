@@ -21,6 +21,8 @@ public class GetFollowersTask extends AsyncTask<FollowerRequest, Void, FollowerR
     private final FollowerPresenter presenter;
     private final GetFollowersObserver observer;
 
+    private Exception exception;
+
     /**
      * An observer interface to be implemented by observers who want to be notified when this task
      * completes.
@@ -48,15 +50,22 @@ public class GetFollowersTask extends AsyncTask<FollowerRequest, Void, FollowerR
      */
     @Override
     protected FollowerResponse doInBackground(FollowerRequest... followerRequests) {
-        FollowerResponse response = presenter.getFollowers(followerRequests[0]);
-        loadImages(response);
+        FollowerResponse response = null;
+        try {
+            response = presenter.getFollowers(followerRequests[0]);
+            loadImages(response);
+        } catch (IOException e) {
+            exception = e;
+
+            e.printStackTrace();
+        }
         return response;
     }
 
     /**
-     * Loads the image associated with each followee included in the response.
+     * Loads the image associated with each follower included in the response.
      *
-     * @param response the response from the followee request.
+     * @param response the response from the follower request.
      */
     private void loadImages(FollowerResponse response) {
         for(User user : response.getFollowers()) {
