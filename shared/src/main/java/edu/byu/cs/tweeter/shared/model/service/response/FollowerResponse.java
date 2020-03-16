@@ -9,7 +9,7 @@ import edu.byu.cs.tweeter.shared.model.domain.User;
  */
 public class FollowerResponse extends PagedResponse {
 
-    private List<User> followers;
+    public List<User> followers;
 
     /**
      * Creates a response indicating that the corresponding request was unsuccessful. Sets the
@@ -24,7 +24,7 @@ public class FollowerResponse extends PagedResponse {
     /**
      * Creates a response indicating that the corresponding request was successful.
      *
-     * @param followers the followees to be included in the result.
+     * @param followers the followers to be included in the result.
      * @param hasMorePages an indicator or whether more data is available for the request.
      */
     public FollowerResponse(List<User> followers, boolean hasMorePages) {
@@ -33,11 +33,15 @@ public class FollowerResponse extends PagedResponse {
     }
 
     /**
-     * Returns the followees for the corresponding request.
+     * Returns the followers for the corresponding request.
      *
-     * @return the followees.
+     * @return the followers.
      */
     public List<User> getFollowers() {
         return followers;
+    }
+
+    public void setFollowers(List<User> followers) {
+        this.followers = followers;
     }
 }

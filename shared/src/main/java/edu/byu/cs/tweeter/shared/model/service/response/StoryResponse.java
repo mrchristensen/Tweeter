@@ -35,7 +35,7 @@ public class StoryResponse extends PagedResponse {
     /**
      * Returns the statuses for the corresponding request.
      *
-     * @return the followees.
+     * @return the followers.
      */
     public List<Status> getStory() {
         return statuses;

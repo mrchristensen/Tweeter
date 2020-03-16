@@ -15,8 +15,8 @@ import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
  */
 public class FollowingDAO {
 
-    private static Map<User, List<User>> followeesByFollower;
-    static final String MALE_IMAGE_URL = "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png";
+//    private static Map<User, List<User>> followeesByFollower;
+    private static final String MALE_IMAGE_URL = "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png";
 
 
     /**
@@ -75,7 +75,7 @@ public class FollowingDAO {
      * Generates the followee data.
      */
     private Map<User, List<User>> initializeFollowees() {
-a
+
         Map<User, List<User>> followeesByFollower = new HashMap<>();
 
         List<Follow> follows = getFollowGenerator().generateUsersAndFollows(100,

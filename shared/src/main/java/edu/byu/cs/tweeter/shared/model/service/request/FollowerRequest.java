@@ -4,7 +4,7 @@ import edu.byu.cs.tweeter.shared.model.domain.User;
 
 /**
  * Contains all the information needed to make a request to have the server return the next page of
- * followees for a specified follower.
+ * followers for a specified follower.
  */
 public class FollowerRequest {
 
@@ -15,10 +15,10 @@ public class FollowerRequest {
     /**
      * Creates an instance.
      *
-     * @param followee the {@link User} whose followees are to be returned.
-     * @param limit the maximum number of followees to return.
-     * @param lastFollower the last followee that was returned in the previous request (null if
-     *                     there was no previous request or if no followees were returned in the
+     * @param followee the {@link User} whose followers are to be returned.
+     * @param limit the maximum number of followers to return.
+     * @param lastFollower the last follower that was returned in the previous request (null if
+     *                     there was no previous request or if no followers were returned in the
      *                     previous request).
      */
     public FollowerRequest(User followee, int limit, User lastFollower) {
@@ -27,8 +27,11 @@ public class FollowerRequest {
         this.lastFollower = lastFollower;
     }
 
+    public FollowerRequest() {
+    }
+
     /**
-     * Returns the follower whose followees are to be returned by this request.
+     * Returns the follower whose followers are to be returned by this request.
      *
      * @return the follower.
      */
@@ -37,7 +40,7 @@ public class FollowerRequest {
     }
 
     /**
-     * Returns the number representing the maximum number of followees to be returned by this request.
+     * Returns the number representing the maximum number of followers to be returned by this request.
      *
      * @return the limit.
      */
@@ -46,10 +49,10 @@ public class FollowerRequest {
     }
 
     /**
-     * Returns the last followee that was returned in the previous request or null if there was no
-     * previous request or if no followees were returned in the previous request.
+     * Returns the last follower that was returned in the previous request or null if there was no
+     * previous request or if no followers were returned in the previous request.
      *
-     * @return the last followee.
+     * @return the last follower.
      */
     public User getLastFollower() {
         return lastFollower;
