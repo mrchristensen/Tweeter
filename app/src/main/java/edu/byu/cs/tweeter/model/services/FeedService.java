@@ -34,7 +34,7 @@ public class FeedService {
      * cannot be instantiated by external classes).
      */
     private FeedService() {
-        serverFacade = new ServerFacade();
+        serverFacade = new ServerFacade(); //todo make this async
     }
 
     /**
@@ -47,6 +47,6 @@ public class FeedService {
      * @return the followees.
      */
     public FeedResponse getFeed(FeedRequest request) {
-        return serverFacade.getFeed(request);
+        return serverFacade.getFeed(request); //todo make this async
     }
 }

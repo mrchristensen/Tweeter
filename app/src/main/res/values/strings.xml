@@ -30,4 +30,6 @@
     <string name="default_image_url">https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png</string>
     <string name="searchMenu">Search</string>
     <string name="logoutMenu">Logout</string>
+    <string name="Follow">Follow</string>
+    <string name="Following">Following</string>
 </resources>
