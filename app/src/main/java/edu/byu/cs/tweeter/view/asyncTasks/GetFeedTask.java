@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.io.IOException;
 
+import edu.byu.cs.tweeter.shared.model.domain.Status;
 import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FeedResponse;
 import edu.byu.cs.tweeter.presenter.FeedPresenter;
@@ -66,7 +67,6 @@ public class GetFeedTask extends AsyncTask<FeedRequest, Void, FeedResponse> {
      */
     private void loadImages(FeedResponse response) {
         for(edu.byu.cs.tweeter.shared.model.domain.Status status : response.getStatuses()) {
-
             Drawable drawable;
 
             try {

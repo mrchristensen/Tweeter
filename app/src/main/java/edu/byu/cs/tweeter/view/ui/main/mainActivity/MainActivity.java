@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
 
         // Asynchronously load the user's image
         LoadImageTask loadImageTask = new LoadImageTask(this);
-        loadImageTask.execute(presenter.getCurrentUser().getImageUrl());
+        loadImageTask.execute(user.getImageUrl());
 
         TextView userName = findViewById(R.id.userName);
         userName.setText(user.getName());

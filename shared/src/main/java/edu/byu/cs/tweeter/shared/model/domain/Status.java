@@ -19,6 +19,9 @@ public class Status implements Comparable<Status> {
         this.messageBody = messageBody;
     }
 
+    public Status() {
+    }
+
     public User getUser() {
         return user;
     }
