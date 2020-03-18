@@ -12,9 +12,9 @@ import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
 public class RegisterDAO {
 
     public RegisterResponse getRegister(RegisterRequest request) {
-        if (!request.getAlias().equals("@test")) {
+        if (!request.getAlias().equals("test")) {
             //Successful register
-            return new RegisterResponse(true, new User("Josh", "Smith", request.getAlias(), request.getProfileImageURL()));
+            return new RegisterResponse(true, new User(request.getFistName(), request.getLastName(), request.getAlias(), request.getProfileImageURL()));
         }
 
         //Unsuccessful Login
