@@ -1,6 +1,7 @@
 package edu.byu.cs.tweeter.shared.model.domain;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -8,10 +9,11 @@ import java.util.Objects;
  */
 public class Status implements Comparable<Status> {
     public User user;
-    public LocalDateTime date;
+    public String date;
+//    public LocalDateTime date;
     public String messageBody;
 
-    public Status(User user, LocalDateTime date, String messageBody) {
+    public Status(User user, String date, String messageBody) {
         this.user = user;
         this.date = date;
         this.messageBody = messageBody;
@@ -21,8 +23,8 @@ public class Status implements Comparable<Status> {
         return user;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public String getDate() {
+        return date; //this needs fixing? todo
     }
 
     public String getMessageBody() {
@@ -56,5 +58,9 @@ public class Status implements Comparable<Status> {
     @Override
     public int compareTo(Status o) {
         return o.getDate().compareTo(getDate());
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

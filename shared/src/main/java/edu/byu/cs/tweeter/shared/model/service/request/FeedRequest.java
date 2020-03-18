@@ -13,6 +13,9 @@ public class FeedRequest {
     public int limit;
     public Status lastStatus;
 
+    public FeedRequest() {
+    }
+
     /**
      * Creates an instance.
      *

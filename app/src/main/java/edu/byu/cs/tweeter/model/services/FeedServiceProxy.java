@@ -1,29 +1,34 @@
 package edu.byu.cs.tweeter.model.services;
 
+import java.io.IOException;
+
 import edu.byu.cs.tweeter.net.ServerFacade;
+import edu.byu.cs.tweeter.shared.model.service.FeedService;
 import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FeedResponse;
 
 /**
  * Contains the business logic for getting the users a user is following.
  */
-public class FeedService {
+public class FeedServiceProxy implements FeedService {
 
     /**
      * The singleton instance.
      */
-    private static FeedService instance;
+    private static FeedServiceProxy instance;
 
     private final ServerFacade serverFacade;
+
+    private static final String URL_PATH = "/getfeed";
 
     /**
      * Return the singleton instance of this class.
      *
      * @return the instance.
      */
-    public static FeedService getInstance() {
+    public static FeedServiceProxy getInstance() {
         if(instance == null) {
-            instance = new FeedService();
+            instance = new FeedServiceProxy();
         }
 
         return instance;
@@ -33,9 +38,11 @@ public class FeedService {
      * A private constructor created to ensure that this class is a singleton (i.e. that it
      * cannot be instantiated by external classes).
      */
-    private FeedService() {
-        serverFacade = new ServerFacade(); //todo make this async
+    private FeedServiceProxy() {
+        serverFacade = new ServerFacade();
     }
+
+
 
     /**
      * Returns the users that the user specified in the request is following. Uses information in
@@ -46,7 +53,8 @@ public class FeedService {
      * @param request contains the data required to fulfill the request.
      * @return the followees.
      */
-    public FeedResponse getFeed(FeedRequest request) {
-        return serverFacade.getFeed(request); //todo make this async
+    @Override
+    public FeedResponse getFeed(FeedRequest request) throws IOException {
+        return serverFacade.getFeed(request, URL_PATH);
     }
 }

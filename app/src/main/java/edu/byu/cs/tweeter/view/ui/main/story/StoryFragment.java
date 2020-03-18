@@ -123,7 +123,8 @@ public class StoryFragment extends Fragment implements StoryPresenter.View, Find
             userImage.setImageDrawable(ImageCache.getInstance().getImageDrawable(status.getUser()));
             userAlias.setText(status.getUser().getAlias());
             userName.setText(status.getUser().getName());
-            date.setText(dtf.format(status.getDate()));
+//            date.setText(dtf.format(status.getDate())); //todo fix to do formating
+            date.setText(status.getDate().toString());
 
             CharSequence input = status.getMessageBody();
             SpannableStringBuilder builder = new SpannableStringBuilder(input);
@@ -349,7 +350,8 @@ public class StoryFragment extends Fragment implements StoryPresenter.View, Find
          * loading footer view) at the bottom of the list.
          */
         private void addLoadingFooter() {
-            addItem(new Status(new User("firstN", "lastN", "ImageURL"), LocalDateTime.now(), "Dummy status"));
+            addItem(new Status(new User("firstN", "lastN", "ImageURL"), LocalDateTime.now().toString(), "Dummy status")); //todo clean up
+//            addItem(new Status(new User("firstN", "lastN", "ImageURL"),  System.currentTimeMillis(), "Dummy status"));
         }
 
         /**

@@ -9,7 +9,7 @@ import edu.byu.cs.tweeter.shared.model.domain.Status;
  */
 public class FeedResponse extends PagedResponse {
 
-    private List<Status> statuses;
+    public List<Status> statuses;
 
     /**
      * Creates a response indicating that the corresponding request was unsuccessful. Sets the
@@ -37,7 +37,11 @@ public class FeedResponse extends PagedResponse {
      *
      * @return the followees.
      */
-    public List<Status> getFeed() {
+    public List<Status> getStatuses() {
         return statuses;
+    }
+
+    public void setStatuses(List<Status> statuses) {
+        this.statuses = statuses;
     }
 }
