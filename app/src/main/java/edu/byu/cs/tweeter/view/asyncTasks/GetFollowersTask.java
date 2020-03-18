@@ -56,7 +56,6 @@ public class GetFollowersTask extends AsyncTask<FollowerRequest, Void, FollowerR
             loadImages(response);
         } catch (IOException e) {
             exception = e;
-
             e.printStackTrace();
         }
         return response;

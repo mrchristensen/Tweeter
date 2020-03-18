@@ -141,7 +141,8 @@ public class FeedFragment extends Fragment implements FeedPresenter.View, FindUs
             userImage.setImageDrawable(ImageCache.getInstance().getImageDrawable(status.getUser()));
             userAlias.setText(status.getUser().getAlias());
             userName.setText(status.getUser().getName());
-            date.setText(dtf.format(status.getDate()));
+//            date.setText(dtf.format(status.getDate())); //todo fix to do formatting again
+            date.setText(status.getDate().toString());
 
             CharSequence input = status.getMessageBody();
             SpannableStringBuilder builder = new SpannableStringBuilder(input);
@@ -354,7 +355,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View, FindUs
          */
         @Override
         public void feedRetrieved(FeedResponse feedResponse) {
-            List<Status> statuses = feedResponse.getFeed();
+            List<Status> statuses = feedResponse.getStatuses();
 
             lastStatus = (statuses.size() > 0) ? statuses.get(statuses.size() -1) : null;
             hasMorePages = feedResponse.hasMorePages();
@@ -370,7 +371,8 @@ public class FeedFragment extends Fragment implements FeedPresenter.View, FindUs
          */
         @SuppressLint("NewApi")
         private void addLoadingFooter() {
-            addItem(new Status(new User("firstN", "lastN", "ImageURL"), LocalDateTime.now(), "Dummy status"));
+            addItem(new Status(new User("firstN", "lastN", "ImageURL"), LocalDateTime.now().toString(), "Dummy status")); //todo clean up
+//            addItem(new Status(new User("firstN", "lastN", "ImageURL"),  System.currentTimeMillis(), "Dummy status"));
         }
 
         /**

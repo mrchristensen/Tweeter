@@ -19,6 +19,7 @@ public class GetFeedTask extends AsyncTask<FeedRequest, Void, FeedResponse> {
 
     private final FeedPresenter presenter;
     private final GetStatusesObserver observer;
+    private Exception exception;
 
     /**
      * An observer interface to be implemented by observers who want to be notified when this task
@@ -47,8 +48,14 @@ public class GetFeedTask extends AsyncTask<FeedRequest, Void, FeedResponse> {
      */
     @Override
     protected FeedResponse doInBackground(FeedRequest... feedRequests) {
-        FeedResponse response = presenter.getFeed(feedRequests[0]);
-        loadImages(response);
+        FeedResponse response = null;
+        try {
+            response = presenter.getFeed(feedRequests[0]);
+            loadImages(response);
+        } catch (IOException e) {
+            exception = e;
+            e.printStackTrace();
+        }
         return response;
     }
 
@@ -58,7 +65,7 @@ public class GetFeedTask extends AsyncTask<FeedRequest, Void, FeedResponse> {
      * @param response the response from the followee request.
      */
     private void loadImages(FeedResponse response) {
-        for(edu.byu.cs.tweeter.shared.model.domain.Status status : response.getFeed()) {
+        for(edu.byu.cs.tweeter.shared.model.domain.Status status : response.getStatuses()) {
 
             Drawable drawable;
 

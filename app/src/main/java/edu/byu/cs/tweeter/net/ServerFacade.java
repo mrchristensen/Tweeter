@@ -64,7 +64,8 @@ public class ServerFacade {
 
     @SuppressLint("NewApi")
     public void postStatus(User user, String statusMessage){
-        statusesByUser.get(user).add(new Status(user, LocalDateTime.now(), statusMessage));
+        statusesByUser.get(user).add(new Status(user, LocalDateTime.now().toString(), statusMessage)); //todo clean up
+//        statusesByUser.get(user).add(new Status(user, System.currentTimeMillis(), statusMessage));
     }
 
     public User registerUser(RegisterRequest request){
@@ -449,65 +450,68 @@ public class ServerFacade {
      *                other information required to satisfy the request.
      * @return the followees.
      */
-    public FeedResponse getFeed(FeedRequest request) {
+    public FeedResponse getFeed(FeedRequest request, String urlPath) throws IOException {
+        ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
+        return clientCommunicator.doPost(urlPath, request, null, FeedResponse.class);
 
-        // Used in place of assert statements because Android does not support them
-        if(BuildConfig.DEBUG) {
-            if(request.getLimit() < 0) {
-                throw new AssertionError();
-            }
-
-            if(request.getUser() == null) {
-                throw new AssertionError();
-            }
-        }
-
-        //Find all the people the user follows (find the followees of the user)
-        if(followeesByFollower == null) {
-            initializeFollowees();
-        }
-        List<User> allFollowees = followeesByFollower.get(request.getUser());
-
-        if(allFollowees == null){ //For generating fake data for the second user
-            initializeFollowees();
-            allFollowees = followeesByFollower.get(request.getUser());
-        }
-
-        Log.i(LOG_TAG, request.getUser().toString());
-
-        //Find all the followee's statuses
-        if(statusesByUser == null){
-            statusesByUser = new HashMap<>();
-        }
-        List<Status> allStatuses = new ArrayList<>();
-        for (User user : allFollowees) {
-            if (statusesByUser.get(user) == null) {
-                statusesByUser.putAll(initializeStatuses(user));
-            }
-
-            allStatuses.addAll(Objects.requireNonNull(statusesByUser.get(user)));
-        }
-
-        if (allStatuses != null) {
-            Collections.sort(allStatuses);
-        }
-        List<Status> responseStatuses = new ArrayList<>(request.getLimit());
-
-        boolean hasMorePages = false;
-
-        if(request.getLimit() > 0) {
-            if (allStatuses != null) {
-                int statusesIndex = getStatusesStartingIndex(request.getLastStatus(), allStatuses);
-
-                for(int limitCounter = 0; statusesIndex < allStatuses.size() && limitCounter < request.getLimit(); statusesIndex++, limitCounter++) {
-                    responseStatuses.add(allStatuses.get(statusesIndex));
-                }
-
-                hasMorePages = statusesIndex < allStatuses.size();
-            }
-        }
-
-        return new FeedResponse(responseStatuses, hasMorePages);
+        //OG CODE
+//        // Used in place of assert statements because Android does not support them
+//        if(BuildConfig.DEBUG) {
+//            if(request.getLimit() < 0) {
+//                throw new AssertionError();
+//            }
+//
+//            if(request.getUser() == null) {
+//                throw new AssertionError();
+//            }
+//        }
+//
+//        //Find all the people the user follows (find the followees of the user)
+//        if(followeesByFollower == null) {
+//            initializeFollowees();
+//        }
+//        List<User> allFollowees = followeesByFollower.get(request.getUser());
+//
+//        if(allFollowees == null){ //For generating fake data for the second user
+//            initializeFollowees();
+//            allFollowees = followeesByFollower.get(request.getUser());
+//        }
+//
+//        Log.i(LOG_TAG, request.getUser().toString());
+//
+//        //Find all the followee's statuses
+//        if(statusesByUser == null){
+//            statusesByUser = new HashMap<>();
+//        }
+//        List<Status> allStatuses = new ArrayList<>();
+//        for (User user : allFollowees) {
+//            if (statusesByUser.get(user) == null) {
+//                statusesByUser.putAll(initializeStatuses(user));
+//            }
+//
+//            allStatuses.addAll(Objects.requireNonNull(statusesByUser.get(user)));
+//        }
+//
+//        if (allStatuses != null) {
+//            Collections.sort(allStatuses);
+//        }
+//        List<Status> responseStatuses = new ArrayList<>(request.getLimit());
+//
+//        boolean hasMorePages = false;
+//
+//        if(request.getLimit() > 0) {
+//            if (allStatuses != null) {
+//                int statusesIndex = getStatusesStartingIndex(request.getLastStatus(), allStatuses);
+//
+//                for(int limitCounter = 0; statusesIndex < allStatuses.size() && limitCounter < request.getLimit(); statusesIndex++, limitCounter++) {
+//                    responseStatuses.add(allStatuses.get(statusesIndex));
+//                }
+//
+//                hasMorePages = statusesIndex < allStatuses.size();
+//            }
+//        }
+//
+//        return new FeedResponse(responseStatuses, hasMorePages);
     }
 
     /**
