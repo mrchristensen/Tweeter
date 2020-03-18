@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.byu.cs.tweeter.shared.model.domain.User;
+import edu.byu.cs.tweeter.shared.model.service.request.FollowRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowerRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowingRequest;
-import edu.byu.cs.tweeter.shared.model.service.request.FollowRequest;
+import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowerResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
-import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
 
 /**
  * A DAO for accessing 'follower' data from the database.
  */
-public class FollowerDAO {
+public class FollowDAO {
 
     private static final String FEMALE_IMAGE_URL = "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/daisy_duck.png";
 
@@ -30,6 +30,40 @@ public class FollowerDAO {
      */
     public FollowerResponse getFollowers(FollowerRequest request) {
         return new FollowerResponse(getNUsers(request.limit), true);
+    }
+
+    public FollowingResponse getFollowees(FollowingRequest request) {
+        return new FollowingResponse(getNUsers(request.limit), true);
+
+//        assert request.getLimit() > 0;
+////        assert request.getFollower() != null;
+////
+////        if(followeesByFollower == null) {
+////            followeesByFollower = initializeFollowees();
+////        }
+////
+////        List<User> allFollowees = followeesByFollower.get(request.getFollower());
+////        List<User> responseFollowees = new ArrayList<>(request.getLimit());
+////
+////        boolean hasMorePages = false;
+////
+////        if(request.getLimit() > 0) {
+////            if (allFollowees != null) {
+////                int followeesIndex = getFolloweesStartingIndex(request.getLastFollowee(), allFollowees);
+////
+////                for(int limitCounter = 0; followeesIndex < allFollowees.size() && limitCounter < request.getLimit(); followeesIndex++, limitCounter++) {
+////                    responseFollowees.add(allFollowees.get(followeesIndex));
+////                }
+////
+////                hasMorePages = followeesIndex < allFollowees.size();
+////            }
+////        }
+////
+////        return new FollowingResponse(responseFollowees, hasMorePages);
+    }
+
+    public FollowResponse getFollow(FollowRequest request){
+        return new FollowResponse(true, request.getUser1(), request.getUser2());
     }
 
     private List<User> getNUsers(int n){

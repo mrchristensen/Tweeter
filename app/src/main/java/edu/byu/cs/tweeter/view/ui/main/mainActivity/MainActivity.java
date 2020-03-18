@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
                 View view = findViewById(android.R.id.content);
                 Log.i(LOG_TAG, "New status post: " + statusMessage);
 
-                new ServerFacade().postStatus(presenter.getCurrentUser(), statusMessage);
+                new ServerFacade().postStatus(presenter.getCurrentUser(), statusMessage); //todo make this async
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
                 View view = findViewById(android.R.id.content);
                 Log.i(LOG_TAG, "Searched for: " + searchInput);
 
-                User user = new ServerFacade().findUser(searchInput);
+                User user = new ServerFacade().findUser(searchInput); //todo make this async
                 if(user != null){
                     startStoryViewActivity(view, searchInput);
                 }

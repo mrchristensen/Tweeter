@@ -34,7 +34,7 @@ public class StoryService {
      * cannot be instantiated by external classes).
      */
     private StoryService() {
-        serverFacade = new ServerFacade();
+        serverFacade = new ServerFacade(); //todo make this async
     }
 
     /**
@@ -47,6 +47,6 @@ public class StoryService {
      * @return the followees.
      */
     public StoryResponse getStory(StoryRequest request) {
-        return serverFacade.getStory(request);
+        return serverFacade.getStory(request); //todo make this async
     }
 }

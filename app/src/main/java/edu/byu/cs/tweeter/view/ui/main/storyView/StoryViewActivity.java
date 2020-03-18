@@ -19,18 +19,24 @@ import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.presenter.StoryViewPresenter;
+import edu.byu.cs.tweeter.shared.model.service.request.FollowRequest;
+import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
+import edu.byu.cs.tweeter.view.asyncTasks.GetFollowTask;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadImageTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
 
 /**
  * The main activity for the application. Contains tabs for story, following, and followers.
  */
-public class StoryViewActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, StoryViewPresenter.View {
+public class StoryViewActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, StoryViewPresenter.View, GetFollowTask.GetFollowObserver {
     private static final String LOG_TAG = "StoryViewActivity";
 
     private StoryViewPresenter presenter;
     private User user;
     private ImageView userImageView;
+    private Button followButton;
+    private boolean isFollowing;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,31 +63,28 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
                     .setAction("Action", null).show();
         }
 
-        final Button followButton = findViewById(R.id.button_follow);
+        followButton = findViewById(R.id.button_follow);
         if(presenter.getCurrentUser().equals(user)){
             followButton.setVisibility(View.GONE);
             followButton.setEnabled(false);
         }
-        if(new ServerFacade().userFollows(presenter.getCurrentUser(), user)){
-            followButton.setText("Following");
-        }
-        else{
-            followButton.setText("Follow");
-        }
 
+        checkUserFollows(); //To update the button with the right text
 
         followButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ServerFacade serverFacade = new ServerFacade();
-                if(serverFacade.userFollows(presenter.getCurrentUser(), user)){
+                if(isFollowing){
                     //Remove following relation
-                    serverFacade.removeFollowing(user, presenter.getCurrentUser());
-                    followButton.setText("Follow");
+                    serverFacade.removeFollowing(user, presenter.getCurrentUser()); //todo make this async
+                    followButton.setText(R.string.Follow);
+                    isFollowing = false;
                 }
                 else{
                     //Add following relation
-                    serverFacade.addFollowing(user, presenter.getCurrentUser());
-                    followButton.setText("Following");
+                    serverFacade.addFollowing(user, presenter.getCurrentUser()); //todo make this async
+                    followButton.setText(R.string.Following);
+                    isFollowing = true;
                 }
             }
         });
@@ -97,10 +100,17 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
         userAlias.setText(user.getAlias());
     }
 
+    private void checkUserFollows() {
+        GetFollowTask getFollowTask = new GetFollowTask(presenter, this);
+
+        FollowRequest request = new FollowRequest(presenter.getCurrentUser().getAlias(), user.getAlias());
+        getFollowTask.execute(request);
+    }
+
     public void startStoryViewFragment(View view, String userAlias){
         Intent storyViewActivityIntent = new Intent(view.getContext(), StoryViewActivity.class);
 
-        User user = new ServerFacade().findUser(userAlias);
+        User user = new ServerFacade().findUser(userAlias); //todo make this async
         storyViewActivityIntent.putExtra("user", user);
         storyViewActivityIntent.putExtra("activity", "storyViewActivity");
         startActivity(storyViewActivityIntent);
@@ -123,6 +133,18 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
 
         if(drawables[0] != null) {
             userImageView.setImageDrawable(drawables[0]);
+        }
+    }
+
+    @Override
+    public void followRetrieved(FollowResponse followResponse) {
+        if(followResponse.isFollows()){
+            followButton.setText("Following");
+            isFollowing = true;
+        }
+        else{
+            followButton.setText("Follow");
+            isFollowing = false;
         }
     }
 }

@@ -17,12 +17,14 @@ import edu.byu.cs.tweeter.shared.model.domain.Follow;
 import edu.byu.cs.tweeter.shared.model.domain.Status;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
+import edu.byu.cs.tweeter.shared.model.service.request.FollowRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowerRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowingRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.LoginRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.StoryRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FeedResponse;
+import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowerResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.LoginResponse;
@@ -558,6 +560,11 @@ public class ServerFacade {
     public RegisterResponse getRegister(RegisterRequest request, String urlPath) throws IOException {
         ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
         return clientCommunicator.doPost(urlPath, request, null, RegisterResponse.class);
+    }
+
+    public FollowResponse getFollow(FollowRequest request, String urlPath) throws IOException {
+        ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
+        return clientCommunicator.doGet(urlPath, null, FollowResponse.class);
     }
 
     public static void setCurrentUser(User currentUser) {
