@@ -28,6 +28,9 @@ public class StoryRequest {
         this.lastStatus = lastStatus;
     }
 
+    public StoryRequest() {
+    }
+
     /**
      * Returns the follower whose followees are to be returned by this request.
      *

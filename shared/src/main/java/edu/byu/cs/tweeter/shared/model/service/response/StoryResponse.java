@@ -9,7 +9,7 @@ import edu.byu.cs.tweeter.shared.model.domain.Status;
  */
 public class StoryResponse extends PagedResponse {
 
-    private List<Status> statuses;
+    public List<Status> statuses;
 
     /**
      * Creates a response indicating that the corresponding request was unsuccessful. Sets the
