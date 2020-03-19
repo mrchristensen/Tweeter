@@ -10,18 +10,24 @@ import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowerRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowingRequest;
+import edu.byu.cs.tweeter.shared.model.service.request.StoryRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FeedResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowerResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
+import edu.byu.cs.tweeter.shared.model.service.response.StoryResponse;
 
 /**
  * A DAO for accessing 'follower' data from the database.
  */
-public class FeedDAO {
+public class StatusDAO {
 
     public FeedResponse getFeed(FeedRequest request){
-        return new FeedResponse(getNStatuses(request.getLimit(), request.getUser()), true);
+        return new FeedResponse(getNStatuses(request.getLimit(), request.getUser()), true); //todo make this not the current user
+    }
+
+    public StoryResponse getStory(StoryRequest request){
+        return new StoryResponse(getNStatuses(request.getLimit(), request.getUser()), true);
     }
 
     private List<Status> getNStatuses(int n, User user){

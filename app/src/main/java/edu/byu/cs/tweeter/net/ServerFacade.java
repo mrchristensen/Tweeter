@@ -396,48 +396,51 @@ public class ServerFacade {
      *                other information required to satisfy the request.
      * @return the followees.
      */
-    public StoryResponse getStory(StoryRequest request) {
+    public StoryResponse getStory(StoryRequest request, String urlPath) throws IOException {
+        ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
+        return clientCommunicator.doPost(urlPath, request, null, StoryResponse.class);
 
-        // Used in place of assert statements because Android does not support them
-        if(BuildConfig.DEBUG) {
-            if(request.getLimit() < 0) {
-                throw new AssertionError();
-            }
-
-            if(request.getUser() == null) {
-                throw new AssertionError();
-            }
-        }
-
-        if(statusesByUser == null){
-            statusesByUser = new HashMap<>();
-        }
-
-        if(statusesByUser.get(request.getUser()) == null) {
-            statusesByUser.putAll(initializeStatuses(request.getUser()));
-        }
-
-        List<Status> allStatuses = statusesByUser.get(request.getUser());
-        if (allStatuses != null) {
-            Collections.sort(allStatuses);
-        }
-        List<Status> responseStatuses = new ArrayList<>(request.getLimit());
-
-        boolean hasMorePages = false;
-
-        if(request.getLimit() > 0) {
-            if (allStatuses != null) {
-                int statusesIndex = getStatusesStartingIndex(request.getLastStatus(), allStatuses);
-
-                for(int limitCounter = 0; statusesIndex < allStatuses.size() && limitCounter < request.getLimit(); statusesIndex++, limitCounter++) {
-                    responseStatuses.add(allStatuses.get(statusesIndex));
-                }
-
-                hasMorePages = statusesIndex < allStatuses.size();
-            }
-        }
-
-        return new StoryResponse(responseStatuses, hasMorePages);
+        //old code
+//        // Used in place of assert statements because Android does not support them
+//        if(BuildConfig.DEBUG) {
+//            if(request.getLimit() < 0) {
+//                throw new AssertionError();
+//            }
+//
+//            if(request.getUser() == null) {
+//                throw new AssertionError();
+//            }
+//        }
+//
+//        if(statusesByUser == null){
+//            statusesByUser = new HashMap<>();
+//        }
+//
+//        if(statusesByUser.get(request.getUser()) == null) {
+//            statusesByUser.putAll(initializeStatuses(request.getUser()));
+//        }
+//
+//        List<Status> allStatuses = statusesByUser.get(request.getUser());
+//        if (allStatuses != null) {
+//            Collections.sort(allStatuses);
+//        }
+//        List<Status> responseStatuses = new ArrayList<>(request.getLimit());
+//
+//        boolean hasMorePages = false;
+//
+//        if(request.getLimit() > 0) {
+//            if (allStatuses != null) {
+//                int statusesIndex = getStatusesStartingIndex(request.getLastStatus(), allStatuses);
+//
+//                for(int limitCounter = 0; statusesIndex < allStatuses.size() && limitCounter < request.getLimit(); statusesIndex++, limitCounter++) {
+//                    responseStatuses.add(allStatuses.get(statusesIndex));
+//                }
+//
+//                hasMorePages = statusesIndex < allStatuses.size();
+//            }
+//        }
+//
+//        return new StoryResponse(responseStatuses, hasMorePages);
     }
 
     /**

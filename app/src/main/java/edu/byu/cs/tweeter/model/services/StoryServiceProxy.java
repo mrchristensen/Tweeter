@@ -1,5 +1,7 @@
 package edu.byu.cs.tweeter.model.services;
 
+import java.io.IOException;
+
 import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.shared.model.service.request.StoryRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.StoryResponse;
@@ -7,23 +9,26 @@ import edu.byu.cs.tweeter.shared.model.service.response.StoryResponse;
 /**
  * Contains the business logic for getting the users a user is following.
  */
-public class StoryService {
+public class StoryServiceProxy {
 
     /**
      * The singleton instance.
      */
-    private static StoryService instance;
+    private static StoryServiceProxy instance;
 
     private final ServerFacade serverFacade;
+
+    private static final String URL_PATH = "/getstory";
+
 
     /**
      * Return the singleton instance of this class.
      *
      * @return the instance.
      */
-    public static StoryService getInstance() {
+    public static StoryServiceProxy getInstance() {
         if(instance == null) {
-            instance = new StoryService();
+            instance = new StoryServiceProxy();
         }
 
         return instance;
@@ -33,8 +38,8 @@ public class StoryService {
      * A private constructor created to ensure that this class is a singleton (i.e. that it
      * cannot be instantiated by external classes).
      */
-    private StoryService() {
-        serverFacade = new ServerFacade(); //todo make this async
+    private StoryServiceProxy() {
+        serverFacade = new ServerFacade();
     }
 
     /**
@@ -46,7 +51,7 @@ public class StoryService {
      * @param request contains the data required to fulfill the request.
      * @return the followees.
      */
-    public StoryResponse getStory(StoryRequest request) {
-        return serverFacade.getStory(request); //todo make this async
+    public StoryResponse getStory(StoryRequest request) throws IOException {
+        return serverFacade.getStory(request, URL_PATH);
     }
 }

@@ -2,6 +2,8 @@ package edu.byu.cs.tweeter.view.asyncTasks;
 
 import android.os.AsyncTask;
 
+import java.io.IOException;
+
 import edu.byu.cs.tweeter.shared.model.service.request.StoryRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.StoryResponse;
 import edu.byu.cs.tweeter.presenter.StoryPresenter;
@@ -13,6 +15,8 @@ public class GetStoryTask extends AsyncTask<StoryRequest, Void, StoryResponse> {
 
     private final StoryPresenter presenter;
     private final GetStatusesObserver observer;
+
+    private Exception exception;
 
     /**
      * An observer interface to be implemented by observers who want to be notified when this task
@@ -41,7 +45,13 @@ public class GetStoryTask extends AsyncTask<StoryRequest, Void, StoryResponse> {
      */
     @Override
     protected StoryResponse doInBackground(StoryRequest... storyRequests) {
-        StoryResponse response = presenter.getStory(storyRequests[0]);
+        StoryResponse response = null;
+        try {
+            response = presenter.getStory(storyRequests[0]);
+        } catch (IOException e) {
+            exception = e;
+            e.printStackTrace();
+        }
         return response;
     }
 
