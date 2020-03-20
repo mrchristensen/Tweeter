@@ -3,9 +3,7 @@ package edu.byu.cs.tweeter.shared.model.service;
 import java.io.IOException;
 
 import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
-import edu.byu.cs.tweeter.shared.model.service.request.FollowerRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FeedResponse;
-import edu.byu.cs.tweeter.shared.model.service.response.FollowerResponse;
 
 /**
  * Defines the interface for the 'following' service.

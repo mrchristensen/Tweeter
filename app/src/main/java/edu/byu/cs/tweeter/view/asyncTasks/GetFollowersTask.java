@@ -7,18 +7,18 @@ import android.util.Log;
 import java.io.IOException;
 
 import edu.byu.cs.tweeter.shared.model.domain.User;
-import edu.byu.cs.tweeter.shared.model.service.request.FollowerRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.FollowerResponse;
-import edu.byu.cs.tweeter.presenter.FollowerPresenter;
+import edu.byu.cs.tweeter.shared.model.service.request.FollowersRequest;
+import edu.byu.cs.tweeter.shared.model.service.response.FollowersResponse;
+import edu.byu.cs.tweeter.presenter.FollowersPresenter;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
 import edu.byu.cs.tweeter.view.util.ImageUtils;
 
 /**
  * An {@link AsyncTask} for retrieving followews for a user.
  */
-public class GetFollowersTask extends AsyncTask<FollowerRequest, Void, FollowerResponse> {
+public class GetFollowersTask extends AsyncTask<FollowersRequest, Void, FollowersResponse> {
 
-    private final FollowerPresenter presenter;
+    private final FollowersPresenter presenter;
     private final GetFollowersObserver observer;
 
     private Exception exception;
@@ -28,7 +28,7 @@ public class GetFollowersTask extends AsyncTask<FollowerRequest, Void, FollowerR
      * completes.
      */
     public interface GetFollowersObserver {
-        void followersRetrieved(FollowerResponse followerResponse);
+        void followersRetrieved(FollowersResponse followersResponse);
     }
 
     /**
@@ -37,7 +37,7 @@ public class GetFollowersTask extends AsyncTask<FollowerRequest, Void, FollowerR
      * @param presenter the presenter from whom this task should retrieve followews.
      * @param observer the observer who wants to be notified when this task completes.
      */
-    public GetFollowersTask(FollowerPresenter presenter, GetFollowersObserver observer) {
+    public GetFollowersTask(FollowersPresenter presenter, GetFollowersObserver observer) {
         this.presenter = presenter;
         this.observer = observer;
     }
@@ -45,14 +45,14 @@ public class GetFollowersTask extends AsyncTask<FollowerRequest, Void, FollowerR
     /**
      * The method that is invoked on the background thread to retrieve followews.
      *
-     * @param followerRequests the request object (there will only be one).
+     * @param followersRequests the request object (there will only be one).
      * @return the response.
      */
     @Override
-    protected FollowerResponse doInBackground(FollowerRequest... followerRequests) {
-        FollowerResponse response = null;
+    protected FollowersResponse doInBackground(FollowersRequest... followersRequests) {
+        FollowersResponse response = null;
         try {
-            response = presenter.getFollowers(followerRequests[0]);
+            response = presenter.getFollowers(followersRequests[0]);
             loadImages(response);
         } catch (IOException e) {
             exception = e;
@@ -66,7 +66,7 @@ public class GetFollowersTask extends AsyncTask<FollowerRequest, Void, FollowerR
      *
      * @param response the response from the follower request.
      */
-    private void loadImages(FollowerResponse response) {
+    private void loadImages(FollowersResponse response) {
         for(User user : response.getFollowers()) {
 
             Drawable drawable;
@@ -85,13 +85,13 @@ public class GetFollowersTask extends AsyncTask<FollowerRequest, Void, FollowerR
     /**
      * Notifies the observer (on the UI thread) when the task completes.
      *
-     * @param followerResponse the response that was received by the task.
+     * @param followersResponse the response that was received by the task.
      */
     @Override
-    protected void onPostExecute(FollowerResponse followerResponse) {
+    protected void onPostExecute(FollowersResponse followersResponse) {
 
         if(observer != null) {
-            observer.followersRetrieved(followerResponse);
+            observer.followersRetrieved(followersResponse);
         }
     }
 }
