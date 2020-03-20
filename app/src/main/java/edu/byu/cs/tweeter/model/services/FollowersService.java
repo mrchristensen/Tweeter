@@ -7,12 +7,12 @@
 ///**
 // * Contains the business logic for getting the users a user is following.
 // */
-//public class FollowerService {
+//public class FollowersService {
 //
 //    /**
 //     * The singleton instance.
 //     */
-//    private static FollowerService instance;
+//    private static FollowersService instance;
 //
 //    private final ServerFacade serverFacade;
 //
@@ -21,9 +21,9 @@
 //     *
 //     * @return the instance.
 //     */
-//    public static FollowerService getInstance() {
+//    public static FollowersService getInstance() {
 //        if(instance == null) {
-//            instance = new FollowerService();
+//            instance = new FollowersService();
 //        }
 //
 //        return instance;
@@ -33,7 +33,7 @@
 //     * A private constructor created to ensure that this class is a singleton (i.e. that it
 //     * cannot be instantiated by external classes).
 //     */
-//    private FollowerService() {
+//    private FollowersService() {
 //        serverFacade = new ServerFacade();
 //    }
 //

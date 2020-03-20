@@ -1,17 +1,14 @@
 package edu.byu.cs.tweeter.server.dao;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import edu.byu.cs.tweeter.shared.model.domain.Follow;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowRequest;
-import edu.byu.cs.tweeter.shared.model.service.request.FollowerRequest;
+import edu.byu.cs.tweeter.shared.model.service.request.FollowersRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowingRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
-import edu.byu.cs.tweeter.shared.model.service.response.FollowerResponse;
+import edu.byu.cs.tweeter.shared.model.service.response.FollowersResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
 
 /**
@@ -32,8 +29,8 @@ public class FollowDAO {
      *                other information required to satisfy the request.
      * @return the followers.
      */
-    public FollowerResponse getFollowers(FollowerRequest request) {
-        return new FollowerResponse(getNUsers(request.limit), true);
+    public FollowersResponse getFollowers(FollowersRequest request) {
+        return new FollowersResponse(getNUsers(request.limit), true);
     }
 
     public FollowingResponse getFollowees(FollowingRequest request) {

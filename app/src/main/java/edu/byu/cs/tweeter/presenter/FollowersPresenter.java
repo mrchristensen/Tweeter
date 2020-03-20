@@ -2,17 +2,15 @@ package edu.byu.cs.tweeter.presenter;
 
 import java.io.IOException;
 
-import edu.byu.cs.tweeter.model.services.FollowerServiceProxy;
-import edu.byu.cs.tweeter.model.services.FollowingServiceProxy;
-import edu.byu.cs.tweeter.shared.model.service.FollowerService;
-import edu.byu.cs.tweeter.shared.model.service.FollowingService;
-import edu.byu.cs.tweeter.shared.model.service.request.FollowerRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.FollowerResponse;
+import edu.byu.cs.tweeter.model.services.FollowersServiceProxy;
+import edu.byu.cs.tweeter.shared.model.service.FollowersService;
+import edu.byu.cs.tweeter.shared.model.service.request.FollowersRequest;
+import edu.byu.cs.tweeter.shared.model.service.response.FollowersResponse;
 
 /**
  * The presenter for the "following" functionality of the application.
  */
-public class FollowerPresenter extends Presenter {
+public class FollowersPresenter extends Presenter {
 
     private final View view;
 
@@ -28,7 +26,7 @@ public class FollowerPresenter extends Presenter {
      *
      * @param view the view for which this class is the presenter.
      */
-    public FollowerPresenter(View view) {
+    public FollowersPresenter(View view) {
         this.view = view;
     }
 
@@ -40,8 +38,8 @@ public class FollowerPresenter extends Presenter {
      * @param request contains the data required to fulfill the request.
      * @return the followees.
      */
-    public FollowerResponse getFollowers(FollowerRequest request) throws IOException {
-        FollowerService service = new FollowerServiceProxy();
+    public FollowersResponse getFollowers(FollowersRequest request) throws IOException {
+        FollowersService service = new FollowersServiceProxy();
         return service.getFollowers(request);
     }
 }

@@ -21,9 +21,9 @@ import java.util.Objects;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.shared.model.domain.User;
-import edu.byu.cs.tweeter.shared.model.service.request.FollowerRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.FollowerResponse;
-import edu.byu.cs.tweeter.presenter.FollowerPresenter;
+import edu.byu.cs.tweeter.shared.model.service.request.FollowersRequest;
+import edu.byu.cs.tweeter.shared.model.service.response.FollowersResponse;
+import edu.byu.cs.tweeter.presenter.FollowersPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFollowersTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
 import edu.byu.cs.tweeter.view.ui.main.mainActivity.MainActivity;
@@ -32,14 +32,14 @@ import edu.byu.cs.tweeter.view.ui.main.storyView.StoryViewActivity;
 /**
  * The fragment that displays on the 'Following' tab.
  */
-public class FollowersFragment extends Fragment implements FollowerPresenter.View {
+public class FollowersFragment extends Fragment implements FollowersPresenter.View {
 
     private static final int LOADING_DATA_VIEW = 0;
     private static final int ITEM_VIEW = 1;
 
     private static final int PAGE_SIZE = 10;
 
-    private FollowerPresenter presenter;
+    private FollowersPresenter presenter;
 
     private FollowerRecyclerViewAdapter followerRecyclerViewAdapter;
 
@@ -48,7 +48,7 @@ public class FollowersFragment extends Fragment implements FollowerPresenter.Vie
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_followers, container, false);
 
-        presenter = new FollowerPresenter(this);
+        presenter = new FollowersPresenter(this);
 
         RecyclerView followerRecyclerView = view.findViewById(R.id.followerRecyclerView);
 
@@ -232,7 +232,7 @@ public class FollowersFragment extends Fragment implements FollowerPresenter.Vie
             else{
                 user = presenter.getCurrentUser();
             }
-            FollowerRequest request = new FollowerRequest(user, PAGE_SIZE, lastFollower);
+            FollowersRequest request = new FollowersRequest(user, PAGE_SIZE, lastFollower);
             getFollowersTask.execute(request);
         }
 
@@ -240,14 +240,14 @@ public class FollowersFragment extends Fragment implements FollowerPresenter.Vie
          * A callback indicating more following data has been received. Loads the new followees
          * and removes the loading footer.
          *
-         * @param followerResponse the asynchronous response to the request to load more items.
+         * @param followersResponse the asynchronous response to the request to load more items.
          */
         @Override
-        public void followersRetrieved(FollowerResponse followerResponse) {
-            List<User> followers = followerResponse.getFollowers();
+        public void followersRetrieved(FollowersResponse followersResponse) {
+            List<User> followers = followersResponse.getFollowers();
 
             lastFollower = (followers.size() > 0) ? followers.get(followers.size() -1) : null;
-            hasMorePages = followerResponse.hasMorePages();
+            hasMorePages = followersResponse.hasMorePages();
 
             isLoading = false;
             removeLoadingFooter();

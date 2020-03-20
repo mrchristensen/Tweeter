@@ -2,15 +2,13 @@ package edu.byu.cs.tweeter.shared.model.service;
 
 import java.io.IOException;
 
-import edu.byu.cs.tweeter.shared.model.service.request.FollowerRequest;
-import edu.byu.cs.tweeter.shared.model.service.request.FollowingRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.FollowerResponse;
-import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
+import edu.byu.cs.tweeter.shared.model.service.request.FollowersRequest;
+import edu.byu.cs.tweeter.shared.model.service.response.FollowersResponse;
 
 /**
- * Defines the interface for the 'following' service.
+ * Defines the interface for the 'followers' service.
  */
-public interface FollowerService {
+public interface FollowersService {
 
     /**
      * Returns the users that the user specified in the request is following. Uses information in
@@ -20,5 +18,5 @@ public interface FollowerService {
      * @param request contains the data required to fulfill the request.
      * @return the followers.
      */
-    FollowerResponse getFollowers(FollowerRequest request) throws IOException;
+    FollowersResponse getFollowers(FollowersRequest request) throws IOException;
 }

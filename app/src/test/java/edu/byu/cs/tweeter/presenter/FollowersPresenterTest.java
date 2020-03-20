@@ -11,12 +11,12 @@ import java.util.List;
 import edu.byu.cs.tweeter.shared.model.domain.Follow;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.net.ServerFacade;
-import edu.byu.cs.tweeter.shared.model.service.request.FollowerRequest;
+import edu.byu.cs.tweeter.shared.model.service.request.FollowersRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.FollowerResponse;
+import edu.byu.cs.tweeter.shared.model.service.response.FollowersResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
 
-class FollowerPresenterTest implements RegisterPresenter.View, FollowerPresenter.View {
+class FollowersPresenterTest implements RegisterPresenter.View, FollowersPresenter.View {
 
     private final User user1 = new User("Dafney", "Daffy", "test", "");
     private final User user2 = new User("Fred", "Flintstone", "");
@@ -57,13 +57,13 @@ class FollowerPresenterTest implements RegisterPresenter.View, FollowerPresenter
             follow16);
 
     private RegisterPresenter presenter;
-    private FollowerPresenter followerPresenter;
+    private FollowersPresenter followersPresenter;
 
 
     @BeforeEach
     void setup() {
         presenter = new RegisterPresenter(this);
-        followerPresenter = new FollowerPresenter(this);
+        followersPresenter = new FollowersPresenter(this);
     }
 
     @AfterEach
@@ -82,11 +82,11 @@ class FollowerPresenterTest implements RegisterPresenter.View, FollowerPresenter
 
         ServerFacade.setCurrentUser(new User("f", "l", "username1", ""));
 
-        FollowerRequest followerRequest = new FollowerRequest(new User("f", "l", "username1", ""), 1, null);
-        FollowerResponse followerResponse = followerPresenter.getFollowers(followerRequest);
+        FollowersRequest followersRequest = new FollowersRequest(new User("f", "l", "username1", ""), 1, null);
+        FollowersResponse followersResponse = followersPresenter.getFollowers(followersRequest);
 
-        Assertions.assertNotNull(followerResponse);
-        Assertions.assertTrue(followerResponse.isSuccess());
+        Assertions.assertNotNull(followersResponse);
+        Assertions.assertTrue(followersResponse.isSuccess());
     }
 
     @Test
@@ -101,10 +101,10 @@ class FollowerPresenterTest implements RegisterPresenter.View, FollowerPresenter
 
         ServerFacade.setCurrentUser(new User("f", "l", "username4", ""));
 
-        FollowerRequest followerRequest = new FollowerRequest(new User("f", "l", "username3", ""), 1, null);
-        FollowerResponse followerResponse = followerPresenter.getFollowers(followerRequest);
+        FollowersRequest followersRequest = new FollowersRequest(new User("f", "l", "username3", ""), 1, null);
+        FollowersResponse followersResponse = followersPresenter.getFollowers(followersRequest);
 
-        Assertions.assertNotNull(followerResponse);
-        Assertions.assertFalse(followerResponse.getFollowers().size() < 0);
+        Assertions.assertNotNull(followersResponse);
+        Assertions.assertFalse(followersResponse.getFollowers().size() < 0);
     }
 }
