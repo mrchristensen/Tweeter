@@ -25,9 +25,12 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import edu.byu.cs.tweeter.R;
+import edu.byu.cs.tweeter.presenter.FindUserPresenter;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.presenter.MainPresenter;
+import edu.byu.cs.tweeter.shared.model.service.request.FindUserRequest;
+import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
 import edu.byu.cs.tweeter.view.asyncTasks.FindUserTask;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadImageTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
@@ -37,23 +40,28 @@ import edu.byu.cs.tweeter.view.ui.start.startActivity.StartActivity;
 /**
  * The main activity for the application. Contains tabs for feed, story, following, and followers.
  */
-public class MainActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, FindUserTask.FindUserObserver, MainPresenter.View, View.OnCreateContextMenuListener {
+public class MainActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, FindUserTask.FindUserObserver, MainPresenter.View, View.OnCreateContextMenuListener, FindUserPresenter.View {
     private static final String LOG_TAG = "MainActivity";
 
     private MainPresenter presenter;
+    private FindUserPresenter findUserPresenter;
     private User user;
     private ImageView userImageView;
     private View storyView;
+    private MainActivity mainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mainActivity = this;
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         presenter = new MainPresenter(this);
+        findUserPresenter = new FindUserPresenter(this);
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
@@ -125,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
                 View view = findViewById(android.R.id.content);
                 Log.i(LOG_TAG, "New status post: " + statusMessage);
 
-                new ServerFacade().postStatus(presenter.getCurrentUser(), statusMessage); //todo make this async
+                postStatus(statusMessage);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -136,6 +144,10 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         });
 
         builder.show();
+    }
+
+    private void postStatus(String statusMessage) {
+        new ServerFacade().postStatus(presenter.getCurrentUser(), statusMessage); //todo make this async (new PutStatusTask)
     }
 
     private void search() {
@@ -156,14 +168,17 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
                 View view = findViewById(android.R.id.content);
                 Log.i(LOG_TAG, "Searched for: " + searchInput);
 
-                User user = new ServerFacade().findUser(searchInput); //todo make this async
-                if(user != null){
-                    startStoryViewActivity(view, searchInput);
-                }
-                else{
-                    Snackbar.make(view, "The user: \"" + searchInput + "\", does not exit.",
-                            Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                }
+
+                startStoryViewActivity(view, searchInput);
+
+//                User user = new ServerFacade().findUser(); //todo make this async
+//                if(user != null){
+//                    startStoryViewActivity(view, searchInput);
+//                }
+//                else{
+//                    Snackbar.make(view, "The user: \"" + searchInput + "\", does not exit.",
+//                            Snackbar.LENGTH_LONG).setAction("Action", null).show();
+//                }
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -185,8 +200,10 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
     public void startStoryViewActivity(View view, String userAlias){
         storyView = view;
 
-        FindUserTask findUserTask = new FindUserTask(this);
-        findUserTask.execute(userAlias);
+        FindUserTask findUserTask = new FindUserTask(findUserPresenter, this);
+
+        FindUserRequest request = new FindUserRequest(userAlias);
+        findUserTask.execute(request);
     }
 
     @Override
@@ -210,10 +227,19 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
     }
 
     @Override
-    public void getUser(User user) {
-        Intent storyViewActivityIntent = new Intent(storyView.getContext(), StoryViewActivity.class);
-        storyViewActivityIntent.putExtra("user", user);
-        storyViewActivityIntent.putExtra("activity", "storyViewActivity");
-        startActivity(storyViewActivityIntent);
+    public void getUser(FindUserResponse response) {
+        if(response.isSuccessful()){
+            User user = response.getUser();
+            Intent storyViewActivityIntent = new Intent(storyView.getContext(), StoryViewActivity.class);
+            storyViewActivityIntent.putExtra("user", user);
+            storyViewActivityIntent.putExtra("activity", "storyViewActivity");
+            startActivity(storyViewActivityIntent);
+        }
+        else {
+            View view = findViewById(android.R.id.content);
+
+            Snackbar.make(view, "The user: \"" + response.getUserAlias() + "\", does not exit.",
+                    Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        }
     }
 }

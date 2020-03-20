@@ -21,6 +21,7 @@ import edu.byu.cs.tweeter.shared.model.service.request.LoginRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.StoryRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FeedResponse;
+import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowersResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
@@ -44,19 +45,23 @@ public class ServerFacade {
     private static User currentUser;
 
     //
-    public User findUser(String userAlias){
-        //Hardcoded user:
-        User dummyUser = new User("Test", "User", "@test", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
-        if(!allUsers.contains(dummyUser)){
-            allUsers.add(dummyUser);
-        }
+    public FindUserResponse findUser(String urlPath) throws IOException {
+        //Hardcoded user: //todo cleanup
+//        User dummyUser = new User("Test", "User", "@test", "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png");
+//        if(!allUsers.contains(dummyUser)){
+//            allUsers.add(dummyUser);
+//        }
+//
+//        for (User user : allUsers) {
+//            if(user.getAlias().equals(userAlias)){
+//                return user;
+//            }
+//        }
+//        return null;
 
-        for (User user : allUsers) {
-            if(user.getAlias().equals(userAlias)){
-                return user;
-            }
-        }
-        return null;
+        ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
+        return clientCommunicator.doGet(urlPath, null, FindUserResponse.class);
+
     }
 
     @SuppressLint("NewApi")
@@ -65,23 +70,23 @@ public class ServerFacade {
 //        statusesByUser.get(user).add(new Status(user, System.currentTimeMillis(), statusMessage));
     }
 
-    public User registerUser(RegisterRequest request){
-
-        if(findUser(request.getAlias()) != null){
-            return null; //There already exists such a user
-        }
-
-        User newUser = new User(request.getFistName(), request.getLastName(), "@" + request.getAlias(), request.getProfileImageURL());
-
-        if(!allUsers.contains(newUser)){
-            allUsers.add(newUser);
-        }
-        else{
-            return null; //There already exists such a user
-        }
-
-        return newUser;
-    }
+//    public User registerUser(RegisterRequest request){
+//
+//        if(findUser(request.getAlias()) != null){
+//            return null; //There already exists such a user
+//        }
+//
+//        User newUser = new User(request.getFistName(), request.getLastName(), "@" + request.getAlias(), request.getProfileImageURL());
+//
+//        if(!allUsers.contains(newUser)){
+//            allUsers.add(newUser);
+//        }
+//        else{
+//            return null; //There already exists such a user
+//        }
+//
+//        return newUser;
+//    }
 
     //
     public boolean userFollows(User follower, User followee){
@@ -101,7 +106,7 @@ public class ServerFacade {
         Log.i("test","test");
     }
 
-    //Following
+    //Following //todo cleanup
 //OG
 //    /**
 //     * Returns the users that the user specified in the request is following. Uses information in

@@ -34,9 +34,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.byu.cs.tweeter.R;
+import edu.byu.cs.tweeter.presenter.FindUserPresenter;
 import edu.byu.cs.tweeter.shared.model.domain.Status;
 import edu.byu.cs.tweeter.shared.model.domain.User;
+import edu.byu.cs.tweeter.shared.model.service.request.FindUserRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.StoryRequest;
+import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.StoryResponse;
 import edu.byu.cs.tweeter.presenter.StoryPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.FindUserTask;
@@ -48,7 +51,7 @@ import edu.byu.cs.tweeter.view.ui.main.storyView.StoryViewActivity;
 /**
  * The fragment that displays on the 'Story' tab.
  */
-public class StoryFragment extends Fragment implements StoryPresenter.View, FindUserTask.FindUserObserver {
+public class StoryFragment extends Fragment implements StoryPresenter.View, FindUserTask.FindUserObserver, FindUserPresenter.View {
 
     private static final int LOADING_DATA_VIEW = 0;
     private static final int ITEM_VIEW = 1;
@@ -57,6 +60,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View, Find
 
     private StoryPresenter presenter;
     private StoryFragment fragment;
+    private FindUserPresenter findUserPresenter;
 
     private StoryRecyclerViewAdapter storyRecyclerViewAdapter;
 
@@ -66,6 +70,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View, Find
         View view = inflater.inflate(R.layout.fragment_story, container, false);
 
         presenter = new StoryPresenter(this);
+        findUserPresenter = new FindUserPresenter(this);
 
         RecyclerView storyRecyclerView = view.findViewById(R.id.storyRecyclerView);
 
@@ -186,8 +191,10 @@ public class StoryFragment extends Fragment implements StoryPresenter.View, Find
         public void onClick(View widget) {
             String clickedMention = getURL();
 
-            FindUserTask findUserTask = new FindUserTask(fragment);
-            findUserTask.execute(clickedMention);
+            FindUserTask findUserTask = new FindUserTask(findUserPresenter ,fragment);
+
+            FindUserRequest request = new FindUserRequest(clickedMention);
+            findUserTask.execute(request);
         }
     }
 
@@ -407,8 +414,9 @@ public class StoryFragment extends Fragment implements StoryPresenter.View, Find
     }
 
     @Override
-    public void getUser(User user) {
-        if(user != null){
+    public void getUser(FindUserResponse response) {
+        if(response.isSuccessful()){ //Found user
+            User user = response.getUser();
             String activity = Arrays.toString(new String[]{Objects.requireNonNull(getActivity()).getIntent().getStringExtra("activity")});
             if(activity.equals("[null]")){
                 ((MainActivity) getActivity()).startStoryViewActivity(getView(), user.getAlias());
@@ -417,8 +425,8 @@ public class StoryFragment extends Fragment implements StoryPresenter.View, Find
                 ((StoryViewActivity) getActivity()).startStoryViewFragment(getView(), user.getAlias());
             }
         }
-        else{
-            Snackbar.make(getView(), "The user does not exit.",
+        else{ //No such user exists
+            Snackbar.make(getView(), "The user: " + response.getUserAlias() + " does not exit.",
                     Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }
     }
