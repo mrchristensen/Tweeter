@@ -16,11 +16,15 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import edu.byu.cs.tweeter.R;
+import edu.byu.cs.tweeter.presenter.FindUserPresenter;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.presenter.StoryViewPresenter;
+import edu.byu.cs.tweeter.shared.model.service.request.FindUserRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowRequest;
+import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
+import edu.byu.cs.tweeter.view.asyncTasks.FindUserTask;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFollowTask;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadImageTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
@@ -28,15 +32,16 @@ import edu.byu.cs.tweeter.view.cache.ImageCache;
 /**
  * The main activity for the application. Contains tabs for story, following, and followers.
  */
-public class StoryViewActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, StoryViewPresenter.View, GetFollowTask.GetFollowObserver {
+public class StoryViewActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, StoryViewPresenter.View, GetFollowTask.GetFollowObserver, FindUserTask.FindUserObserver,FindUserPresenter.View {
     private static final String LOG_TAG = "StoryViewActivity";
 
     private StoryViewPresenter presenter;
+    private FindUserPresenter findUserPresenter;
     private User user;
     private ImageView userImageView;
     private Button followButton;
     private boolean isFollowing;
-
+    private View storyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,7 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
         setContentView(R.layout.activity_story_view);
 
         presenter = new StoryViewPresenter(this);
+        findUserPresenter = new FindUserPresenter(this);
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
@@ -103,17 +109,20 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
     private void checkUserFollows() {
         GetFollowTask getFollowTask = new GetFollowTask(presenter, this);
 
+        User user1 = presenter.getCurrentUser();
+        User user2 = user;
+
         FollowRequest request = new FollowRequest(presenter.getCurrentUser().getAlias(), user.getAlias());
         getFollowTask.execute(request);
     }
 
     public void startStoryViewFragment(View view, String userAlias){
-        Intent storyViewActivityIntent = new Intent(view.getContext(), StoryViewActivity.class);
+        storyView = view;
 
-        User user = new ServerFacade().findUser(userAlias); //todo make this async
-        storyViewActivityIntent.putExtra("user", user);
-        storyViewActivityIntent.putExtra("activity", "storyViewActivity");
-        startActivity(storyViewActivityIntent);
+        FindUserTask findUserTask = new FindUserTask(findUserPresenter, this);
+
+        FindUserRequest request = new FindUserRequest(userAlias);
+        findUserTask.execute(request);
     }
 
     @Override
@@ -146,5 +155,13 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
             followButton.setText("Follow");
             isFollowing = false;
         }
+    }
+
+    @Override
+    public void getUser(FindUserResponse response) {
+        Intent storyViewActivityIntent = new Intent(storyView.getContext(), StoryViewActivity.class);
+        storyViewActivityIntent.putExtra("user", user);
+        storyViewActivityIntent.putExtra("activity", "storyViewActivity");
+        startActivity(storyViewActivityIntent);
     }
 }

@@ -35,11 +35,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.byu.cs.tweeter.R;
+import edu.byu.cs.tweeter.presenter.FindUserPresenter;
 import edu.byu.cs.tweeter.shared.model.domain.Status;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
+import edu.byu.cs.tweeter.shared.model.service.request.FindUserRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FeedResponse;
 import edu.byu.cs.tweeter.presenter.FeedPresenter;
+import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
 import edu.byu.cs.tweeter.view.asyncTasks.FindUserTask;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFeedTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
@@ -49,7 +52,7 @@ import edu.byu.cs.tweeter.view.ui.main.storyView.StoryViewActivity;
 /**
  * The fragment that displays on the 'Feed' tab.
  */
-public class FeedFragment extends Fragment implements FeedPresenter.View, FindUserTask.FindUserObserver{
+public class FeedFragment extends Fragment implements FeedPresenter.View, FindUserTask.FindUserObserver, FindUserPresenter.View {
 
     private static final int LOADING_DATA_VIEW = 0;
     private static final int ITEM_VIEW = 1;
@@ -57,6 +60,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View, FindUs
     private static final int PAGE_SIZE = 10;
 
     private FeedPresenter presenter;
+    private FindUserPresenter findUserPresenter;
     private FeedFragment fragment;
 
     private FeedRecyclerViewAdapter feedRecyclerViewAdapter;
@@ -67,6 +71,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View, FindUs
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
         presenter = new FeedPresenter(this);
+        findUserPresenter = new FindUserPresenter(this);
 
         RecyclerView feedRecyclerView = view.findViewById(R.id.feedRecyclerView);
 
@@ -84,8 +89,9 @@ public class FeedFragment extends Fragment implements FeedPresenter.View, FindUs
     }
 
     @Override
-    public void getUser(User user) {
-        if(user != null){
+    public void getUser(FindUserResponse response) {
+        if(response.isSuccessful()){ //User found
+            User user = response.getUser();
             String activity = Arrays.toString(new String[]{Objects.requireNonNull(getActivity()).getIntent().getStringExtra("activity")});
             if(activity.equals("[null]")){
                 ((MainActivity) getActivity()).startStoryViewActivity(getView(), user.getAlias());
@@ -94,8 +100,8 @@ public class FeedFragment extends Fragment implements FeedPresenter.View, FindUs
                 ((StoryViewActivity) getActivity()).startStoryViewFragment(getView(), user.getAlias());
             }
         }
-        else{
-            Snackbar.make(getView(), "The user: \"" + user.getAlias() + "\", does not exit.",
+        else{ //User not found
+            Snackbar.make(getView(), "The user: \"" + response.getUserAlias() + "\", does not exit.",
                     Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }
     }
@@ -203,9 +209,9 @@ public class FeedFragment extends Fragment implements FeedPresenter.View, FindUs
         @Override
         public void onClick(View widget) {
             String clickedMention = getURL();
-
-            FindUserTask findUserTask = new FindUserTask(fragment);
-            findUserTask.execute(clickedMention);
+            FindUserTask findUserTask = new FindUserTask(findUserPresenter, fragment);
+            FindUserRequest request = new FindUserRequest(clickedMention);
+            findUserTask.execute(request);
         }
     }
 
