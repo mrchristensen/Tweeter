@@ -94,7 +94,7 @@ tools:context=".view.ui.start.startActivity.StartActivity">
             android:id="@+id/image_url"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/default_image_url"
+            android:text="@string/default_male_image_url"
             android:inputType="textUri" />
     </LinearLayout>
 
