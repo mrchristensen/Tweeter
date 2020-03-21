@@ -18,23 +18,22 @@ import com.google.android.material.tabs.TabLayout;
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.presenter.FindUserPresenter;
 import edu.byu.cs.tweeter.shared.model.domain.User;
-import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.presenter.StoryViewPresenter;
 import edu.byu.cs.tweeter.shared.model.service.request.FindUserRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
-import edu.byu.cs.tweeter.view.asyncTasks.DeleteFollowTask;
+import edu.byu.cs.tweeter.view.asyncTasks.RemoveFollowTask;
 import edu.byu.cs.tweeter.view.asyncTasks.FindUserTask;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFollowTask;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadImageTask;
-import edu.byu.cs.tweeter.view.asyncTasks.PutFollowTask;
+import edu.byu.cs.tweeter.view.asyncTasks.AddFollowTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
 
 /**
  * The main activity for the application. Contains tabs for story, following, and followers.
  */
-public class StoryViewActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, StoryViewPresenter.View, GetFollowTask.GetFollowObserver, FindUserTask.FindUserObserver,FindUserPresenter.View, DeleteFollowTask.GetFollowObserver, PutFollowTask.GetFollowObserver {
+public class StoryViewActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, StoryViewPresenter.View, GetFollowTask.GetFollowObserver, FindUserTask.FindUserObserver,FindUserPresenter.View, RemoveFollowTask.GetFollowObserver, AddFollowTask.GetFollowObserver {
     private static final String LOG_TAG = "StoryViewActivity";
 
     private StoryViewActivity storyViewActivity;
@@ -87,12 +86,12 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
                 FollowRequest request = new FollowRequest(presenter.getCurrentUser().getAlias(), user.getAlias());
 
                 if(isFollowing){ //Remove following relation
-                    DeleteFollowTask deleteFollowTask = new DeleteFollowTask(presenter, storyViewActivity);
-                    deleteFollowTask.execute(request);
+                    RemoveFollowTask removeFollowTask = new RemoveFollowTask(presenter, storyViewActivity);
+                    removeFollowTask.execute(request);
                 }
                 else{ //Add following relation
-                    PutFollowTask putFollowTask = new PutFollowTask(presenter, storyViewActivity);
-                    putFollowTask.execute(request);
+                    AddFollowTask addFollowTask = new AddFollowTask(presenter, storyViewActivity);
+                    addFollowTask.execute(request);
                 }
             }
         });

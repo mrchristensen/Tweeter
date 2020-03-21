@@ -24,6 +24,6 @@ public class DeleteFollowHandler implements RequestHandler<FollowRequest, Follow
     @Override
     public FollowResponse handleRequest(FollowRequest request, Context context) {
         FollowServiceImpl service = new FollowServiceImpl();
-        return service.deleteFollow(request);
+        return service.removeFollow(request);
     }
 }
