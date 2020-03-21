@@ -32,4 +32,6 @@
     <string name="logoutMenu">Logout</string>
     <string name="Follow">Follow</string>
     <string name="Following">Following</string>
+    <string name="Following">Following</string>
+    <string name="Follow">Follow</string>
 </resources>

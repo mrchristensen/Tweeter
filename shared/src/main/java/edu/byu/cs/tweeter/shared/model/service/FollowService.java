@@ -22,5 +22,5 @@ public interface FollowService {
 
     FollowResponse deleteFollow(FollowRequest request) throws IOException;
 
-    FollowResponse putFollow(FollowRequest request);
+    FollowResponse putFollow(FollowRequest request) throws IOException;
 }
