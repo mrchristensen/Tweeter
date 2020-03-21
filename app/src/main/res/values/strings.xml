@@ -27,11 +27,10 @@
     <string name="last_name">Last Name:</string>
     <string name="image_url">Profile Image URL:</string>
     <string name="register">Register</string>
-    <string name="default_image_url">https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png</string>
+    <string name="default_male_image_url">https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/donald_duck.png</string>
+    <string name="default_female_image_url">https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/daisy_duck.png</string>
     <string name="searchMenu">Search</string>
     <string name="logoutMenu">Logout</string>
     <string name="Follow">Follow</string>
     <string name="Following">Following</string>
-    <string name="Following">Following</string>
-    <string name="Follow">Follow</string>
 </resources>

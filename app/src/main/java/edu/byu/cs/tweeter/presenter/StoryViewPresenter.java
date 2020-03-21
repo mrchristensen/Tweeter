@@ -43,13 +43,13 @@ public class StoryViewPresenter extends Presenter {
         return service.getFollow(request);
     }
 
-    public FollowResponse deleteFollow(FollowRequest request) throws IOException {
+    public FollowResponse removeFollow(FollowRequest request) throws IOException {
         FollowService service = new FollowServiceProxy();
-        return service.deleteFollow(request);
+        return service.removeFollow(request);
     }
 
-    public FollowResponse putFollow(FollowRequest request) throws IOException {
+    public FollowResponse addFollow(FollowRequest request) throws IOException {
         FollowService service = new FollowServiceProxy();
-        return service.putFollow(request);
+        return service.addFollow(request);
     }
 }

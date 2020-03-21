@@ -6,7 +6,6 @@ import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.shared.model.service.FollowService;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
-import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
 
 /**
  * A remote-access proxy for accessing the 'following' service.
@@ -25,16 +24,16 @@ public class FollowServiceProxy implements FollowService {
     }
 
     @Override
-    public FollowResponse deleteFollow(FollowRequest request) throws IOException {
+    public FollowResponse removeFollow(FollowRequest request) throws IOException {
         String urlPath = "/" + request.getUser1() + URL_PATH + "/" + request.getUser2();
 
-        return serverFacade.deleteFollow(request, urlPath);
+        return serverFacade.removeFollow(request, urlPath);
     }
 
     @Override
-    public FollowResponse putFollow(FollowRequest request) throws IOException {
+    public FollowResponse addFollow(FollowRequest request) throws IOException {
         String urlPath = "/" + request.getUser1() + URL_PATH + "/" + request.getUser2();
 
-        return serverFacade.putFollow(request, urlPath);
+        return serverFacade.addFollow(request, urlPath);
     }
 }

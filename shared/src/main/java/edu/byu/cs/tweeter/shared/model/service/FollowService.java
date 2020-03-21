@@ -20,7 +20,7 @@ public interface FollowService {
      */
     FollowResponse getFollow(FollowRequest request) throws IOException;
 
-    FollowResponse deleteFollow(FollowRequest request) throws IOException;
+    FollowResponse removeFollow(FollowRequest request) throws IOException;
 
-    FollowResponse putFollow(FollowRequest request) throws IOException;
+    FollowResponse addFollow(FollowRequest request) throws IOException;
 }

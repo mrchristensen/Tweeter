@@ -11,7 +11,7 @@ import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
 /**
  * An {@link AsyncTask} for retrieving followews for a user.
  */
-public class DeleteFollowTask extends AsyncTask<FollowRequest, Void, FollowResponse> {
+public class RemoveFollowTask extends AsyncTask<FollowRequest, Void, FollowResponse> {
 
     private final StoryViewPresenter presenter;
     private final GetFollowObserver observer;
@@ -32,7 +32,7 @@ public class DeleteFollowTask extends AsyncTask<FollowRequest, Void, FollowRespo
      * @param presenter the presenter from whom this task should retrieve followews.
      * @param observer the observer who wants to be notified when this task completes.
      */
-    public DeleteFollowTask(StoryViewPresenter presenter, GetFollowObserver observer) {
+    public RemoveFollowTask(StoryViewPresenter presenter, GetFollowObserver observer) {
         this.presenter = presenter;
         this.observer = observer;
     }
@@ -47,8 +47,7 @@ public class DeleteFollowTask extends AsyncTask<FollowRequest, Void, FollowRespo
     protected FollowResponse doInBackground(FollowRequest... followRequests) {
         FollowResponse response = null;
         try {
-            response = presenter.deleteFollow(followRequests[0]);
-//            loadImages(response); todo is this needed?
+            response = presenter.removeFollow(followRequests[0]);
         } catch (IOException e) {
             exception = e;
 
@@ -56,27 +55,6 @@ public class DeleteFollowTask extends AsyncTask<FollowRequest, Void, FollowRespo
         }
         return response;
     }
-
-//    /**
-//     * Loads the image associated with each follower included in the response.
-//     *
-//     * @param response the response from the follower request.
-//     */
-//    private void loadImages(FollowResponse response) {
-//        for(User user : response.getUsers()) {
-//
-//            Drawable drawable;
-//
-//            try {
-//                drawable = ImageUtils.drawableFromUrl(user.getImageUrl());
-//            } catch (IOException e) {
-//                Log.e(this.getClass().getName(), e.toString(), e);
-//                drawable = null;
-//            }
-//
-//            ImageCache.getInstance().cacheImage(user, drawable);
-//        }
-//    }
 
     /**
      * Notifies the observer (on the UI thread) when the task completes.

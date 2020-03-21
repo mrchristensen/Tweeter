@@ -95,11 +95,11 @@ public class ServerFacade {
         }
         return false;
     }
-
-    public void removeFollowing(User followee, User follower){
-        followeesByFollower.get(follower).remove(followee);
-        Log.i("test","test");
-    }
+//todo cleanup
+//    public void removeFollowing(User followee, User follower){
+//        followeesByFollower.get(follower).remove(followee);
+//        Log.i("test","test");
+//    }
 
     public void addFollowing(User followee, User follower){
         followeesByFollower.get(follower).add(followee);
@@ -576,12 +576,12 @@ public class ServerFacade {
         return clientCommunicator.doGet(urlPath, null, FollowResponse.class);
     }
 
-    public FollowResponse deleteFollow(FollowRequest request, String urlPath) throws IOException {
+    public FollowResponse removeFollow(FollowRequest request, String urlPath) throws IOException {
         ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
         return clientCommunicator.doDelete(urlPath, getJsonHeaders(), FollowResponse.class);
     }
 
-    public FollowResponse putFollow(FollowRequest request, String urlPath) throws IOException {
+    public FollowResponse addFollow(FollowRequest request, String urlPath) throws IOException {
         ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
         return clientCommunicator.doPut(urlPath, getJsonHeaders(), FollowResponse.class);
     }

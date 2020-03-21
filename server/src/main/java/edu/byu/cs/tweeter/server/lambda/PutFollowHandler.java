@@ -24,6 +24,6 @@ public class PutFollowHandler implements RequestHandler<FollowRequest, FollowRes
     @Override
     public FollowResponse handleRequest(FollowRequest request, Context context) {
         FollowServiceImpl service = new FollowServiceImpl();
-        return service.putFollow(request);
+        return service.addFollow(request);
     }
 }

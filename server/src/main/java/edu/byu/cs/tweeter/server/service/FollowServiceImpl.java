@@ -22,12 +22,12 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
-    public FollowResponse deleteFollow(FollowRequest request) {
+    public FollowResponse removeFollow(FollowRequest request) {
         return dao.removeFollow(request);
     }
 
     @Override
-    public FollowResponse putFollow(FollowRequest request) {
+    public FollowResponse addFollow(FollowRequest request) {
          return dao.addFollow(request);
     }
 }
