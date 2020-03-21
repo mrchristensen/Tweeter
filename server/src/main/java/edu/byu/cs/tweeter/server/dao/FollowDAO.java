@@ -35,7 +35,7 @@ public class FollowDAO {
 
     public FollowingResponse getFollowees(FollowingRequest request) {
         return new FollowingResponse(getNUsers(request.limit), true);
-
+    ////todo cleanup
 //        assert request.getLimit() > 0;
 ////        assert request.getFollower() != null;
 ////
@@ -89,7 +89,7 @@ public class FollowDAO {
         return users;
     }
 
-    //old code
+    //old code todo cleanup
 //
 //    /**
 //     * Generates the followee data.

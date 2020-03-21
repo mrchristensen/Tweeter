@@ -47,4 +47,9 @@ public class StoryViewPresenter extends Presenter {
         FollowService service = new FollowServiceProxy();
         return service.deleteFollow(request);
     }
+
+    public FollowResponse putFollow(FollowRequest request) throws IOException {
+        FollowService service = new FollowServiceProxy();
+        return service.putFollow(request);
+    }
 }

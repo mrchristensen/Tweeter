@@ -32,7 +32,9 @@ public class FollowServiceProxy implements FollowService {
     }
 
     @Override
-    public FollowResponse putFollow(FollowRequest request) {
-        return null; //todo add functionality
+    public FollowResponse putFollow(FollowRequest request) throws IOException {
+        String urlPath = "/" + request.getUser1() + URL_PATH + "/" + request.getUser2();
+
+        return serverFacade.putFollow(request, urlPath);
     }
 }
