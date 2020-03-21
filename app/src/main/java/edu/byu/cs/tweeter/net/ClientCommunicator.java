@@ -67,6 +67,38 @@ class ClientCommunicator {
         return doRequest(urlPath, headers, returnType, requestStrategy);
     }
 
+    <T> T doDelete(String urlPath, Map<String, String> headers, Class<T> returnType) throws IOException {
+        RequestStrategy requestStrategy = new RequestStrategy() {
+            @Override
+            public void setRequestMethod(HttpURLConnection connection) throws IOException {
+                connection.setRequestMethod("DELETE");
+            }
+
+            @Override
+            public void sendRequest(HttpURLConnection connection) {
+                // Nothing to send. For a delete, the request is sent when the connection is opened.
+            }
+        };
+
+        return doRequest(urlPath, headers, returnType, requestStrategy);
+    }
+
+    <T> T doPut(String urlPath, Map<String, String> headers, Class<T> returnType) throws IOException {
+        RequestStrategy requestStrategy = new RequestStrategy() {
+            @Override
+            public void setRequestMethod(HttpURLConnection connection) throws IOException {
+                connection.setRequestMethod("PUT");
+            }
+
+            @Override
+            public void sendRequest(HttpURLConnection connection) {
+                // Nothing to send. For a delete, the request is sent when the connection is opened.
+            }
+        };
+
+        return doRequest(urlPath, headers, returnType, requestStrategy);
+    }
+
     private <T> T doRequest(String urlPath, Map<String, String> headers, Class<T> returnType, RequestStrategy requestStrategy) throws IOException {
 
         HttpURLConnection connection = null;
@@ -80,6 +112,8 @@ class ClientCommunicator {
             connection.setReadTimeout(TIMEOUT_MILLIS);
             requestStrategy.setRequestMethod(connection);
 
+            Log.i(LOG_TAG, "Request method: " + connection.getRequestMethod());
+
             if(headers != null) {
                 for (String headerKey : headers.keySet()) {
                     connection.setRequestProperty(headerKey, headers.get(headerKey));
@@ -87,6 +121,9 @@ class ClientCommunicator {
             }
 
             requestStrategy.sendRequest(connection);
+
+            Log.i(LOG_TAG, "Response code: " + connection.getResponseCode());
+            Log.i(LOG_TAG, "Response message: " + connection.getResponseMessage());
 
             String response = getResponse(connection);
             Log.i(LOG_TAG, "Response: " + response);

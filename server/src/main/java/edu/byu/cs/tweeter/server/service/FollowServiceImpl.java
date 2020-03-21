@@ -10,9 +10,24 @@ import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
  */
 public class FollowServiceImpl implements FollowService {
 
+    FollowDAO dao;
+
+    public FollowServiceImpl() {
+        dao = new FollowDAO();
+    }
+
     @Override
     public FollowResponse getFollow(FollowRequest request) {
-        FollowDAO dao = new FollowDAO();
         return dao.getFollow(request);
+    }
+
+    @Override
+    public FollowResponse deleteFollow(FollowRequest request) {
+        return dao.removeFollow(request);
+    }
+
+    @Override
+    public FollowResponse putFollow(FollowRequest request) {
+         return dao.addFollow(request);
     }
 }

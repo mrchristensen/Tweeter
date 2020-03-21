@@ -576,6 +576,23 @@ public class ServerFacade {
         return clientCommunicator.doGet(urlPath, null, FollowResponse.class);
     }
 
+    public FollowResponse deleteFollow(FollowRequest request, String urlPath) throws IOException {
+        ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
+        return clientCommunicator.doDelete(urlPath, getJsonHeaders(), FollowResponse.class);
+    }
+
+    public FollowResponse putFollow(FollowRequest request, String urlPath) throws IOException {
+        ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
+        return clientCommunicator.doPut(urlPath, getJsonHeaders(), FollowResponse.class);
+    }
+
+    private Map<String, String> getJsonHeaders() {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+
+        return headers;
+    }
+
     public static void setCurrentUser(User currentUser) {
         ServerFacade.currentUser = currentUser;
     }

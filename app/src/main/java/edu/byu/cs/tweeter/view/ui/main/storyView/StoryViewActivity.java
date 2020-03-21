@@ -24,6 +24,7 @@ import edu.byu.cs.tweeter.shared.model.service.request.FindUserRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
+import edu.byu.cs.tweeter.view.asyncTasks.DeleteFollowTask;
 import edu.byu.cs.tweeter.view.asyncTasks.FindUserTask;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFollowTask;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadImageTask;
@@ -32,9 +33,10 @@ import edu.byu.cs.tweeter.view.cache.ImageCache;
 /**
  * The main activity for the application. Contains tabs for story, following, and followers.
  */
-public class StoryViewActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, StoryViewPresenter.View, GetFollowTask.GetFollowObserver, FindUserTask.FindUserObserver,FindUserPresenter.View {
+public class StoryViewActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, StoryViewPresenter.View, GetFollowTask.GetFollowObserver, FindUserTask.FindUserObserver,FindUserPresenter.View, DeleteFollowTask.GetFollowObserver {
     private static final String LOG_TAG = "StoryViewActivity";
 
+    private StoryViewActivity storyViewActivity;
     private StoryViewPresenter presenter;
     private FindUserPresenter findUserPresenter;
     private User user;
@@ -47,6 +49,8 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_view);
+
+        storyViewActivity = this;
 
         presenter = new StoryViewPresenter(this);
         findUserPresenter = new FindUserPresenter(this);
@@ -79,19 +83,28 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
 
         followButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ServerFacade serverFacade = new ServerFacade();
-                if(isFollowing){
-                    //Remove following relation
-                    serverFacade.removeFollowing(user, presenter.getCurrentUser()); //todo make this async
-                    followButton.setText(R.string.Follow);
-                    isFollowing = false;
-                }
-                else{
-                    //Add following relation
-                    serverFacade.addFollowing(user, presenter.getCurrentUser()); //todo make this async
-                    followButton.setText(R.string.Following);
-                    isFollowing = true;
-                }
+                DeleteFollowTask deleteFollowTask = new DeleteFollowTask(presenter, storyViewActivity);
+
+                FollowRequest request = new FollowRequest(presenter.getCurrentUser().getAlias(), user.getAlias());
+                deleteFollowTask.execute(request);
+
+//
+//                ServerFacade serverFacade = new ServerFacade();
+//                if(isFollowing){
+//                    //Remove following relation
+//
+//
+////todo clean up
+////                    serverFacade.removeFollowing(user, presenter.getCurrentUser()); //todo make this async
+////                    followButton.setText(R.string.Follow);
+////                    isFollowing = false;
+//                }
+//                else{
+//                    //Add following relation
+//                    serverFacade.addFollowing(user, presenter.getCurrentUser()); //todo make this async
+//                    followButton.setText(R.string.Following);
+//                    isFollowing = true;
+//                }
             }
         });
 
@@ -108,9 +121,6 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
 
     private void checkUserFollows() {
         GetFollowTask getFollowTask = new GetFollowTask(presenter, this);
-
-        User user1 = presenter.getCurrentUser();
-        User user2 = user;
 
         FollowRequest request = new FollowRequest(presenter.getCurrentUser().getAlias(), user.getAlias());
         getFollowTask.execute(request);

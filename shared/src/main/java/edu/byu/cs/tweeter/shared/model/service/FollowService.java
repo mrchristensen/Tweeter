@@ -19,4 +19,8 @@ public interface FollowService {
      * @return the followers.
      */
     FollowResponse getFollow(FollowRequest request) throws IOException;
+
+    FollowResponse deleteFollow(FollowRequest request) throws IOException;
+
+    FollowResponse putFollow(FollowRequest request);
 }
