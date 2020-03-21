@@ -21,8 +21,18 @@ public class FollowServiceProxy implements FollowService {
     public FollowResponse getFollow(FollowRequest request) throws IOException {
         String urlPath = "/" + request.getUser1() + URL_PATH + "/" + request.getUser2();
 
-        FollowResponse response = serverFacade.getFollow(request, urlPath);
+        return serverFacade.getFollow(request, urlPath);
+    }
 
-        return response;
+    @Override
+    public FollowResponse deleteFollow(FollowRequest request) throws IOException {
+        String urlPath = "/" + request.getUser1() + URL_PATH + "/" + request.getUser2();
+
+        return serverFacade.deleteFollow(request, urlPath);
+    }
+
+    @Override
+    public FollowResponse putFollow(FollowRequest request) {
+        return null; //todo add functionality
     }
 }

@@ -64,6 +64,17 @@ public class FollowDAO {
     }
 
     public FollowResponse getFollow(FollowRequest request){
+        //TODO: get the database and see if user1 follows user2
+        return new FollowResponse(true, request.getUser1(), request.getUser2());
+    }
+
+    public FollowResponse removeFollow(FollowRequest request){
+        //TODO: get the database and remove user1 following user2
+        return new FollowResponse(false, request.getUser1(), request.getUser2());
+    }
+
+    public FollowResponse addFollow(FollowRequest request){
+        //TODO: get the database and add that user1 follows user2
         return new FollowResponse(true, request.getUser1(), request.getUser2());
     }
 

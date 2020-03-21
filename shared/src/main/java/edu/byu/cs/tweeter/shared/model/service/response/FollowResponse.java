@@ -10,9 +10,9 @@ import edu.byu.cs.tweeter.shared.model.domain.User;
  */
 public class FollowResponse {
 
-    private boolean follows;
-    private String user1;
-    private String user2;
+    public boolean follows;
+    public String user1;
+    public String user2;
 
     public FollowResponse() {
     }

@@ -8,8 +8,8 @@ import edu.byu.cs.tweeter.shared.model.domain.User;
  */
 public class FollowRequest {
 
-    private String user1;
-    private String user2;
+    public String user1;
+    public String user2;
 
     /**
      * Allows construction of the object from Json. Private so it won't be called in normal code.
