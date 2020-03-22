@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.snackbar.Snackbar;
 
 import edu.byu.cs.tweeter.R;
+import edu.byu.cs.tweeter.net.SessionCache;
 import edu.byu.cs.tweeter.shared.model.service.request.LoginRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.LoginResponse;
 import edu.byu.cs.tweeter.presenter.LoginPresenter;
@@ -105,7 +106,8 @@ public class LoginFragment extends Fragment implements LoginPresenter.View {
         @Override
         public void loginRetrieved(LoginResponse loginResponse) {
             if(loginResponse.loginSuccessful()){
-                //todo cache authToken
+                SessionCache.getInstance().setCurrentUser(loginResponse.getCurrentUser());
+                SessionCache.getInstance().setAuthTokenString(loginResponse.getAuthTokenString());
                 ((StartActivity) getActivity()).startMainActivity(getView(), loginResponse.getCurrentUser());
             }
             else{

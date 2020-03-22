@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.snackbar.Snackbar;
 
 import edu.byu.cs.tweeter.R;
+import edu.byu.cs.tweeter.net.SessionCache;
 import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
 import edu.byu.cs.tweeter.presenter.RegisterPresenter;
@@ -121,7 +122,8 @@ public class RegisterFragment extends Fragment implements RegisterPresenter.View
         @Override
         public void registerRetrieved(RegisterResponse registerResponse) {
             if(registerResponse.isRegisterSuccessful()){
-                //todo cache authToken string
+                SessionCache.getInstance().setCurrentUser(registerResponse.getCurrentUser());
+                SessionCache.getInstance().setAuthTokenString(registerResponse.getAuthTokenString());
                 ((StartActivity) getActivity()).startMainActivity(getView(), registerResponse.getCurrentUser());
             }
             else{
