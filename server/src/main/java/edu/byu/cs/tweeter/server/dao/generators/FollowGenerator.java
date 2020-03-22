@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.server.dao;
+package edu.byu.cs.tweeter.server.dao.generators;
 
 import java.util.ArrayList;
 import java.util.Collections;

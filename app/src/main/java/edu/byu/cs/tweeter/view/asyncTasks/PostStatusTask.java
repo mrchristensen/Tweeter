@@ -64,7 +64,6 @@ public class PostStatusTask extends AsyncTask<PostStatusRequest, Void, PostStatu
      */
     @Override
     protected void onPostExecute(PostStatusResponse response) {
-        //todo
         if(observer != null) {
             observer.statusPosted(response);
         }

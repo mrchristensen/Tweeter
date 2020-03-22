@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import edu.byu.cs.tweeter.server.dao.generators.UserGenerator;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 
 class UserGeneratorTest {
@@ -12,7 +13,7 @@ class UserGeneratorTest {
     @Test
     void testGenerateUsers_count() {
 
-        List<User> users = UserGenerator.getInstance().generateUsers(10);
+        List<User> users = edu.byu.cs.tweeter.server.dao.generators.UserGenerator.getInstance().generateUsers(10);
         Assertions.assertEquals(10, users.size());
 
         users = UserGenerator.getInstance().generateUsers(2);
