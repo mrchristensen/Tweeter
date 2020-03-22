@@ -9,6 +9,7 @@ public class RegisterResponse {
 
     private boolean registerSuccessful;
     private User currentUser;
+    private String authTokenString;
 
 
     public RegisterResponse(boolean registerSuccessful, User currentUser) {
@@ -34,5 +35,13 @@ public class RegisterResponse {
 
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
+    }
+
+    public String getAuthTokenString() {
+        return authTokenString;
+    }
+
+    public void setAuthTokenString(String authTokenString) {
+        this.authTokenString = authTokenString;
     }
 }
