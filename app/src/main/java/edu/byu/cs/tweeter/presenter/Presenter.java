@@ -1,6 +1,6 @@
 package edu.byu.cs.tweeter.presenter;
 
-import edu.byu.cs.tweeter.model.services.CurrentUserService;
+import edu.byu.cs.tweeter.net.SessionCache;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 //import edu.byu.cs.tweeter.model.services.LoginService; todo is this needed?
 
@@ -15,6 +15,6 @@ public abstract class Presenter {
      * @return the user.
      */
     public User getCurrentUser() {
-        return CurrentUserService.getInstance().getCurrentUser();
+        return SessionCache.getInstance().getCurrentUser();
     }
 }
