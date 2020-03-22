@@ -1,5 +1,6 @@
 package edu.byu.cs.tweeter.server.service;
 
+import edu.byu.cs.tweeter.server.dao.AuthTokenDAO;
 import edu.byu.cs.tweeter.server.dao.LoginDAO;
 import edu.byu.cs.tweeter.server.dao.LogoutDAO;
 import edu.byu.cs.tweeter.shared.model.service.LoginService;
@@ -13,7 +14,10 @@ import edu.byu.cs.tweeter.shared.model.service.response.LogoutResponse;
 public class LogoutServiceImpl implements LogoutService {
     @Override
     public LogoutResponse doLogout(LogoutRequest request) {
-        LogoutDAO dao = new LogoutDAO();
-        return dao.doLogout(request);
+        AuthTokenDAO authTokenDAO = new AuthTokenDAO();
+        authTokenDAO.invalidateAuthToken(null); //todo add the actual authToken here
+
+        LogoutDAO logoutDAO = new LogoutDAO();
+        return logoutDAO.doLogout(request);
     }
 }

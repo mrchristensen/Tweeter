@@ -9,6 +9,7 @@ public class LoginResponse {
 
     private boolean loginSuccessful;
     private User currentUser;
+    private String authTokenString;
 
 
     public LoginResponse(boolean loginSuccessful, User currentUser) {
@@ -34,5 +35,13 @@ public class LoginResponse {
 
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
+    }
+
+    public String getAuthTokenString() {
+        return authTokenString;
+    }
+
+    public void setAuthTokenString(String authTokenString) {
+        this.authTokenString = authTokenString;
     }
 }

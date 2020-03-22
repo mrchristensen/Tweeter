@@ -105,6 +105,7 @@ public class LoginFragment extends Fragment implements LoginPresenter.View {
         @Override
         public void loginRetrieved(LoginResponse loginResponse) {
             if(loginResponse.loginSuccessful()){
+                //todo cache authToken
                 ((StartActivity) getActivity()).startMainActivity(getView(), loginResponse.getCurrentUser());
             }
             else{

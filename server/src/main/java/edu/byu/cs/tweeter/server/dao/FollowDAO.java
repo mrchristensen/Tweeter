@@ -13,9 +13,6 @@ import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
  */
 public class FollowDAO {
 
-    private static final String MALE_IMAGE_URL = "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/dafny_duck.png";
-    private static final String FEMALE_IMAGE_URL = "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/daisy_duck.png";
-
     /**
      * Gets the users from the database that the user specified in the request is follower. Uses
      * information in the request object to limit the number of followers returned and to return the

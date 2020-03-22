@@ -121,6 +121,7 @@ public class RegisterFragment extends Fragment implements RegisterPresenter.View
         @Override
         public void registerRetrieved(RegisterResponse registerResponse) {
             if(registerResponse.isRegisterSuccessful()){
+                //todo cache authToken string
                 ((StartActivity) getActivity()).startMainActivity(getView(), registerResponse.getCurrentUser());
             }
             else{
