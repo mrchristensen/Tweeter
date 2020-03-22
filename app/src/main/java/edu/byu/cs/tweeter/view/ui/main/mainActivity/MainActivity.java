@@ -26,12 +26,18 @@ import com.google.android.material.tabs.TabLayout;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.presenter.FindUserPresenter;
+import edu.byu.cs.tweeter.presenter.LogoutPresenter;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.presenter.MainPresenter;
 import edu.byu.cs.tweeter.shared.model.service.request.FindUserRequest;
+import edu.byu.cs.tweeter.shared.model.service.request.LoginRequest;
+import edu.byu.cs.tweeter.shared.model.service.request.LogoutRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
+import edu.byu.cs.tweeter.shared.model.service.response.LogoutResponse;
+import edu.byu.cs.tweeter.view.asyncTasks.DoLogoutTask;
 import edu.byu.cs.tweeter.view.asyncTasks.FindUserTask;
+import edu.byu.cs.tweeter.view.asyncTasks.GetLoginTask;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadImageTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
 import edu.byu.cs.tweeter.view.ui.main.storyView.StoryViewActivity;
@@ -40,11 +46,12 @@ import edu.byu.cs.tweeter.view.ui.start.startActivity.StartActivity;
 /**
  * The main activity for the application. Contains tabs for feed, story, following, and followers.
  */
-public class MainActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, FindUserTask.FindUserObserver, MainPresenter.View, View.OnCreateContextMenuListener, FindUserPresenter.View {
+public class MainActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, FindUserTask.FindUserObserver, MainPresenter.View, View.OnCreateContextMenuListener, FindUserPresenter.View, DoLogoutTask.LogoutObserver, LogoutPresenter.View {
     private static final String LOG_TAG = "MainActivity";
 
     private MainPresenter presenter;
     private FindUserPresenter findUserPresenter;
+    private LogoutPresenter logoutPresenter;
     private User user;
     private ImageView userImageView;
     private View storyView;
@@ -62,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
 
         presenter = new MainPresenter(this);
         findUserPresenter = new FindUserPresenter(this);
+        logoutPresenter = new LogoutPresenter(this);
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
@@ -192,9 +200,10 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
     }
 
     private void logout() {
-        Intent intent = new Intent(this, StartActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+        DoLogoutTask doLogoutTask = new DoLogoutTask(logoutPresenter, this);
+
+        LogoutRequest request = new LogoutRequest(presenter.getCurrentUser());
+        doLogoutTask.execute(request);
     }
 
     public void startStoryViewActivity(View view, String userAlias){
@@ -239,6 +248,21 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
             View view = findViewById(android.R.id.content);
 
             Snackbar.make(view, "The user: \"" + response.getUserAlias() + "\", does not exit.",
+                    Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        }
+    }
+
+    @Override
+    public void logoutRetrieved(LogoutResponse response) {
+        if(response.logoutSuccessful()){
+            Intent intent = new Intent(this, StartActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+        else{
+            View view = findViewById(android.R.id.content);
+
+            Snackbar.make(view, "Logout was unsuccessful",
                     Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }
     }
