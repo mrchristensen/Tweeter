@@ -8,6 +8,7 @@ import org.mockito.Mockito;
 import java.util.Arrays;
 import java.util.List;
 
+import edu.byu.cs.tweeter.server.dao.generators.FollowGenerator;
 import edu.byu.cs.tweeter.shared.model.domain.Follow;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowingRequest;
@@ -59,7 +60,7 @@ class FollowingDAOTest {
     void setup() {
         followingDAOSpy = Mockito.spy(new FollowingDAO());
 
-        FollowGenerator mockFollowGenerator = Mockito.mock(FollowGenerator.class);
+        edu.byu.cs.tweeter.server.dao.generators.FollowGenerator mockFollowGenerator = Mockito.mock(FollowGenerator.class);
         Mockito.when(mockFollowGenerator.generateUsersAndFollows(Mockito.anyInt(), Mockito.anyInt(), Mockito.anyInt(), Mockito.any())).thenReturn(follows);
 
         Mockito.when(followingDAOSpy.getFollowGenerator()).thenReturn(mockFollowGenerator);

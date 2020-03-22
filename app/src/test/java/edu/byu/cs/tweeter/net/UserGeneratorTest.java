@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import edu.byu.cs.tweeter.net.oldGenorators.UserGenerator;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 
 class UserGeneratorTest {

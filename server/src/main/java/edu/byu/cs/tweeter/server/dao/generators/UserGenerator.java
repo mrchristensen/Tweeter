@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.server.dao;
+package edu.byu.cs.tweeter.server.dao.generators;
 
 import com.google.gson.Gson;
 
@@ -49,6 +49,17 @@ public class UserGenerator {
         }
 
         return instance;
+    }
+
+    public static List<User> getNUsers(int n){
+        List<User> users = new ArrayList<>();
+        for(int i=0; i < n; i++){
+            users.add(new User("fname" + i,
+                    "lname" + i,
+                    "@tempAlias" + i,
+                    FEMALE_IMAGE_URL));
+        }
+        return users;
     }
 
     /*
@@ -155,4 +166,6 @@ public class UserGenerator {
             return data;
         }
     }
+
+
 }

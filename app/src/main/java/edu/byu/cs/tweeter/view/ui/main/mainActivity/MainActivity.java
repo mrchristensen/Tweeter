@@ -1,8 +1,10 @@
 package edu.byu.cs.tweeter.view.ui.main.mainActivity;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -99,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         });
 
         user = presenter.getCurrentUser();
-        ServerFacade.setCurrentUser(user);
         userImageView = findViewById(R.id.userImage);
 
         // Asynchronously load the user's image
@@ -166,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         builder.show();
     }
 
+    @SuppressLint("NewApi")
     private void postStatus(String statusMessage) {
         PostStatusTask postStatusTask = new PostStatusTask(postStatusPresenter,this);
 
@@ -191,17 +194,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
                 View view = findViewById(android.R.id.content);
                 Log.i(LOG_TAG, "Searched for: " + searchInput);
 
-
                 startStoryViewActivity(view, searchInput);
-
-//                User user = new ServerFacade().findUser(); //todo make this async
-//                if(user != null){
-//                    startStoryViewActivity(view, searchInput);
-//                }
-//                else{
-//                    Snackbar.make(view, "The user: \"" + searchInput + "\", does not exit.",
-//                            Snackbar.LENGTH_LONG).setAction("Action", null).show();
-//                }
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -283,7 +276,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
     @Override
     public void statusPosted(PostStatusResponse response) {
         View view = findViewById(android.R.id.content);
-        Snackbar.make(view, "Status was successfully publish: " + response.getStatus().getMessageBody(),
+        Snackbar.make(view, "Status was successfully published: " + response.getStatus().getMessageBody(),
                 Snackbar.LENGTH_LONG).setAction("Action", null).show();
     }
 }
