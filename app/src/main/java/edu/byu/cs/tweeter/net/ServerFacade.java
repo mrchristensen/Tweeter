@@ -19,6 +19,7 @@ import edu.byu.cs.tweeter.shared.model.service.request.FollowersRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowingRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.LoginRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.LogoutRequest;
+import edu.byu.cs.tweeter.shared.model.service.request.PostStatusRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.StoryRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FeedResponse;
@@ -28,6 +29,7 @@ import edu.byu.cs.tweeter.shared.model.service.response.FollowersResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.LoginResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.LogoutResponse;
+import edu.byu.cs.tweeter.shared.model.service.response.PostStatusResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.StoryResponse;
 
@@ -66,11 +68,11 @@ public class ServerFacade {
 
     }
 
-    @SuppressLint("NewApi")
-    public void postStatus(User user, String statusMessage){
-        statusesByUser.get(user).add(new Status(user, LocalDateTime.now().toString(), statusMessage)); //todo clean up
-//        statusesByUser.get(user).add(new Status(user, System.currentTimeMillis(), statusMessage));
-    }
+//    @SuppressLint("NewApi")
+//    public void postStatus(User user, String statusMessage){
+//        statusesByUser.get(user).add(new Status(user, LocalDateTime.now().toString(), statusMessage)); //todo clean up
+////        statusesByUser.get(user).add(new Status(user, System.currentTimeMillis(), statusMessage));
+//    }
 
 //    public User registerUser(RegisterRequest request){
 //
@@ -591,6 +593,11 @@ public class ServerFacade {
     public FollowResponse addFollow(FollowRequest request, String urlPath) throws IOException {
         ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
         return clientCommunicator.doPut(urlPath, getJsonHeaders(), FollowResponse.class);
+    }
+
+    public PostStatusResponse postStatus(PostStatusRequest request, String urlPath) throws IOException {
+        ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
+        return clientCommunicator.doPost(urlPath, request, null, PostStatusResponse.class);
     }
 
     private Map<String, String> getJsonHeaders() {

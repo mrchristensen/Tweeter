@@ -24,21 +24,27 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
+import java.time.LocalDateTime;
+
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.presenter.FindUserPresenter;
 import edu.byu.cs.tweeter.presenter.LogoutPresenter;
+import edu.byu.cs.tweeter.presenter.PostStatusPresenter;
+import edu.byu.cs.tweeter.shared.model.domain.Status;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.presenter.MainPresenter;
+import edu.byu.cs.tweeter.shared.model.service.PostStatusService;
 import edu.byu.cs.tweeter.shared.model.service.request.FindUserRequest;
-import edu.byu.cs.tweeter.shared.model.service.request.LoginRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.LogoutRequest;
+import edu.byu.cs.tweeter.shared.model.service.request.PostStatusRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.LogoutResponse;
+import edu.byu.cs.tweeter.shared.model.service.response.PostStatusResponse;
 import edu.byu.cs.tweeter.view.asyncTasks.DoLogoutTask;
 import edu.byu.cs.tweeter.view.asyncTasks.FindUserTask;
-import edu.byu.cs.tweeter.view.asyncTasks.GetLoginTask;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadImageTask;
+import edu.byu.cs.tweeter.view.asyncTasks.PostStatusTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
 import edu.byu.cs.tweeter.view.ui.main.storyView.StoryViewActivity;
 import edu.byu.cs.tweeter.view.ui.start.startActivity.StartActivity;
@@ -46,12 +52,16 @@ import edu.byu.cs.tweeter.view.ui.start.startActivity.StartActivity;
 /**
  * The main activity for the application. Contains tabs for feed, story, following, and followers.
  */
-public class MainActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver, FindUserTask.FindUserObserver, MainPresenter.View, View.OnCreateContextMenuListener, FindUserPresenter.View, DoLogoutTask.LogoutObserver, LogoutPresenter.View {
+public class MainActivity extends AppCompatActivity implements LoadImageTask.LoadImageObserver,
+        FindUserTask.FindUserObserver, MainPresenter.View, View.OnCreateContextMenuListener,
+        FindUserPresenter.View, DoLogoutTask.LogoutObserver, LogoutPresenter.View,
+        PostStatusPresenter.View, PostStatusTask.PostStatusObserver {
     private static final String LOG_TAG = "MainActivity";
 
     private MainPresenter presenter;
     private FindUserPresenter findUserPresenter;
     private LogoutPresenter logoutPresenter;
+    private PostStatusPresenter postStatusPresenter;
     private User user;
     private ImageView userImageView;
     private View storyView;
@@ -70,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         presenter = new MainPresenter(this);
         findUserPresenter = new FindUserPresenter(this);
         logoutPresenter = new LogoutPresenter(this);
+        postStatusPresenter = new PostStatusPresenter(this);
+
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
@@ -155,7 +167,10 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
     }
 
     private void postStatus(String statusMessage) {
-        new ServerFacade().postStatus(presenter.getCurrentUser(), statusMessage); //todo make this async (new PutStatusTask)
+        PostStatusTask postStatusTask = new PostStatusTask(postStatusPresenter,this);
+
+        PostStatusRequest request = new PostStatusRequest(new Status(presenter.getCurrentUser(), LocalDateTime.now().toString(), statusMessage));
+        postStatusTask.execute(request);
     }
 
     private void search() {
@@ -246,7 +261,6 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         }
         else {
             View view = findViewById(android.R.id.content);
-
             Snackbar.make(view, "The user: \"" + response.getUserAlias() + "\", does not exit.",
                     Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }
@@ -261,9 +275,15 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         }
         else{
             View view = findViewById(android.R.id.content);
-
             Snackbar.make(view, "Logout was unsuccessful",
                     Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }
+    }
+
+    @Override
+    public void statusPosted(PostStatusResponse response) {
+        View view = findViewById(android.R.id.content);
+        Snackbar.make(view, "Status was successfully publish: " + response.getStatus().getMessageBody(),
+                Snackbar.LENGTH_LONG).setAction("Action", null).show();
     }
 }

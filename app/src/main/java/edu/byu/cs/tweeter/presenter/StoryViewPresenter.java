@@ -3,9 +3,13 @@ package edu.byu.cs.tweeter.presenter;
 import java.io.IOException;
 
 import edu.byu.cs.tweeter.model.services.FollowServiceProxy;
+import edu.byu.cs.tweeter.model.services.PostStatusServiceProxy;
 import edu.byu.cs.tweeter.shared.model.service.FollowService;
+import edu.byu.cs.tweeter.shared.model.service.PostStatusService;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowRequest;
+import edu.byu.cs.tweeter.shared.model.service.request.PostStatusRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
+import edu.byu.cs.tweeter.shared.model.service.response.PostStatusResponse;
 
 /**
  * The presenter for the main activity.
@@ -52,4 +56,5 @@ public class StoryViewPresenter extends Presenter {
         FollowService service = new FollowServiceProxy();
         return service.addFollow(request);
     }
+
 }
