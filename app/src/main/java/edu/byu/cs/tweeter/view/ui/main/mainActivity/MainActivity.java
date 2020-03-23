@@ -30,6 +30,7 @@ import com.google.android.material.tabs.TabLayout;
 import java.time.LocalDateTime;
 
 import edu.byu.cs.tweeter.R;
+import edu.byu.cs.tweeter.net.SessionCache;
 import edu.byu.cs.tweeter.presenter.FindUserPresenter;
 import edu.byu.cs.tweeter.presenter.LogoutPresenter;
 import edu.byu.cs.tweeter.presenter.PostStatusPresenter;
@@ -174,7 +175,8 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
     private void postStatus(String statusMessage) {
         PostStatusTask postStatusTask = new PostStatusTask(postStatusPresenter,this);
 
-        PostStatusRequest request = new PostStatusRequest(new Status(presenter.getCurrentUser(), LocalDateTime.now().toString(), statusMessage));
+        PostStatusRequest request = new PostStatusRequest(new Status(presenter.getCurrentUser(),
+                LocalDateTime.now().toString(), statusMessage), SessionCache.getInstance().getAuthTokenString());
         postStatusTask.execute(request);
     }
 
@@ -212,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
     private void logout() {
         DoLogoutTask doLogoutTask = new DoLogoutTask(logoutPresenter, this);
 
-        LogoutRequest request = new LogoutRequest(presenter.getCurrentUser());
+        LogoutRequest request = new LogoutRequest(presenter.getCurrentUser(), SessionCache.getInstance().getAuthTokenString());
         doLogoutTask.execute(request);
     }
 

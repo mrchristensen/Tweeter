@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import edu.byu.cs.tweeter.R;
+import edu.byu.cs.tweeter.net.SessionCache;
 import edu.byu.cs.tweeter.presenter.FindUserPresenter;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.presenter.StoryViewPresenter;
@@ -84,7 +85,7 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
 
         followButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                FollowRequest request = new FollowRequest(presenter.getCurrentUser().getAlias(), user.getAlias());
+                FollowRequest request = new FollowRequest(presenter.getCurrentUser().getAlias(), user.getAlias(), SessionCache.getInstance().getAuthTokenString());
 
                 if(isFollowing){ //Remove following relation
                     RemoveFollowTask removeFollowTask = new RemoveFollowTask(presenter, storyViewActivity);
@@ -112,7 +113,7 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
     private void checkUserFollows() {
         GetFollowTask getFollowTask = new GetFollowTask(presenter, this);
 
-        FollowRequest request = new FollowRequest(presenter.getCurrentUser().getAlias(), user.getAlias());
+        FollowRequest request = new FollowRequest(presenter.getCurrentUser().getAlias(), user.getAlias(), SessionCache.getInstance().getAuthTokenString());
         getFollowTask.execute(request);
     }
 

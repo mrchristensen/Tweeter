@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Objects;
 
 import edu.byu.cs.tweeter.R;
+import edu.byu.cs.tweeter.net.SessionCache;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowersRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowersResponse;
@@ -232,7 +233,7 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
             else{
                 user = presenter.getCurrentUser();
             }
-            FollowersRequest request = new FollowersRequest(user, PAGE_SIZE, lastFollower);
+            FollowersRequest request = new FollowersRequest(user, PAGE_SIZE, lastFollower, SessionCache.getInstance().getAuthTokenString());
             getFollowersTask.execute(request);
         }
 

@@ -7,11 +7,14 @@ import edu.byu.cs.tweeter.shared.model.domain.User;
  * Contains all the information needed to make a request to have the server return the next page of
  * statuses for a specified user (their story).
  */
-public class StoryRequest {
+public class StoryRequest extends AuthorizedRequest {
 
     public User user;
     public int limit;
     public Status lastStatus;
+
+    public StoryRequest() {
+    }
 
     /**
      * Creates an instance.
@@ -22,13 +25,11 @@ public class StoryRequest {
      *                     there was no previous request or if no followees were returned in the
      *                     previous request).
      */
-    public StoryRequest(User user, int limit, Status lastStatus) {
+    public StoryRequest(User user, int limit, Status lastStatus, String authTokenString) {
         this.user = user;
         this.limit = limit;
         this.lastStatus = lastStatus;
-    }
-
-    public StoryRequest() {
+        this.authTokenString = authTokenString;
     }
 
     /**

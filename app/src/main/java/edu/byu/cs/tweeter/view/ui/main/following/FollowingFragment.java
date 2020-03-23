@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Objects;
 
 import edu.byu.cs.tweeter.R;
+import edu.byu.cs.tweeter.net.SessionCache;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowingRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
@@ -232,7 +233,7 @@ public class FollowingFragment extends Fragment implements FollowingPresenter.Vi
             else{
                 user = presenter.getCurrentUser();
             }
-            FollowingRequest request = new FollowingRequest(user, PAGE_SIZE, lastFollowee);
+            FollowingRequest request = new FollowingRequest(user, PAGE_SIZE, lastFollowee, SessionCache.getInstance().getAuthTokenString());
             getFollowingTask.execute(request);
         }
 

@@ -34,6 +34,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.byu.cs.tweeter.R;
+import edu.byu.cs.tweeter.net.SessionCache;
 import edu.byu.cs.tweeter.presenter.FindUserPresenter;
 import edu.byu.cs.tweeter.shared.model.domain.Status;
 import edu.byu.cs.tweeter.shared.model.domain.User;
@@ -330,7 +331,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View, Find
             else{
                 user = presenter.getCurrentUser();
             }
-            StoryRequest request = new StoryRequest(user, PAGE_SIZE, lastStatus);
+            StoryRequest request = new StoryRequest(user, PAGE_SIZE, lastStatus, SessionCache.getInstance().getAuthTokenString());
             getStoryTask.execute(request);
         }
 
