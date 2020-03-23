@@ -23,8 +23,7 @@ public class GetImageServiceImpl implements GetImageService {
         try {
             return new GetImageResponse(imageDAO.getImage(request));
         } catch (Exception e) {
-            e.printStackTrace();
-            return new GetImageResponse(null);
+            throw new RuntimeException("server error");
         }
     }
 }
