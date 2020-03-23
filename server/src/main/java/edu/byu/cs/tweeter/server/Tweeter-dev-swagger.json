@@ -1,0 +1,1361 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "CS 340",
+    "version": "2020-03-23T22:48:36Z",
+    "title": "Tweeter"
+  },
+  "host": "SERVER_URL_API.execute-api.us-west-2.amazonaws.com",
+  "basePath": "/dev",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/dologin": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "DoLoginRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DoLoginRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/DoLoginResponse"
+            }
+          },
+          "400": {
+            "description": "400 response",
+            "schema": {
+              "$ref": "#/definitions/DoLoginResponse"
+            }
+          },
+          "500": {
+            "description": "500 response",
+            "schema": {
+              "$ref": "#/definitions/DoLoginResponse"
+            }
+          }
+        }
+      }
+    },
+    "/dologout": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "AuthToken",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "DoLogoutRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DoLogoutRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/DoLogoutResponse"
+            }
+          },
+          "400": {
+            "description": "400 response",
+            "schema": {
+              "$ref": "#/definitions/DoLogoutResponse"
+            }
+          },
+          "500": {
+            "description": "500 response",
+            "schema": {
+              "$ref": "#/definitions/DoLogoutResponse"
+            }
+          }
+        }
+      }
+    },
+    "/doregister": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "DoRegisterRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DoRegisterRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/Empty"
+            }
+          },
+          "400": {
+            "description": "400 response",
+            "schema": {
+              "$ref": "#/definitions/DoRegisterResponse"
+            }
+          },
+          "500": {
+            "description": "500 response",
+            "schema": {
+              "$ref": "#/definitions/DoRegisterResponse"
+            }
+          }
+        }
+      }
+    },
+    "/getfeed": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "AuthToken",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "GetFeedRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetFeedRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/GetFeedResponse"
+            }
+          },
+          "400": {
+            "description": "400 response",
+            "schema": {
+              "$ref": "#/definitions/GetFeedResponse"
+            }
+          },
+          "500": {
+            "description": "500 response",
+            "schema": {
+              "$ref": "#/definitions/GetFeedResponse"
+            }
+          }
+        }
+      }
+    },
+    "/getfollowers": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "authToken",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "GetFollowerRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetFollowerRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/GetFollowerResponse"
+            }
+          },
+          "400": {
+            "description": "400 response",
+            "schema": {
+              "$ref": "#/definitions/GetFollowerResponse"
+            }
+          },
+          "500": {
+            "description": "500 response",
+            "schema": {
+              "$ref": "#/definitions/GetFollowerResponse"
+            }
+          }
+        }
+      }
+    },
+    "/getfollowing": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "AuthToken",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "GetFollowingRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetFollowingRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/GetFollowingResponse"
+            }
+          },
+          "400": {
+            "description": "400 response",
+            "schema": {
+              "$ref": "#/definitions/GetFollowingResponse"
+            }
+          },
+          "500": {
+            "description": "500 response",
+            "schema": {
+              "$ref": "#/definitions/GetFollowingResponse"
+            }
+          }
+        }
+      }
+    },
+    "/getimage": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "GetImageRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetImageRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/GetImageResponse"
+            }
+          },
+          "400": {
+            "description": "400 response",
+            "schema": {
+              "$ref": "#/definitions/GetImageResponse"
+            }
+          },
+          "500": {
+            "description": "500 response",
+            "schema": {
+              "$ref": "#/definitions/GetImageResponse"
+            }
+          }
+        }
+      }
+    },
+    "/getstory": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "AuthToken",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "GetFeedResponse",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetFeedResponse"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/GetFeedResponse"
+            }
+          },
+          "400": {
+            "description": "400 response",
+            "schema": {
+              "$ref": "#/definitions/GetFeedResponse"
+            }
+          },
+          "500": {
+            "description": "500 response",
+            "schema": {
+              "$ref": "#/definitions/GetFeedResponse"
+            }
+          }
+        }
+      }
+    },
+    "/getuser/{useralias}": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "useralias",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/FindUserResponse"
+            }
+          },
+          "400": {
+            "description": "400 response",
+            "schema": {
+              "$ref": "#/definitions/FindUserResponse"
+            }
+          },
+          "500": {
+            "description": "500 response",
+            "schema": {
+              "$ref": "#/definitions/FindUserResponse"
+            }
+          }
+        }
+      }
+    },
+    "/poststatus": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "AuthToken",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "PostStatusRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PostStatusRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/PostStatusResponse"
+            }
+          },
+          "400": {
+            "description": "400 response",
+            "schema": {
+              "$ref": "#/definitions/PostStatusResponse"
+            }
+          },
+          "500": {
+            "description": "500 response",
+            "schema": {
+              "$ref": "#/definitions/PostStatusResponse"
+            }
+          }
+        }
+      }
+    },
+    "/{user1}/follows/{user2}": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user1",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user2",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "GetFollowRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetFollowRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/GetFollowResponse"
+            }
+          },
+          "400": {
+            "description": "400 response",
+            "schema": {
+              "$ref": "#/definitions/GetFollowResponse"
+            }
+          },
+          "500": {
+            "description": "500 response",
+            "schema": {
+              "$ref": "#/definitions/GetFollowResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user1",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "AuthToken",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "user2",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "GetFollowRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetFollowRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/GetFollowResponse"
+            }
+          },
+          "400": {
+            "description": "400 response",
+            "schema": {
+              "$ref": "#/definitions/GetFollowResponse"
+            }
+          },
+          "500": {
+            "description": "500 response",
+            "schema": {
+              "$ref": "#/definitions/GetFollowResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user1",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "AuthToken",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "user2",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "GetFollowRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetFollowRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/GetFollowResponse"
+            }
+          },
+          "400": {
+            "description": "400 response",
+            "schema": {
+              "$ref": "#/definitions/GetFollowResponse"
+            }
+          },
+          "500": {
+            "description": "500 response",
+            "schema": {
+              "$ref": "#/definitions/GetFollowResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "GetFollowRequestUser1": {
+      "type": "object",
+      "required": [
+        "alias",
+        "firstName",
+        "lastName"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "GetFollowerRequestFollowee": {
+      "type": "object",
+      "required": [
+        "alias",
+        "firstName",
+        "lastName"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "GetFollowerResponseFollowersItem": {
+      "type": "object",
+      "required": [
+        "alias",
+        "firstName",
+        "lastName"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "DoRegisterResponseCurrentUser": {
+      "type": "object",
+      "required": [
+        "alias",
+        "firstName",
+        "lastName"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "GetFollowingResponseFolloweesItem": {
+      "type": "object",
+      "required": [
+        "alias",
+        "firstName",
+        "lastName"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "GetFeedRequest": {
+      "type": "object",
+      "required": [
+        "limit",
+        "user"
+      ],
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/GetFeedRequestUser"
+        },
+        "limit": {
+          "type": "integer"
+        },
+        "lastStatus": {
+          "$ref": "#/definitions/GetFeedRequestLastStatus"
+        },
+        "authTokenString": {
+          "type": "string"
+        }
+      }
+    },
+    "FindUserResponseUser": {
+      "type": "object",
+      "required": [
+        "alias",
+        "firstName",
+        "lastName"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "PostStatusResponseStatus": {
+      "type": "object",
+      "required": [
+        "date",
+        "messageBody",
+        "user"
+      ],
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/PostStatusResponseStatusUser"
+        },
+        "date": {
+          "type": "string"
+        },
+        "messageBody": {
+          "type": "string"
+        }
+      }
+    },
+    "DoRegisterRequest": {
+      "type": "object",
+      "properties": {
+        "password": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "fistName": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        },
+        "profileImageURL": {
+          "type": "string"
+        }
+      }
+    },
+    "DoRegisterResponse": {
+      "type": "object",
+      "required": [
+        "currentUser",
+        "registerSuccessful"
+      ],
+      "properties": {
+        "registerSuccessful": {
+          "type": "boolean"
+        },
+        "currentUser": {
+          "$ref": "#/definitions/DoRegisterResponseCurrentUser"
+        },
+        "authTokenString": {
+          "type": "string"
+        }
+      }
+    },
+    "Empty": {
+      "type": "object",
+      "title": "Empty Schema"
+    },
+    "GetFollowingRequestFollower": {
+      "type": "object",
+      "required": [
+        "alias",
+        "firstName",
+        "lastName"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "PostStatusRequestStatus": {
+      "type": "object",
+      "required": [
+        "date",
+        "messageBody",
+        "user"
+      ],
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/PostStatusRequestStatusUser"
+        },
+        "date": {
+          "type": "string"
+        },
+        "messageBody": {
+          "type": "string"
+        }
+      }
+    },
+    "DoLogoutResponseUser": {
+      "type": "object",
+      "required": [
+        "alias",
+        "firstName",
+        "lastName"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "GetFollowResponse": {
+      "type": "object",
+      "required": [
+        "user1",
+        "user2"
+      ],
+      "properties": {
+        "follows": {
+          "type": "boolean"
+        },
+        "user1": {
+          "$ref": "#/definitions/GetFollowResponseUser1"
+        },
+        "user2": {
+          "$ref": "#/definitions/GetFollowResponseUser1"
+        }
+      }
+    },
+    "GetFeedResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "statuses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetFeedResponseStatusesItem"
+          }
+        },
+        "hasMorePages": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "GetFeedResponseStatusesItemUser": {
+      "type": "object",
+      "required": [
+        "alias",
+        "firstName",
+        "lastName"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "DoLoginResponseCurrentUser": {
+      "type": "object",
+      "required": [
+        "alias",
+        "firstName",
+        "lastName"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "PostStatusRequest": {
+      "type": "object",
+      "required": [
+        "authTokenString",
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/PostStatusRequestStatus"
+        },
+        "authTokenString": {
+          "type": "string"
+        }
+      }
+    },
+    "GetFeedResponseStatusesItem": {
+      "type": "object",
+      "required": [
+        "date",
+        "messageBody",
+        "user"
+      ],
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/GetFeedResponseStatusesItemUser"
+        },
+        "date": {
+          "type": "integer"
+        },
+        "messageBody": {
+          "type": "string"
+        }
+      }
+    },
+    "PostStatusResponseStatusUser": {
+      "type": "object",
+      "required": [
+        "alias",
+        "firstName",
+        "lastName"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "DoLoginResponse": {
+      "type": "object",
+      "required": [
+        "currentUser",
+        "loginSuccessful"
+      ],
+      "properties": {
+        "loginSuccessful": {
+          "type": "boolean"
+        },
+        "currentUser": {
+          "$ref": "#/definitions/DoLoginResponseCurrentUser"
+        },
+        "authTokenString": {
+          "type": "string"
+        }
+      }
+    },
+    "DoLogoutResponse": {
+      "type": "object",
+      "required": [
+        "successful"
+      ],
+      "properties": {
+        "successful": {
+          "type": "boolean"
+        },
+        "user": {
+          "$ref": "#/definitions/DoLogoutResponseUser"
+        }
+      }
+    },
+    "PostStatusRequestStatusUser": {
+      "type": "object",
+      "required": [
+        "alias",
+        "firstName",
+        "lastName"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "GetFollowerResponse": {
+      "type": "object",
+      "required": [
+        "followers",
+        "hasMorePages",
+        "success"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "followers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetFollowerResponseFollowersItem"
+          }
+        },
+        "hasMorePages": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "DoLogoutRequest": {
+      "type": "object",
+      "required": [
+        "authTokenString",
+        "currentUser"
+      ],
+      "properties": {
+        "currentUser": {
+          "$ref": "#/definitions/DoLogoutRequestCurrentUser"
+        },
+        "authTokenString": {
+          "type": "string"
+        }
+      }
+    },
+    "GetFeedRequestLastStatus": {
+      "type": "object",
+      "required": [
+        "date",
+        "messageBody",
+        "user"
+      ],
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/GetFeedRequestUser"
+        },
+        "date": {
+          "type": "string"
+        },
+        "messageBody": {
+          "type": "string"
+        }
+      }
+    },
+    "GetImageResponse": {
+      "type": "object",
+      "required": [
+        "imageBytes"
+      ],
+      "properties": {
+        "imageBytes": {
+          "type": "string"
+        }
+      }
+    },
+    "GetFollowResponseUser1": {
+      "type": "object",
+      "required": [
+        "alias",
+        "firstName",
+        "lastName"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "GetFollowerRequest": {
+      "type": "object",
+      "required": [
+        "authTokenString",
+        "followee",
+        "limit"
+      ],
+      "properties": {
+        "followee": {
+          "$ref": "#/definitions/GetFollowerRequestFollowee"
+        },
+        "limit": {
+          "type": "integer"
+        },
+        "lastFollowee": {
+          "$ref": "#/definitions/GetFollowerRequestFollowee"
+        },
+        "authTokenString": {
+          "type": "string"
+        }
+      }
+    },
+    "GetFollowingRequest": {
+      "type": "object",
+      "required": [
+        "authTokenString",
+        "follower",
+        "limit"
+      ],
+      "properties": {
+        "follower": {
+          "$ref": "#/definitions/GetFollowingRequestFollower"
+        },
+        "limit": {
+          "type": "integer"
+        },
+        "lastFollowee": {
+          "$ref": "#/definitions/GetFollowingRequestFollower"
+        },
+        "authTokenString": {
+          "type": "string"
+        }
+      }
+    },
+    "GetImageRequest": {
+      "type": "object",
+      "required": [
+        "imageURL"
+      ],
+      "properties": {
+        "imageURL": {
+          "type": "string"
+        }
+      }
+    },
+    "DoLoginRequest": {
+      "type": "object",
+      "required": [
+        "alias",
+        "password"
+      ],
+      "properties": {
+        "password": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        }
+      }
+    },
+    "GetFeedRequestUser": {
+      "type": "object",
+      "required": [
+        "alias",
+        "firstName",
+        "lastName"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "PostStatusResponse": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/PostStatusResponseStatus"
+        }
+      }
+    },
+    "FindUserResponse": {
+      "type": "object",
+      "required": [
+        "successful"
+      ],
+      "properties": {
+        "successful": {
+          "type": "boolean"
+        },
+        "user": {
+          "$ref": "#/definitions/FindUserResponseUser"
+        },
+        "userAlias": {
+          "type": "string"
+        }
+      }
+    },
+    "GetFollowRequest": {
+      "type": "object",
+      "required": [
+        "user1",
+        "user2"
+      ],
+      "properties": {
+        "user1": {
+          "$ref": "#/definitions/GetFollowRequestUser1"
+        },
+        "user2": {
+          "$ref": "#/definitions/GetFollowRequestUser1"
+        },
+        "authTokenString": {
+          "type": "string"
+        }
+      }
+    },
+    "DoLogoutRequestCurrentUser": {
+      "type": "object",
+      "required": [
+        "alias",
+        "firstName",
+        "lastName"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "GetFollowingResponse": {
+      "type": "object",
+      "required": [
+        "followees",
+        "hasMorePages",
+        "success"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "followees": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetFollowingResponseFolloweesItem"
+          }
+        },
+        "hasMorePages": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
