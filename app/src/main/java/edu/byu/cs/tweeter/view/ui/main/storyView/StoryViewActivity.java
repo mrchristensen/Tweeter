@@ -21,6 +21,7 @@ import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.presenter.StoryViewPresenter;
 import edu.byu.cs.tweeter.shared.model.service.request.FindUserRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowRequest;
+import edu.byu.cs.tweeter.shared.model.service.request.GetImageRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
 import edu.byu.cs.tweeter.view.asyncTasks.RemoveFollowTask;
@@ -97,8 +98,9 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
         });
 
         // Asynchronously load the user's image
+        GetImageRequest request = new GetImageRequest(user.getImageUrl());
         LoadImageTask loadImageTask = new LoadImageTask(this);
-        loadImageTask.execute(user.getImageUrl());
+        loadImageTask.execute(request);
 
         TextView userName = findViewById(R.id.userName);
         userName.setText(user.getName());

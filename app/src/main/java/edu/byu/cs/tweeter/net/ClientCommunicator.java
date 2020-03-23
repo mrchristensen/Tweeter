@@ -34,6 +34,8 @@ class ClientCommunicator {
             @Override
             public void setRequestMethod(HttpURLConnection connection) throws IOException {
                 connection.setRequestMethod("POST");
+                connection.setDoOutput(true);
+
             }
 
             @Override

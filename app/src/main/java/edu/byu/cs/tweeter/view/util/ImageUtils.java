@@ -45,4 +45,11 @@ public class ImageUtils {
             }
         }
     }
+
+    public static Drawable drawableFromByteStream(byte[] byteStream) throws IOException {
+        Bitmap compressedBitmap = BitmapFactory.decodeByteArray(byteStream,0,byteStream.length);
+        return compressedBitmap == null ? null : new BitmapDrawable(Resources.getSystem(), compressedBitmap);
+
+    }
+
 }

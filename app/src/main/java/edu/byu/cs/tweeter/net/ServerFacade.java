@@ -1,22 +1,14 @@
 package edu.byu.cs.tweeter.net;
 
-import android.annotation.SuppressLint;
-import android.util.Log;
-
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import edu.byu.cs.tweeter.shared.model.domain.Follow;
-import edu.byu.cs.tweeter.shared.model.domain.Status;
-import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowersRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowingRequest;
+import edu.byu.cs.tweeter.shared.model.service.request.GetImageRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.LoginRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.LogoutRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.PostStatusRequest;
@@ -27,6 +19,7 @@ import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowersResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
+import edu.byu.cs.tweeter.shared.model.service.response.GetImageResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.LoginResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.LogoutResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.PostStatusResponse;
@@ -117,25 +110,42 @@ public class ServerFacade {
     }
 
     public FollowResponse removeFollow(FollowRequest request, String urlPath) throws IOException {
+        Map<String, String> headers = new HashMap<>();
+        addJsonHeaders(headers);
+        addAuthTokenHeaders(headers);
+
         ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
-        return clientCommunicator.doDelete(urlPath, getJsonHeaders(), FollowResponse.class);
+        return clientCommunicator.doDelete(urlPath, headers, FollowResponse.class);
     }
 
     public FollowResponse addFollow(FollowRequest request, String urlPath) throws IOException {
+        Map<String, String> headers = new HashMap<>();
+        addJsonHeaders(headers);
+
         ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
-        return clientCommunicator.doPut(urlPath, getJsonHeaders(), FollowResponse.class);
+        return clientCommunicator.doPut(urlPath, headers, FollowResponse.class);
     }
 
     public PostStatusResponse postStatus(PostStatusRequest request, String urlPath) throws IOException {
+        Map<String, String> headers = new HashMap<>();
+        addJsonHeaders(headers);
+        addAuthTokenHeaders(headers);
+
         ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
-        return clientCommunicator.doPost(urlPath, request, null, PostStatusResponse.class);
+        return clientCommunicator.doPost(urlPath, request, headers, PostStatusResponse.class);
     }
 
-    private Map<String, String> getJsonHeaders() {
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", "application/json");
+    public GetImageResponse getImage(GetImageRequest request, String urlPath) throws IOException {
+        ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
+        return clientCommunicator.doPost(urlPath, request, null, GetImageResponse.class);
+    }
 
-        return headers;
+    private void addJsonHeaders(Map<String, String> headers) {
+        headers.put("Content-Type", "application/json");
+    }
+
+    private void addAuthTokenHeaders(Map<String, String> headers) {
+        headers.put("AuthToken", SessionCache.getInstance().getAuthTokenString());
     }
 }
 

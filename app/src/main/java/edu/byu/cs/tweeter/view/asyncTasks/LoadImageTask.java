@@ -6,14 +6,19 @@ import android.util.Log;
 
 import java.io.IOException;
 
+import edu.byu.cs.tweeter.net.ServerFacade;
+import edu.byu.cs.tweeter.shared.model.service.request.GetImageRequest;
 import edu.byu.cs.tweeter.view.util.ImageUtils;
 
 /**
  * An {@link AsyncTask} for loading images from a set of URLs.
  */
-public class LoadImageTask extends AsyncTask<String, Integer, Drawable []> {
+public class LoadImageTask extends AsyncTask<GetImageRequest, Integer, Drawable []> {
 
     private final LoadImageObserver observer;
+    private final ServerFacade serverFacade;
+
+    private static final String URL_PATH = "/getimage";
 
     /**
      * An observer interface to be implemented by observers who want to be notified when this task
@@ -32,28 +37,31 @@ public class LoadImageTask extends AsyncTask<String, Integer, Drawable []> {
      */
     public LoadImageTask(LoadImageObserver observer) {
         this.observer = observer;
+        this.serverFacade = new ServerFacade();
     }
 
     /**
      * The method that is invoked on the background thread to retrieve images.
      *
-     * @param urls the urls from which images should be retrieved.
+     * @param requests the urls from which images should be retrieved.
      * @return the images.
      */
     @Override
-    protected Drawable [] doInBackground(String... urls) {
+    protected Drawable [] doInBackground(GetImageRequest... requests) {
 
-        Drawable [] drawables = new Drawable [urls.length];
+        Drawable [] drawables = new Drawable [requests.length];
 
-        for(int i = 0; i < urls.length; i++) {
+        for(int i = 0; i < requests.length; i++) {
 
             try {
-                drawables[i] = ImageUtils.drawableFromUrl(urls[0]);
+                GetImageRequest request = new GetImageRequest(requests[0].getImageURL());
+
+                drawables[i] = ImageUtils.drawableFromUrl(request.getImageURL());
             } catch (IOException e) {
                 Log.e(this.getClass().getName(), "Error loading image. " + e);
             }
 
-            publishProgress((i / urls.length) * 100);
+            publishProgress((i / requests.length) * 100);
         }
 
         return drawables;
