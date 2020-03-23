@@ -55,7 +55,9 @@ public class FindUserTask extends AsyncTask<FindUserRequest, Integer, FindUserRe
         FindUserResponse response = null;
         try {
             response = presenter.findUser(requests[0]);
-            loadImages(response);
+            if (response.isSuccessful()){
+                loadImages(response);
+            }
         } catch (IOException e) {
             exception = e;
             e.printStackTrace();
