@@ -3,9 +3,9 @@ package edu.byu.cs.tweeter.server.lambda;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
+import edu.byu.cs.tweeter.server.service.FollowingServiceImpl;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowingRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
-import edu.byu.cs.tweeter.server.service.FollowingServiceImpl;
 
 /**
  * An AWS lambda function that returns the users a user is following.

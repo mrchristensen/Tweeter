@@ -21,10 +21,10 @@ import java.util.Objects;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.net.SessionCache;
+import edu.byu.cs.tweeter.presenter.FollowersPresenter;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowersRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowersResponse;
-import edu.byu.cs.tweeter.presenter.FollowersPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFollowersTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
 import edu.byu.cs.tweeter.view.ui.main.mainActivity.MainActivity;

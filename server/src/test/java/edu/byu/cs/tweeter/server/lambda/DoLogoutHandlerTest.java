@@ -3,12 +3,8 @@ package edu.byu.cs.tweeter.server.lambda;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import edu.byu.cs.tweeter.server.lambda.DeleteFollowHandler;
-import edu.byu.cs.tweeter.server.lambda.DoLogoutHandler;
 import edu.byu.cs.tweeter.shared.model.domain.User;
-import edu.byu.cs.tweeter.shared.model.service.request.FollowRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.LogoutRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.LogoutResponse;
 
 public class DoLogoutHandlerTest {

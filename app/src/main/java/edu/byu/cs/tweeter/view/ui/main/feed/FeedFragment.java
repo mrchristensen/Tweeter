@@ -36,13 +36,13 @@ import java.util.regex.Pattern;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.net.SessionCache;
+import edu.byu.cs.tweeter.presenter.FeedPresenter;
 import edu.byu.cs.tweeter.presenter.FindUserPresenter;
 import edu.byu.cs.tweeter.shared.model.domain.Status;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FindUserRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FeedResponse;
-import edu.byu.cs.tweeter.presenter.FeedPresenter;
 import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
 import edu.byu.cs.tweeter.view.asyncTasks.FindUserTask;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFeedTask;

@@ -5,9 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
-import edu.byu.cs.tweeter.shared.model.service.request.FollowRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FeedResponse;
-import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
 
 public class GetFeedHandlerTest {
 

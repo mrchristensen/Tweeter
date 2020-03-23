@@ -4,9 +4,9 @@ import android.os.AsyncTask;
 
 import java.io.IOException;
 
+import edu.byu.cs.tweeter.presenter.StoryPresenter;
 import edu.byu.cs.tweeter.shared.model.service.request.StoryRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.StoryResponse;
-import edu.byu.cs.tweeter.presenter.StoryPresenter;
 
 /**
  * An {@link AsyncTask} for retrieving followees for a user.

@@ -12,8 +12,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 
 import edu.byu.cs.tweeter.R;
-import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.presenter.MainPresenter;
+import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadImageTask;
 import edu.byu.cs.tweeter.view.ui.main.mainActivity.MainActivity;
 

@@ -1,11 +1,8 @@
 package edu.byu.cs.tweeter.view.asyncTasks;
 
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.IOException;
-
 
 import edu.byu.cs.tweeter.presenter.StoryViewPresenter;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowRequest;

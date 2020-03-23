@@ -10,7 +10,6 @@ import edu.byu.cs.tweeter.presenter.FindUserPresenter;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.request.FindUserRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
-import edu.byu.cs.tweeter.shared.model.service.response.FollowersResponse;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
 import edu.byu.cs.tweeter.view.util.ImageUtils;
 

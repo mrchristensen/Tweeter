@@ -4,9 +4,9 @@ import android.os.AsyncTask;
 
 import java.io.IOException;
 
+import edu.byu.cs.tweeter.presenter.RegisterPresenter;
 import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
-import edu.byu.cs.tweeter.presenter.RegisterPresenter;
 
 /**
  * An {@link AsyncTask} for retrieving followews for a user.

@@ -4,9 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import edu.byu.cs.tweeter.shared.model.domain.User;
-import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowersRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.FeedResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowersResponse;
 
 public class GetFollowersHandlerTest {
