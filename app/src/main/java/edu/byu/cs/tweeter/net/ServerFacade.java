@@ -105,12 +105,12 @@ public class ServerFacade {
         return clientCommunicator.doPost(urlPath, request, headers, FeedResponse.class);
     }
 
-    public LoginResponse getLogin(LoginRequest request, String urlPath) throws IOException {
+    public LoginResponse doLogin(LoginRequest request, String urlPath) throws IOException {
         ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
         return clientCommunicator.doPost(urlPath, request, null, LoginResponse.class);
     }
 
-    public RegisterResponse getRegister(RegisterRequest request, String urlPath) throws IOException {
+    public RegisterResponse doRegister(RegisterRequest request, String urlPath) throws IOException {
         ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
         return clientCommunicator.doPost(urlPath, request, null, RegisterResponse.class);
     }

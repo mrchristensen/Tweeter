@@ -75,7 +75,7 @@ class MainPresenterTest implements MainPresenter.View, RegisterPresenter.View{
     @Test
     void testSuccessMain() {
         RegisterRequest loginRequest = new RegisterRequest("username7", "password", "f", "l", "");
-        RegisterResponse loginResponse = presenter.getRegister(loginRequest);
+        RegisterResponse loginResponse = presenter.doRegister(loginRequest);
 
         Assertions.assertTrue(loginResponse.registerSuccessful());
         Assertions.assertNotNull(loginResponse.getCurrentUser());
@@ -92,9 +92,9 @@ class MainPresenterTest implements MainPresenter.View, RegisterPresenter.View{
     @Test
     void testUnsuccessfulMain() {
         RegisterRequest loginRequest = new RegisterRequest("username8", "password", "f", "l", "");
-        RegisterResponse loginResponse1 = presenter.getRegister(loginRequest);
+        RegisterResponse loginResponse1 = presenter.doRegister(loginRequest);
         loginRequest = new RegisterRequest("username8", "password", "f", "l", "");
-        RegisterResponse loginResponse2 = presenter.getRegister(loginRequest);
+        RegisterResponse loginResponse2 = presenter.doRegister(loginRequest);
 
         Assertions.assertFalse(loginResponse2.registerSuccessful());
         Assertions.assertNull(loginResponse2.getCurrentUser());

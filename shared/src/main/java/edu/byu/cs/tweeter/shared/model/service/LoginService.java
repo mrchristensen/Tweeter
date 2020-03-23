@@ -12,5 +12,5 @@ import edu.byu.cs.tweeter.shared.model.service.response.LoginResponse;
  */
 public interface LoginService {
 
-    LoginResponse getLogin(LoginRequest request) throws IOException;
+    LoginResponse doLogin(LoginRequest request) throws IOException;
 }

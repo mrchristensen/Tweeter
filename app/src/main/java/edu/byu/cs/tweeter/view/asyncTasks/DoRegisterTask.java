@@ -4,25 +4,25 @@ import android.os.AsyncTask;
 
 import java.io.IOException;
 
-import edu.byu.cs.tweeter.shared.model.service.request.LoginRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.LoginResponse;
-import edu.byu.cs.tweeter.presenter.LoginPresenter;
+import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
+import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
+import edu.byu.cs.tweeter.presenter.RegisterPresenter;
 
 /**
  * An {@link AsyncTask} for retrieving followews for a user.
  */
-public class GetLoginTask extends AsyncTask<LoginRequest, Void, LoginResponse> {
+public class DoRegisterTask extends AsyncTask<RegisterRequest, Void, RegisterResponse> {
 
-    private final LoginPresenter presenter;
-    private final GetLoginObserver observer;
+    private final RegisterPresenter presenter;
+    private final RegisterObserver observer;
     private Exception exception;
 
     /**
      * An observer interface to be implemented by observers who want to be notified when this task
      * completes.
      */
-    public interface GetLoginObserver {
-        void loginRetrieved(LoginResponse loginResponse);
+    public interface RegisterObserver {
+        void registerRetrieved(RegisterResponse registerResponse);
     }
 
     /**
@@ -31,7 +31,7 @@ public class GetLoginTask extends AsyncTask<LoginRequest, Void, LoginResponse> {
      * @param presenter the presenter from whom this task should retrieve followews.
      * @param observer the observer who wants to be notified when this task completes.
      */
-    public GetLoginTask(LoginPresenter presenter, GetLoginObserver observer) {
+    public DoRegisterTask(RegisterPresenter presenter, RegisterObserver observer) {
         this.presenter = presenter;
         this.observer = observer;
     }
@@ -39,14 +39,14 @@ public class GetLoginTask extends AsyncTask<LoginRequest, Void, LoginResponse> {
     /**
      * The method that is invoked on the background thread to retrieve followews.
      *
-     * @param loginRequests the request object (there will only be one).
+     * @param registerRequests the request object (there will only be one).
      * @return the response.
      */
     @Override
-    protected LoginResponse doInBackground(LoginRequest... loginRequests) {
-        LoginResponse response = null;
+    protected RegisterResponse doInBackground(RegisterRequest... registerRequests) {
+        RegisterResponse response = null;
         try {
-            response = presenter.getLogin(loginRequests[0]);
+            response = presenter.doRegister(registerRequests[0]);
         } catch (IOException e) {
             exception = e;
             e.printStackTrace();
@@ -57,13 +57,13 @@ public class GetLoginTask extends AsyncTask<LoginRequest, Void, LoginResponse> {
     /**
      * Notifies the observer (on the UI thread) when the task completes.
      *
-     * @param loginResponse the response that was received by the task.
+     * @param registerResponse the response that was received by the task.
      */
     @Override
-    protected void onPostExecute(LoginResponse loginResponse) {
+    protected void onPostExecute(RegisterResponse registerResponse) {
 
         if(observer != null) {
-            observer.loginRetrieved(loginResponse);
+            observer.registerRetrieved(registerResponse);
         }
     }
 }

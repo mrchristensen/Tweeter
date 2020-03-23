@@ -12,9 +12,9 @@ import edu.byu.cs.tweeter.shared.model.service.response.LoginResponse;
  */
 public class LoginServiceImpl implements LoginService {
     @Override
-    public LoginResponse getLogin(LoginRequest request) {
+    public LoginResponse doLogin(LoginRequest request) {
         LoginDAO loginDAO = new LoginDAO();
-        LoginResponse response = loginDAO.getLogin(request);
+        LoginResponse response = loginDAO.doLogin(request);
 
         if(response.loginSuccessful()){ //If correct login
             AuthTokenDAO authTokenDAO = new AuthTokenDAO();

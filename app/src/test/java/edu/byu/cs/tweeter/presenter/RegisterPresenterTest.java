@@ -63,7 +63,7 @@ class RegisterPresenterTest implements RegisterPresenter.View {
     @Test
     void testSuccessfulRegister() {
         RegisterRequest request = new RegisterRequest("username10", "password", "f", "l", "");
-        RegisterResponse response = presenter.getRegister(request);
+        RegisterResponse response = presenter.doRegister(request);
 
         Assertions.assertTrue(response.registerSuccessful());
         Assertions.assertNotNull(response.getCurrentUser());
@@ -73,14 +73,14 @@ class RegisterPresenterTest implements RegisterPresenter.View {
     @Test
     void testUnsuccessfulLogin() {
         RegisterRequest request = new RegisterRequest("username11", "password", "f", "l", "");
-        RegisterResponse response = presenter.getRegister(request);
+        RegisterResponse response = presenter.doRegister(request);
 
         Assertions.assertTrue(response.registerSuccessful());
         Assertions.assertNotNull(response.getCurrentUser());
         Assertions.assertEquals("@username11", response.getCurrentUser().getAlias());
 
         request = new RegisterRequest("username11", "password", "f", "l", "");
-        response = presenter.getRegister(request);
+        response = presenter.doRegister(request);
 
         Assertions.assertFalse(response.registerSuccessful());
         Assertions.assertNull(response.getCurrentUser());

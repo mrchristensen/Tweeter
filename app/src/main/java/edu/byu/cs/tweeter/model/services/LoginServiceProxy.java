@@ -12,13 +12,13 @@ import edu.byu.cs.tweeter.shared.model.service.response.LoginResponse;
  */
 public class LoginServiceProxy implements LoginService {
 
-    private static final String URL_PATH = "/getlogin";
+    private static final String URL_PATH = "/dologin";
 
     private final ServerFacade serverFacade = new ServerFacade();
 
     @Override
-    public LoginResponse getLogin(LoginRequest request) throws IOException {
-        LoginResponse response = serverFacade.getLogin(request, URL_PATH);
+    public LoginResponse doLogin(LoginRequest request) throws IOException {
+        LoginResponse response = serverFacade.doLogin(request, URL_PATH);
 
         return response;
     }

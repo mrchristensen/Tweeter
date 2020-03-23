@@ -38,8 +38,8 @@ public class LoginPresenter extends Presenter {
      * @param request contains the data required to fulfill the request.
      * @return the followees.
      */
-    public LoginResponse getLogin(LoginRequest request) throws IOException {
+    public LoginResponse doLogin(LoginRequest request) throws IOException {
         LoginService service = new LoginServiceProxy();
-        return service.getLogin(request);
+        return service.doLogin(request);
     }
 }

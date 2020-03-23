@@ -75,7 +75,7 @@ class StoryViewPresenterTest implements StoryViewPresenter.View, RegisterPresent
     @Test
     void testSuccessStoryView() {
         RegisterRequest loginRequest = new RegisterRequest("username16", "password", "f", "l", "");
-        RegisterResponse loginResponse = presenter.getRegister(loginRequest);
+        RegisterResponse loginResponse = presenter.doRegister(loginRequest);
 
         Assertions.assertTrue(loginResponse.registerSuccessful());
         Assertions.assertNotNull(loginResponse.getCurrentUser());
@@ -92,9 +92,9 @@ class StoryViewPresenterTest implements StoryViewPresenter.View, RegisterPresent
     @Test
     void testUnsuccessfulStoryView() {
         RegisterRequest loginRequest = new RegisterRequest("username15", "password", "f", "l", "");
-        RegisterResponse loginResponse1 = presenter.getRegister(loginRequest);
+        RegisterResponse loginResponse1 = presenter.doRegister(loginRequest);
         loginRequest = new RegisterRequest("username15", "password", "f", "l", "");
-        RegisterResponse loginResponse2 = presenter.getRegister(loginRequest);
+        RegisterResponse loginResponse2 = presenter.doRegister(loginRequest);
 
         Assertions.assertFalse(loginResponse2.registerSuccessful());
         Assertions.assertNull(loginResponse2.getCurrentUser());
