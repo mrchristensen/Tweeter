@@ -3,17 +3,14 @@ package edu.byu.cs.tweeter.server.lambda;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
-import edu.byu.cs.tweeter.server.service.FollowingServiceImpl;
 import edu.byu.cs.tweeter.server.service.LoginServiceImpl;
-import edu.byu.cs.tweeter.shared.model.service.request.FollowingRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.LoginRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.LoginResponse;
 
 /**
  * An AWS lambda function that returns the users a user is following.
  */
-public class GetLoginHandler implements RequestHandler<LoginRequest, LoginResponse> {
+public class DoLoginHandler implements RequestHandler<LoginRequest, LoginResponse> {
 
     /**
      * Returns the users that the user specified in the request is following. Uses information in
@@ -27,6 +24,6 @@ public class GetLoginHandler implements RequestHandler<LoginRequest, LoginRespon
     @Override
     public LoginResponse handleRequest(LoginRequest request, Context context) {
         LoginServiceImpl service = new LoginServiceImpl();
-        return service.getLogin(request);
+        return service.doLogin(request);
     }
 }

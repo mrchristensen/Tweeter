@@ -19,7 +19,7 @@ import edu.byu.cs.tweeter.net.SessionCache;
 import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
 import edu.byu.cs.tweeter.presenter.RegisterPresenter;
-import edu.byu.cs.tweeter.view.asyncTasks.GetRegisterTask;
+import edu.byu.cs.tweeter.view.asyncTasks.DoRegisterTask;
 import edu.byu.cs.tweeter.view.ui.start.startActivity.StartActivity;
 
 /**
@@ -105,12 +105,12 @@ public class RegisterFragment extends Fragment implements RegisterPresenter.View
         }
     }
 
-    private class RegisterViewAdapter implements GetRegisterTask.GetRegisterObserver {
+    private class RegisterViewAdapter implements DoRegisterTask.RegisterObserver {
         void registerCheck(String userAlias, String userPassword, String firstName, String lastName, String profileImageURL){
-            GetRegisterTask getRegisterTask = new GetRegisterTask(presenter, this);
+            DoRegisterTask doRegisterTask = new DoRegisterTask(presenter, this);
 
             RegisterRequest request = new RegisterRequest(userAlias, userPassword, firstName, lastName, profileImageURL);
-            getRegisterTask.execute(request);
+            doRegisterTask.execute(request);
         }
 
         /**

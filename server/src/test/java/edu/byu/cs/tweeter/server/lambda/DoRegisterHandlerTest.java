@@ -3,22 +3,18 @@ package edu.byu.cs.tweeter.server.lambda;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import edu.byu.cs.tweeter.server.lambda.GetLoginHandler;
-import edu.byu.cs.tweeter.server.lambda.GetRegisterHandler;
-import edu.byu.cs.tweeter.shared.model.service.request.LoginRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.LoginResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
 
-public class GetRegisterHandlerTest {
+public class DoRegisterHandlerTest {
 
-    private GetRegisterHandler handler;
+    private DoRegisterHandler handler;
     RegisterRequest request;
     RegisterResponse response;
 
     @BeforeEach
     void setup() {
-        handler = new GetRegisterHandler();
+        handler = new DoRegisterHandler();
         request = null;
         response = null;
     }

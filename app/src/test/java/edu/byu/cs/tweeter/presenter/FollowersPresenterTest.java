@@ -74,7 +74,7 @@ class FollowersPresenterTest implements RegisterPresenter.View, FollowersPresent
     @Test
     void testSuccessfulGetFollowers() {
         RegisterRequest request = new RegisterRequest("username1", "password", "f", "l", "");
-        RegisterResponse response = presenter.getRegister(request);
+        RegisterResponse response = presenter.doRegister(request);
 
         Assertions.assertTrue(response.registerSuccessful());
         Assertions.assertNotNull(response.getCurrentUser());
@@ -92,9 +92,9 @@ class FollowersPresenterTest implements RegisterPresenter.View, FollowersPresent
     @Test
     void testUnsuccessfulGetFollowers() {
         RegisterRequest request = new RegisterRequest("username3", "password", "f", "l", "");
-        RegisterResponse response = presenter.getRegister(request);
+        RegisterResponse response = presenter.doRegister(request);
         RegisterRequest request2 = new RegisterRequest("username3", "password", "f", "l", "");
-        RegisterResponse response2 = presenter.getRegister(request);
+        RegisterResponse response2 = presenter.doRegister(request);
 
         Assertions.assertFalse(response2.registerSuccessful());
         Assertions.assertNull(response2.getCurrentUser());

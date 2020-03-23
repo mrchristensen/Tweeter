@@ -74,7 +74,7 @@ class LoginPresenterTest implements LoginPresenter.View, RegisterPresenter.View{
     @Test
     void testSuccessfulLogin() {
         RegisterRequest loginRequest = new RegisterRequest("username6", "password", "f", "l", "");
-        RegisterResponse loginResponse = presenter.getRegister(loginRequest);
+        RegisterResponse loginResponse = presenter.doRegister(loginRequest);
 
         Assertions.assertTrue(loginResponse.registerSuccessful());
         Assertions.assertNotNull(loginResponse.getCurrentUser());
@@ -84,7 +84,7 @@ class LoginPresenterTest implements LoginPresenter.View, RegisterPresenter.View{
     @Test
     void testUnsuccessfulLogin() {
         RegisterRequest loginRequest = new RegisterRequest("test", "password", "f", "l", "");
-        RegisterResponse loginResponse = presenter.getRegister(loginRequest);
+        RegisterResponse loginResponse = presenter.doRegister(loginRequest);
 
         Assertions.assertFalse(loginResponse.registerSuccessful());
         Assertions.assertNull(loginResponse.getCurrentUser());

@@ -2,9 +2,7 @@ package edu.byu.cs.tweeter.presenter;
 
 import java.io.IOException;
 
-import edu.byu.cs.tweeter.model.services.LoginServiceProxy;
 import edu.byu.cs.tweeter.model.services.RegisterServiceProxy;
-import edu.byu.cs.tweeter.shared.model.service.LoginService;
 import edu.byu.cs.tweeter.shared.model.service.RegisterService;
 import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
@@ -40,8 +38,8 @@ public class RegisterPresenter extends Presenter {
      * @param request contains the data required to fulfill the request.
      * @return the followees.
      */
-    public RegisterResponse getRegister(RegisterRequest request) throws IOException {
+    public RegisterResponse doRegister(RegisterRequest request) throws IOException {
         RegisterService service = new RegisterServiceProxy();
-        return service.getRegister(request);
+        return service.doRegister(request);
     }
 }

@@ -3,12 +3,8 @@ package edu.byu.cs.tweeter.server.lambda;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import edu.byu.cs.tweeter.server.lambda.FindUserHandler;
-import edu.byu.cs.tweeter.server.lambda.GetRegisterHandler;
 import edu.byu.cs.tweeter.shared.model.service.request.FindUserRequest;
-import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
-import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
 
 public class FindUserHandlerTest {
 

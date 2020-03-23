@@ -19,7 +19,7 @@ import edu.byu.cs.tweeter.net.SessionCache;
 import edu.byu.cs.tweeter.shared.model.service.request.LoginRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.LoginResponse;
 import edu.byu.cs.tweeter.presenter.LoginPresenter;
-import edu.byu.cs.tweeter.view.asyncTasks.GetLoginTask;
+import edu.byu.cs.tweeter.view.asyncTasks.DoLoginTask;
 import edu.byu.cs.tweeter.view.ui.start.startActivity.StartActivity;
 
 /**
@@ -89,12 +89,12 @@ public class LoginFragment extends Fragment implements LoginPresenter.View {
         }
     }
 
-    private class LoginViewAdapter implements GetLoginTask.GetLoginObserver {
+    private class LoginViewAdapter implements DoLoginTask.LoginObserver {
         void loginCheck(String userAlias, String userPassword){
-            GetLoginTask getLoginTask = new GetLoginTask(presenter, this);
+            DoLoginTask doLoginTask = new DoLoginTask(presenter, this);
 
             LoginRequest request = new LoginRequest("@" + userAlias, userPassword);
-            getLoginTask.execute(request);
+            doLoginTask.execute(request);
         }
 
         /**

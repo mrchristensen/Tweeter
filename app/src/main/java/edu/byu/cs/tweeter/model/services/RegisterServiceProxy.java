@@ -12,13 +12,13 @@ import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
  */
 public class RegisterServiceProxy implements RegisterService {
 
-    private static final String URL_PATH = "/getregister";
+    private static final String URL_PATH = "/doregister";
 
     private final ServerFacade serverFacade = new ServerFacade();
 
     @Override
-    public RegisterResponse getRegister(RegisterRequest request) throws IOException {
-        RegisterResponse response = serverFacade.getRegister(request, URL_PATH);
+    public RegisterResponse doRegister(RegisterRequest request) throws IOException {
+        RegisterResponse response = serverFacade.doRegister(request, URL_PATH);
 
         return response;
     }

@@ -20,7 +20,7 @@ public class LoginDAO {
     private static final String MALE_IMAGE_URL = "https://raw.githubusercontent.com/mrchristensen/Tweeter/master/server/src/main/java/edu/byu/cs/tweeter/server/resources/dafny.png?token=ALDCLZTJF3B6EVFT7XYNC526QF32U";
 
 
-    public LoginResponse getLogin(LoginRequest request) {
+    public LoginResponse doLogin(LoginRequest request) {
         if (request.getAlias().equals("@test") && request.password.equals("test")) {
             //Successful login
             return new LoginResponse(true, new User("Josh", "Smith", request.getAlias(), MALE_IMAGE_URL));

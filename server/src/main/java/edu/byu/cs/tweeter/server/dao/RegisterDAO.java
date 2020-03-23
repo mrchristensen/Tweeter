@@ -11,7 +11,7 @@ import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
  */
 public class RegisterDAO {
 
-    public RegisterResponse getRegister(RegisterRequest request) {
+    public RegisterResponse doRegister(RegisterRequest request) {
         //TODO: Story passwords in hashes
         if (!request.getAlias().equals("test")) {
             //Successful register

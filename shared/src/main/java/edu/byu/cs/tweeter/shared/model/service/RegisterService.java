@@ -12,5 +12,5 @@ import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
  */
 public interface RegisterService {
 
-    RegisterResponse getRegister(RegisterRequest request) throws IOException;
+    RegisterResponse doRegister(RegisterRequest request) throws IOException;
 }
