@@ -160,7 +160,7 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
     @Override
     public void getUser(FindUserResponse response) {
         Intent storyViewActivityIntent = new Intent(storyView.getContext(), StoryViewActivity.class);
-        storyViewActivityIntent.putExtra("user", user);
+        storyViewActivityIntent.putExtra("user", response.getUser());
         storyViewActivityIntent.putExtra("activity", "storyViewActivity");
         startActivity(storyViewActivityIntent);
     }
