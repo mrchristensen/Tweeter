@@ -24,7 +24,7 @@ import edu.byu.cs.tweeter.shared.model.service.response.StoryResponse;
 public class ImageDAO {
 
     public String getImage(GetImageRequest request) throws Exception {
-        //TODO: Implement actual functionality once Databases are implemented
+        //TODO: Implement actual functionality once Databases are implemented (upload to AWS S3)
         String imagePath = request.getImageURL();
         System.out.println("Image path: " + imagePath);
 
