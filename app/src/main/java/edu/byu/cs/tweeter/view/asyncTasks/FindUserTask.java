@@ -1,12 +1,18 @@
 package edu.byu.cs.tweeter.view.asyncTasks;
 
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.IOException;
 
 import edu.byu.cs.tweeter.presenter.FindUserPresenter;
+import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.request.FindUserRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
+import edu.byu.cs.tweeter.shared.model.service.response.FollowersResponse;
+import edu.byu.cs.tweeter.view.cache.ImageCache;
+import edu.byu.cs.tweeter.view.util.ImageUtils;
 
 /**
  * An {@link AsyncTask} for loading images from a set of URLs.
@@ -41,7 +47,7 @@ public class FindUserTask extends AsyncTask<FindUserRequest, Integer, FindUserRe
     /**
      * The method that is invoked on the background thread to retrieve images.
      *
-     * @param urls the urls from which images should be retrieved.
+     * @param requests the urls from which images should be retrieved.
      * @return the images.
      */
     @Override
@@ -49,12 +55,34 @@ public class FindUserTask extends AsyncTask<FindUserRequest, Integer, FindUserRe
         FindUserResponse response = null;
         try {
             response = presenter.findUser(requests[0]);
+            loadImages(response);
         } catch (IOException e) {
             exception = e;
             e.printStackTrace();
         }
 
         return response;
+    }
+
+    /**
+     * Loads the image associated with each follower included in the response.
+     *
+     * @param response the response from the follower request.
+     */
+    private void loadImages(FindUserResponse response) {
+        User user = response.getUser();
+
+        Drawable drawable;
+
+        try {
+            drawable = ImageUtils.drawableFromUrl(user.getImageUrl());
+        } catch (IOException e) {
+            Log.e(this.getClass().getName(), e.toString(), e);
+            drawable = null;
+        }
+
+        ImageCache.getInstance().cacheImage(user, drawable);
+
     }
 
     /**
