@@ -1,6 +1,7 @@
 package edu.byu.cs.tweeter.server.dao.generators;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -43,8 +44,8 @@ public class StatusGenerator {
     public static List<Status> getNStatuses(int n, User user) {
         List<Status> statuses = new ArrayList<>();
         for(int i=0; i < n; i++){
-            statuses.add(new Status(user, LocalDateTime.now().toString(),"Fake tweet @test @asdf" + i)); //todo clean up
-//            statuses.add(new Status(user, System.currentTimeMillis(),"Fake tweet " + i));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy - HH:mm");
+            statuses.add(new Status(user, LocalDateTime.now().format(formatter),"Fake tweet @test @asdf" + i));
         }
         return statuses;
     }
