@@ -7,7 +7,7 @@ import edu.byu.cs.tweeter.shared.model.domain.User;
  * Contains all the information needed to make a request to have the server return the next page of
  * statuses for a specified user (their story).
  */
-public class FeedRequest {
+public class FeedRequest extends AuthorizedRequest {
 
     public User user;
     public int limit;
@@ -25,10 +25,11 @@ public class FeedRequest {
      *                     there was no previous request or if no followees were returned in the
      *                     previous request).
      */
-    public FeedRequest(User user, int limit, Status lastStatus) {
+    public FeedRequest(User user, int limit, Status lastStatus, String authTokenString) {
         this.user = user;
         this.limit = limit;
         this.lastStatus = lastStatus;
+        this.authTokenString = authTokenString;
     }
 
     /**

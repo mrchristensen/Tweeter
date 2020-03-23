@@ -6,7 +6,7 @@ import edu.byu.cs.tweeter.shared.model.domain.User;
  * Contains all the information needed to make a request to have the service return the next page of
  * followees for a specified follower.
  */
-public class FollowRequest {
+public class FollowRequest extends AuthorizedRequest {
 
     public String user1;
     public String user2;
@@ -19,6 +19,13 @@ public class FollowRequest {
     public FollowRequest(String user1, String user2) {
         this.user1 = user1;
         this.user2 = user2;
+        this.authTokenString = authTokenString;
+    }
+
+    public FollowRequest(String user1, String user2, String authTokenString) {
+        this.user1 = user1;
+        this.user2 = user2;
+        this.authTokenString = authTokenString;
     }
 
     public String getUser1() {

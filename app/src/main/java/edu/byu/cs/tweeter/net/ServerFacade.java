@@ -50,13 +50,21 @@ public class ServerFacade {
      * @return the followees.
      */
     public FollowingResponse getFollowees(FollowingRequest request, String urlPath) throws IOException {
+        Map<String, String> headers = new HashMap<>();
+        addJsonHeaders(headers);
+        addAuthTokenHeaders(headers);
+
         ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
-        return clientCommunicator.doPost(urlPath, request, null, FollowingResponse.class);
+        return clientCommunicator.doPost(urlPath, request, headers, FollowingResponse.class);
     }
 
     public FollowersResponse getFollowers(FollowersRequest request, String urlPath) throws IOException {
+        Map<String, String> headers = new HashMap<>();
+        addJsonHeaders(headers);
+        addAuthTokenHeaders(headers);
+
         ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
-        return clientCommunicator.doPost(urlPath, request, null, FollowersResponse.class);
+        return clientCommunicator.doPost(urlPath, request, headers, FollowersResponse.class);
     }
 
     /**
@@ -70,8 +78,12 @@ public class ServerFacade {
      * @return the followees.
      */
     public StoryResponse getStory(StoryRequest request, String urlPath) throws IOException {
+        Map<String, String> headers = new HashMap<>();
+        addJsonHeaders(headers);
+        addAuthTokenHeaders(headers);
+
         ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
-        return clientCommunicator.doPost(urlPath, request, null, StoryResponse.class);
+        return clientCommunicator.doPost(urlPath, request, headers, StoryResponse.class);
     }
 
     /**
@@ -85,8 +97,12 @@ public class ServerFacade {
      * @return the followees.
      */
     public FeedResponse getFeed(FeedRequest request, String urlPath) throws IOException {
+        Map<String, String> headers = new HashMap<>();
+        addJsonHeaders(headers);
+        addAuthTokenHeaders(headers);
+
         ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
-        return clientCommunicator.doPost(urlPath, request, null, FeedResponse.class);
+        return clientCommunicator.doPost(urlPath, request, headers, FeedResponse.class);
     }
 
     public LoginResponse getLogin(LoginRequest request, String urlPath) throws IOException {
@@ -100,13 +116,21 @@ public class ServerFacade {
     }
 
     public LogoutResponse doLogout(LogoutRequest request, String urlPath) throws IOException {
+        Map<String, String> headers = new HashMap<>();
+        addJsonHeaders(headers);
+        addAuthTokenHeaders(headers);
+
         ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
-        return clientCommunicator.doPost(urlPath, request, null, LogoutResponse.class);
+        return clientCommunicator.doPost(urlPath, request, headers, LogoutResponse.class);
     }
 
     public FollowResponse getFollow(FollowRequest request, String urlPath) throws IOException {
+        Map<String, String> headers = new HashMap<>();
+        addJsonHeaders(headers);
+        addAuthTokenHeaders(headers);
+
         ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
-        return clientCommunicator.doGet(urlPath, null, FollowResponse.class);
+        return clientCommunicator.doGet(urlPath, headers, FollowResponse.class);
     }
 
     public FollowResponse removeFollow(FollowRequest request, String urlPath) throws IOException {
@@ -121,6 +145,7 @@ public class ServerFacade {
     public FollowResponse addFollow(FollowRequest request, String urlPath) throws IOException {
         Map<String, String> headers = new HashMap<>();
         addJsonHeaders(headers);
+        addAuthTokenHeaders(headers);
 
         ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
         return clientCommunicator.doPut(urlPath, headers, FollowResponse.class);

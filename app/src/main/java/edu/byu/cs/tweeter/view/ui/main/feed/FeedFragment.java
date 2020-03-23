@@ -35,6 +35,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.byu.cs.tweeter.R;
+import edu.byu.cs.tweeter.net.SessionCache;
 import edu.byu.cs.tweeter.presenter.FindUserPresenter;
 import edu.byu.cs.tweeter.shared.model.domain.Status;
 import edu.byu.cs.tweeter.shared.model.domain.User;
@@ -349,7 +350,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View, FindUs
             else{
                 user = presenter.getCurrentUser();
             }
-            FeedRequest request = new FeedRequest(user, PAGE_SIZE, lastStatus);
+            FeedRequest request = new FeedRequest(user, PAGE_SIZE, lastStatus, SessionCache.getInstance().getAuthTokenString());
             getFeedTask.execute(request);
         }
 

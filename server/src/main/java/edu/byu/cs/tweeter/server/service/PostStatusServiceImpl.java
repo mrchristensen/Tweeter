@@ -31,10 +31,8 @@ public class PostStatusServiceImpl implements PostStatusService {
             StatusDAO statusDAO = new StatusDAO();
             return statusDAO.postStatus(request);
         }
-
-
-
-        return new PostStatusResponse(); //todo return an error???
-
+        else{
+            throw new RuntimeException("forbidden");
+        }
     }
 }
