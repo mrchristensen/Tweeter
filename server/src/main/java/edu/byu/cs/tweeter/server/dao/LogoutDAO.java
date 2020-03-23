@@ -11,7 +11,6 @@ import edu.byu.cs.tweeter.shared.model.service.response.LogoutResponse;
 public class LogoutDAO {
 
     public LogoutResponse doLogout(LogoutRequest request) {
-        //Todo make this invalidate the auth token
         //TODO: Remove once database func is in place
         return new LogoutResponse(true, request.getCurrentUser());
     }

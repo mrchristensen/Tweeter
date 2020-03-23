@@ -2,7 +2,6 @@ package edu.byu.cs.tweeter.presenter;
 
 import edu.byu.cs.tweeter.net.SessionCache;
 import edu.byu.cs.tweeter.shared.model.domain.User;
-//import edu.byu.cs.tweeter.model.services.LoginService; todo is this needed?
 
 /**
  * A common base class for all presenters in the application.
