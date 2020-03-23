@@ -9,14 +9,23 @@ import edu.byu.cs.tweeter.shared.model.domain.Status;
 public class PostStatusRequest {
 
     public Status status;
+    public String authTokenString;
 
     /**
      * Allows construction of the object from Json. Private so it won't be called in normal code.
      */
-    private PostStatusRequest() {}
+    private PostStatusRequest() {
+        authTokenString = "defaultValue";
+    }
 
     public PostStatusRequest(Status status) {
         this.status = status;
+        authTokenString = "defaultValue";
+    }
+
+    public PostStatusRequest(Status status, String authTokenString) {
+        this.status = status;
+        this.authTokenString = authTokenString;
     }
 
     public Status getStatus() {
@@ -25,5 +34,13 @@ public class PostStatusRequest {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public String getAuthTokenString() {
+        return authTokenString;
+    }
+
+    public void setAuthTokenString(String authTokenString) {
+        this.authTokenString = authTokenString;
     }
 }

@@ -66,4 +66,8 @@ public class Status implements Comparable<Status> {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public void setMessageBody(String messageBody) {
+        this.messageBody = messageBody;
+    }
 }

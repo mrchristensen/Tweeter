@@ -39,6 +39,7 @@ import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.presenter.MainPresenter;
 import edu.byu.cs.tweeter.shared.model.service.PostStatusService;
 import edu.byu.cs.tweeter.shared.model.service.request.FindUserRequest;
+import edu.byu.cs.tweeter.shared.model.service.request.GetImageRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.LogoutRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.PostStatusRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
@@ -105,8 +106,9 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         userImageView = findViewById(R.id.userImage);
 
         // Asynchronously load the user's image
+        GetImageRequest request = new GetImageRequest(user.getImageUrl());
         LoadImageTask loadImageTask = new LoadImageTask(this);
-        loadImageTask.execute(user.getImageUrl());
+        loadImageTask.execute(request);
 
         TextView userName = findViewById(R.id.userName);
         userName.setText(user.getName());

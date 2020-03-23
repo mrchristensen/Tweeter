@@ -20,12 +20,12 @@ public class UserDAO {
             char i = userAlias.charAt(userAlias.length() - 1); //get number at the end
 
             User tempUser = new User("fname" + i, "lname" + i, userAlias,
-                    "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/daisy_duck.png");
+                    FEMALE_IMAGE_URL);
             return new FindUserResponse(true, tempUser);
 
         }
         else if (userAlias.equals("@test")){
-            return new FindUserResponse(true, new User("Josh", "Smith", "@test", MALE_IMAGE_URL));
+            return new FindUserResponse(true, new User("Josh", "Smith", "@test", FEMALE_IMAGE_URL));
         }
         else{
             return new FindUserResponse(false, userAlias);

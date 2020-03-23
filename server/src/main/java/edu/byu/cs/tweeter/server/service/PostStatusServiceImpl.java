@@ -1,6 +1,9 @@
 package edu.byu.cs.tweeter.server.service;
 
+import edu.byu.cs.tweeter.server.dao.AuthTokenDAO;
 import edu.byu.cs.tweeter.server.dao.StatusDAO;
+import edu.byu.cs.tweeter.shared.model.domain.AuthToken;
+import edu.byu.cs.tweeter.shared.model.domain.Status;
 import edu.byu.cs.tweeter.shared.model.service.FeedService;
 import edu.byu.cs.tweeter.shared.model.service.PostStatusService;
 import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
@@ -14,7 +17,24 @@ import edu.byu.cs.tweeter.shared.model.service.response.PostStatusResponse;
 public class PostStatusServiceImpl implements PostStatusService {
     @Override
     public PostStatusResponse postStatus(PostStatusRequest request) {
-        StatusDAO dao = new StatusDAO();
-        return dao.postStatus(request);
+        System.out.println("Authtoken String: " + request.getAuthTokenString());
+
+        if(request.status == null){
+            System.out.println("Request status is null");
+        }
+        System.out.println("Status Message: " + request.getStatus().getMessageBody());
+
+        AuthToken authToken = new AuthToken(request.getAuthTokenString());
+        AuthTokenDAO authTokenDAO = new AuthTokenDAO();
+
+        if(authTokenDAO.validateAuthToken(authToken)){
+            StatusDAO statusDAO = new StatusDAO();
+            return statusDAO.postStatus(request);
+        }
+
+
+
+        return new PostStatusResponse(); //todo return an error???
+
     }
 }
