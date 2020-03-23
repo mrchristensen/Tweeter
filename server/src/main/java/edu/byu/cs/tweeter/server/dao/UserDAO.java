@@ -9,8 +9,8 @@ import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
  */
 public class UserDAO {
 
-    private static final String MALE_IMAGE_URL = "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/dafny_duck.png";
-    private static final String FEMALE_IMAGE_URL = "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/images/daisy_duck.png";
+    private static final String MALE_IMAGE_URL = "https://raw.githubusercontent.com/mrchristensen/Tweeter/master/server/src/main/java/edu/byu/cs/tweeter/server/resources/dafny.png?token=ALDCLZTJF3B6EVFT7XYNC526QF32U";
+    private static final String FEMALE_IMAGE_URL = "https://raw.githubusercontent.com/mrchristensen/Tweeter/master/server/src/main/java/edu/byu/cs/tweeter/server/resources/daisy.png?token=ALDCLZTBHGVXW27AWFPQNTC6QF36C";
 
     public FindUserResponse findUser(FindUserRequest request) {
         String userAlias = request.getUserAlias();
@@ -25,7 +25,7 @@ public class UserDAO {
 
         }
         else if (userAlias.equals("@test")){
-            return new FindUserResponse(true, new User("Josh", "Smith", "@test", FEMALE_IMAGE_URL));
+            return new FindUserResponse(true, new User("Josh", "Smith", "@test", MALE_IMAGE_URL));
         }
         else{
             return new FindUserResponse(false, userAlias);
