@@ -27,7 +27,7 @@ public class Status implements Comparable<Status> {
     }
 
     public String getDate() {
-        return date; //this needs fixing? todo
+        return date;
     }
 
     public String getMessageBody() {

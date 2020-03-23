@@ -51,7 +51,6 @@ public class GetFollowTask extends AsyncTask<FollowRequest, Void, FollowResponse
         FollowResponse response = null;
         try {
             response = presenter.getFollow(followRequests[0]);
-//            loadImages(response); todo is this needed?
         } catch (IOException e) {
             exception = e;
 
@@ -59,27 +58,6 @@ public class GetFollowTask extends AsyncTask<FollowRequest, Void, FollowResponse
         }
         return response;
     }
-
-//    /**
-//     * Loads the image associated with each follower included in the response.
-//     *
-//     * @param response the response from the follower request.
-//     */
-//    private void loadImages(FollowResponse response) {
-//        for(User user : response.getUsers()) {
-//
-//            Drawable drawable;
-//
-//            try {
-//                drawable = ImageUtils.drawableFromUrl(user.getImageUrl());
-//            } catch (IOException e) {
-//                Log.e(this.getClass().getName(), e.toString(), e);
-//                drawable = null;
-//            }
-//
-//            ImageCache.getInstance().cacheImage(user, drawable);
-//        }
-//    }
 
     /**
      * Notifies the observer (on the UI thread) when the task completes.

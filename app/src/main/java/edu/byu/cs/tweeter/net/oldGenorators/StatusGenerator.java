@@ -55,8 +55,7 @@ public class StatusGenerator {
 
         while(statuses.size() < count) {
             // Generate a generic status
-            statuses.add(new Status(user, getRandomDateTime().toString(), "This is a very generic tweet. This is a very generic tweet. This is a very generic tweet. This is a very generic tweet. This is a very generic tweet. This is a very generic tweet.")); //todo clean this up
-//            statuses.add(new Status(user,  System.currentTimeMillis(), "This is a very generic tweet. This is a very generic tweet. This is a very generic tweet. This is a very generic tweet. This is a very generic tweet. This is a very generic tweet."));
+            statuses.add(new Status(user, getRandomDateTime().toString(), "This is a very generic tweet. This is a very generic tweet. This is a very generic tweet. This is a very generic tweet. This is a very generic tweet. This is a very generic tweet."));
         }
 
         return statuses;
