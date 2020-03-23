@@ -2,9 +2,7 @@ package edu.byu.cs.tweeter.shared.model.service;
 
 import java.io.IOException;
 
-import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.StoryRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.FeedResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.StoryResponse;
 
 /**

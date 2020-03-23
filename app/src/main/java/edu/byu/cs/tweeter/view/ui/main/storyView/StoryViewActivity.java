@@ -18,18 +18,18 @@ import com.google.android.material.tabs.TabLayout;
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.net.SessionCache;
 import edu.byu.cs.tweeter.presenter.FindUserPresenter;
-import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.presenter.StoryViewPresenter;
+import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.request.FindUserRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.GetImageRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
-import edu.byu.cs.tweeter.view.asyncTasks.RemoveFollowTask;
+import edu.byu.cs.tweeter.view.asyncTasks.AddFollowTask;
 import edu.byu.cs.tweeter.view.asyncTasks.FindUserTask;
 import edu.byu.cs.tweeter.view.asyncTasks.GetFollowTask;
 import edu.byu.cs.tweeter.view.asyncTasks.LoadImageTask;
-import edu.byu.cs.tweeter.view.asyncTasks.AddFollowTask;
+import edu.byu.cs.tweeter.view.asyncTasks.RemoveFollowTask;
 import edu.byu.cs.tweeter.view.cache.ImageCache;
 
 /**

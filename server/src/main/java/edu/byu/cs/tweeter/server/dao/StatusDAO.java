@@ -1,11 +1,6 @@
 package edu.byu.cs.tweeter.server.dao;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.byu.cs.tweeter.server.dao.generators.StatusGenerator;
-import edu.byu.cs.tweeter.shared.model.domain.Status;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.PostStatusRequest;

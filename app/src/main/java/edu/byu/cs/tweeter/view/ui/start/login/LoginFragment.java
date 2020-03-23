@@ -16,9 +16,9 @@ import com.google.android.material.snackbar.Snackbar;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.net.SessionCache;
+import edu.byu.cs.tweeter.presenter.LoginPresenter;
 import edu.byu.cs.tweeter.shared.model.service.request.LoginRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.LoginResponse;
-import edu.byu.cs.tweeter.presenter.LoginPresenter;
 import edu.byu.cs.tweeter.view.asyncTasks.DoLoginTask;
 import edu.byu.cs.tweeter.view.ui.start.startActivity.StartActivity;
 

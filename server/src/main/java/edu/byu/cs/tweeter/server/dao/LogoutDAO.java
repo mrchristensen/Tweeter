@@ -1,8 +1,6 @@
 package edu.byu.cs.tweeter.server.dao;
 
-import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.request.LogoutRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.LogoutResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.LogoutResponse;
 
 /**

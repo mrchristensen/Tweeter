@@ -3,11 +3,8 @@ package edu.byu.cs.tweeter.server.lambda;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
-import edu.byu.cs.tweeter.server.service.FeedServiceImpl;
 import edu.byu.cs.tweeter.server.service.StoryServiceImpl;
-import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.StoryRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.FeedResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.StoryResponse;
 
 /**

@@ -2,11 +2,8 @@ package edu.byu.cs.tweeter.presenter;
 
 import java.io.IOException;
 
-import edu.byu.cs.tweeter.model.services.FeedServiceProxy;
 import edu.byu.cs.tweeter.model.services.PostStatusServiceProxy;
-import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.PostStatusRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.FeedResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.PostStatusResponse;
 
 /**

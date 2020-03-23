@@ -3,13 +3,9 @@ package edu.byu.cs.tweeter.server.lambda;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import edu.byu.cs.tweeter.server.lambda.PostStatusHandler;
-import edu.byu.cs.tweeter.server.lambda.PutFollowHandler;
 import edu.byu.cs.tweeter.shared.model.domain.Status;
 import edu.byu.cs.tweeter.shared.model.domain.User;
-import edu.byu.cs.tweeter.shared.model.service.request.FollowRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.PostStatusRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.PostStatusResponse;
 
 public class PostStatusHandlerTest {

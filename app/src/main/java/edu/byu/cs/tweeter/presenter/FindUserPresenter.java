@@ -2,12 +2,8 @@ package edu.byu.cs.tweeter.presenter;
 
 import java.io.IOException;
 
-import edu.byu.cs.tweeter.model.services.FeedServiceProxy;
 import edu.byu.cs.tweeter.model.services.FindUserServiceProxy;
-import edu.byu.cs.tweeter.shared.model.domain.User;
-import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FindUserRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.FeedResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
 
 /**

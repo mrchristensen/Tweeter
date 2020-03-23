@@ -5,9 +5,7 @@ import android.os.AsyncTask;
 import java.io.IOException;
 
 import edu.byu.cs.tweeter.presenter.PostStatusPresenter;
-import edu.byu.cs.tweeter.presenter.StoryViewPresenter;
 import edu.byu.cs.tweeter.shared.model.service.request.PostStatusRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.PostStatusResponse;
 
 /**

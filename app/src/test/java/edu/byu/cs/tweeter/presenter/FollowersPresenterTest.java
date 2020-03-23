@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
+import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.shared.model.domain.Follow;
 import edu.byu.cs.tweeter.shared.model.domain.User;
-import edu.byu.cs.tweeter.net.ServerFacade;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowersRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowersResponse;

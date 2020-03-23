@@ -2,9 +2,7 @@ package edu.byu.cs.tweeter.shared.model.service;
 
 import java.io.IOException;
 
-import edu.byu.cs.tweeter.shared.model.service.request.FollowingRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.GetImageRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.GetImageResponse;
 
 /**
