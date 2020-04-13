@@ -14,10 +14,12 @@ public class RegisterServiceImpl implements RegisterService {
     public RegisterResponse doRegister(RegisterRequest request) {
         UserDAO userDAO = new UserDAO();
 
-        //todo hash password
-//        request.setPassword(request.getPassword().hash());
+        //Hash
+        request.setPassword(HashingService.hash(request.getPassword()));
 
         if(userDAO.getUser(request.getAlias()) == null){ //The username isn't taken already
+            //todo: upload the picture to S3
+
             boolean putUser = userDAO.putUser(request.getAlias(), request.getPassword(),
                     request.getFistName(), request.getLastName(), request.getProfileImageURL());
 
