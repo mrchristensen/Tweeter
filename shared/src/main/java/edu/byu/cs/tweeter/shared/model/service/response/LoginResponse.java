@@ -11,10 +11,14 @@ public class LoginResponse {
     private User currentUser;
     private String authTokenString;
 
+    //Default constructor
+    public LoginResponse() {
+    }
 
-    public LoginResponse(boolean loginSuccessful, User currentUser) {
+    public LoginResponse(boolean loginSuccessful, User currentUser, String authTokenString) {
         this.loginSuccessful = loginSuccessful;
         this.currentUser = currentUser;
+        this.authTokenString = authTokenString;
     }
 
     public boolean loginSuccessful() {

@@ -7,16 +7,15 @@ import edu.byu.cs.tweeter.shared.model.service.FeedService;
 import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FeedResponse;
 
+import static edu.byu.cs.tweeter.server.service.AuthTokenService.validateAuthToken;
+
 /**
  * Contains the business logic for getting the users a user is following.
  */
 public class FeedServiceImpl implements FeedService {
     @Override
     public FeedResponse getFeed(FeedRequest request) {
-        AuthToken authToken = new AuthToken(request.getAuthTokenString());
-        AuthTokenDAO authTokenDAO = new AuthTokenDAO();
-
-        if (authTokenDAO.validateAuthToken(authToken)) {
+        if (validateAuthToken(request.getCurrentUserAlias(), request.getAuthTokenString())) {
             StatusDAO dao = new StatusDAO();
             return dao.getFeed(request);
         } else {

@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         PostStatusTask postStatusTask = new PostStatusTask(postStatusPresenter,this);
 
         PostStatusRequest request = new PostStatusRequest(new Status(presenter.getCurrentUser(),
-                LocalDateTime.now().toString(), statusMessage), SessionCache.getInstance().getAuthTokenString());
+                LocalDateTime.now().toString(), statusMessage), SessionCache.getInstance().getAuthTokenString(), SessionCache.getInstance().getCurrentUser().getAlias());
         postStatusTask.execute(request);
     }
 
@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
     private void logout() {
         DoLogoutTask doLogoutTask = new DoLogoutTask(logoutPresenter, this);
 
-        LogoutRequest request = new LogoutRequest(presenter.getCurrentUser(), SessionCache.getInstance().getAuthTokenString());
+        LogoutRequest request = new LogoutRequest(presenter.getCurrentUser().getAlias(), SessionCache.getInstance().getAuthTokenString());
         doLogoutTask.execute(request);
     }
 

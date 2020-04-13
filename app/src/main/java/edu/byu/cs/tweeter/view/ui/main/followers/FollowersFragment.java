@@ -233,7 +233,7 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
             else{
                 user = presenter.getCurrentUser();
             }
-            FollowersRequest request = new FollowersRequest(user, PAGE_SIZE, lastFollower, SessionCache.getInstance().getAuthTokenString());
+            FollowersRequest request = new FollowersRequest(user, PAGE_SIZE, lastFollower, SessionCache.getInstance().getAuthTokenString(), SessionCache.getInstance().getCurrentUser().getAlias());
             getFollowersTask.execute(request);
         }
 

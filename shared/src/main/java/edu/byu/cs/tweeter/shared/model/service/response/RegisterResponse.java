@@ -11,14 +11,14 @@ public class RegisterResponse {
     private User currentUser;
     private String authTokenString;
 
-
-    public RegisterResponse(boolean registerSuccessful, User currentUser) {
-        this.registerSuccessful = registerSuccessful;
-        this.currentUser = currentUser;
-    }
-
     //Default constructor
     public RegisterResponse() {
+    }
+
+    public RegisterResponse(boolean registerSuccessful, User currentUser, String authTokenString) {
+        this.registerSuccessful = registerSuccessful;
+        this.currentUser = currentUser;
+        this.authTokenString = authTokenString;
     }
 
     public boolean isRegisterSuccessful() {

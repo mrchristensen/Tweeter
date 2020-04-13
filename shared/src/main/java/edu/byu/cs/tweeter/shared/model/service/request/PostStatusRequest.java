@@ -16,9 +16,10 @@ public class PostStatusRequest extends AuthorizedRequest {
     private PostStatusRequest() {
     }
 
-    public PostStatusRequest(Status status, String authTokenString) {
+    public PostStatusRequest(Status status, String authTokenString, String currentUserAlias) {
         this.status = status;
         this.authTokenString = authTokenString;
+        this.currentUserAlias = currentUserAlias;
     }
 
     public Status getStatus() {

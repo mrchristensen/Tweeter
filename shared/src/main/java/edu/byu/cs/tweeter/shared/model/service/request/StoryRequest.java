@@ -25,11 +25,12 @@ public class StoryRequest extends AuthorizedRequest {
      *                     there was no previous request or if no followees were returned in the
      *                     previous request).
      */
-    public StoryRequest(User user, int limit, Status lastStatus, String authTokenString) {
+    public StoryRequest(User user, int limit, Status lastStatus, String authTokenString, String currentUserAlias) {
         this.user = user;
         this.limit = limit;
         this.lastStatus = lastStatus;
         this.authTokenString = authTokenString;
+        this.currentUserAlias = currentUserAlias;
     }
 
     /**

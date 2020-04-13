@@ -7,16 +7,14 @@ package edu.byu.cs.tweeter.shared.model.service.request;
 public class AuthorizedRequest {
 
     public String authTokenString;
+    public String currentUserAlias;
 
     public AuthorizedRequest() {
     }
 
-    /**
-     * Creates an instance.
-     *
-     */
-    public AuthorizedRequest(String authTokenString) {
+    public AuthorizedRequest(String authTokenString, String currentUserAlias) {
         this.authTokenString = authTokenString;
+        this.currentUserAlias = currentUserAlias;
     }
 
     public String getAuthTokenString() {
@@ -25,5 +23,13 @@ public class AuthorizedRequest {
 
     public void setAuthTokenString(String authTokenString) {
         this.authTokenString = authTokenString;
+    }
+
+    public String getCurrentUserAlias() {
+        return currentUserAlias;
+    }
+
+    public void setCurrentUserAlias(String currentUserAlias) {
+        this.currentUserAlias = currentUserAlias;
     }
 }

@@ -26,11 +26,12 @@ public class FollowingRequest extends AuthorizedRequest {
      *                     there was no previous request or if no followees were returned in the
      *                     previous request).
      */
-    public FollowingRequest(User follower, int limit, User lastFollowee, String authTokenString) {
+    public FollowingRequest(User follower, int limit, User lastFollowee, String authTokenString, String currentUserAlias) {
         this.follower = follower;
         this.limit = limit;
         this.lastFollowee = lastFollowee;
         this.authTokenString = authTokenString;
+        this.currentUserAlias = currentUserAlias;
     }
 
     /**

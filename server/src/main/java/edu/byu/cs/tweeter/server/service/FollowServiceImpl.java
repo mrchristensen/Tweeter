@@ -7,6 +7,8 @@ import edu.byu.cs.tweeter.shared.model.service.FollowService;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
 
+import static edu.byu.cs.tweeter.server.service.AuthTokenService.validateAuthToken;
+
 /**
  * Contains the business logic for getting the users a user is following.
  */
@@ -29,10 +31,7 @@ public class FollowServiceImpl implements FollowService {
         System.out.println("User1: " + request.getUser1());
         System.out.println("User2: " + request.getUser2());
 
-        AuthToken authToken = new AuthToken(request.getAuthTokenString());
-        AuthTokenDAO authTokenDAO = new AuthTokenDAO();
-
-        if(authTokenDAO.validateAuthToken(authToken)) {
+        if(validateAuthToken(request.getCurrentUserAlias(), request.getAuthTokenString())) {
             return dao.removeFollow(request);
         }
         else{
@@ -45,11 +44,7 @@ public class FollowServiceImpl implements FollowService {
         System.out.println("User1: " + request.getUser1());
         System.out.println("AuthToken: " + request.getAuthTokenString());
 
-
-        AuthToken authToken = new AuthToken(request.getAuthTokenString());
-        AuthTokenDAO authTokenDAO = new AuthTokenDAO();
-
-        if(authTokenDAO.validateAuthToken(authToken)) {
+        if(validateAuthToken(request.getCurrentUserAlias(), request.getAuthTokenString())) {
             return dao.addFollow(request);
         }
         else{
