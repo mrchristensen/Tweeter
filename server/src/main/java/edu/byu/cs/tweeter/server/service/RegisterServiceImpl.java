@@ -1,8 +1,7 @@
 package edu.byu.cs.tweeter.server.service;
 
-import edu.byu.cs.tweeter.server.dao.AuthTokenDAO;
-import edu.byu.cs.tweeter.server.dao.RegisterDAO;
-import edu.byu.cs.tweeter.shared.model.domain.AuthToken;
+import edu.byu.cs.tweeter.server.dao.UserDAO;
+import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.RegisterService;
 import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
@@ -13,15 +12,24 @@ import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
 public class RegisterServiceImpl implements RegisterService {
     @Override
     public RegisterResponse doRegister(RegisterRequest request) {
-        RegisterDAO registerDAO = new RegisterDAO();
-        RegisterResponse response = registerDAO.doRegister(request);
+        UserDAO userDAO = new UserDAO();
 
-        if(response.isRegisterSuccessful()){
-            AuthTokenDAO authTokenDAO = new AuthTokenDAO();
-            AuthToken authToken = authTokenDAO.generateAuthToken(request.getAlias());
-            response.setAuthTokenString(authToken.getAuthTokenString());
+        //todo hash password
+//        request.setPassword(request.getPassword().hash());
+
+        if(userDAO.getUser(request.getAlias()) == null){ //The username isn't taken already
+            boolean putUser = userDAO.putUser(request.getAlias(), request.getPassword(),
+                    request.getFistName(), request.getLastName(), request.getProfileImageURL());
+
+            if(putUser){ //We successfully put the user into the database
+                //todo: auth token creation
+//                AuthTokenDAO authTokenDAO = new AuthTokenDAO();
+//                AuthToken authToken = authTokenDAO.generateAuthToken(request.getAlias());
+//                response.setAuthTokenString(authToken.getAuthTokenString());
+                return new RegisterResponse(true, new User(request.getFistName(), request.getLastName(), request.getAlias(), request.getProfileImageURL()));
+            }
         }
 
-        return response;
+        return new RegisterResponse(false, null);
     }
 }
