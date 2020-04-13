@@ -20,10 +20,11 @@ public class FollowRequest extends AuthorizedRequest {
         this.authTokenString = authTokenString;
     }
 
-    public FollowRequest(String user1, String user2, String authTokenString) {
+    public FollowRequest(String user1, String user2, String authTokenString, String currentUserAlias) {
         this.user1 = user1;
         this.user2 = user2;
         this.authTokenString = authTokenString;
+        this.currentUserAlias = currentUserAlias;
     }
 
     public String getUser1() {

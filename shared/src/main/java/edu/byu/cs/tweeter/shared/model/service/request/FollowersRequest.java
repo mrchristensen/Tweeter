@@ -21,11 +21,12 @@ public class FollowersRequest extends AuthorizedRequest {
      *                     there was no previous request or if no followers were returned in the
      *                     previous request).
      */
-    public FollowersRequest(User followee, int limit, User lastFollower, String authTokenString) {
+    public FollowersRequest(User followee, int limit, User lastFollower, String authTokenString, String currentUserAlias) {
         this.followee = followee;
         this.limit = limit;
         this.lastFollower = lastFollower;
         this.authTokenString = authTokenString;
+        this.currentUserAlias = currentUserAlias;
     }
 
     public FollowersRequest() {

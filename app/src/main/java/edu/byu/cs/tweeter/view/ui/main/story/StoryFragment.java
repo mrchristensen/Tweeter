@@ -330,7 +330,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View, Find
             else{
                 user = presenter.getCurrentUser();
             }
-            StoryRequest request = new StoryRequest(user, PAGE_SIZE, lastStatus, SessionCache.getInstance().getAuthTokenString());
+            StoryRequest request = new StoryRequest(user, PAGE_SIZE, lastStatus, SessionCache.getInstance().getAuthTokenString(), SessionCache.getInstance().getCurrentUser().getAlias());
             getStoryTask.execute(request);
         }
 

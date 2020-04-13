@@ -8,12 +8,12 @@ import edu.byu.cs.tweeter.shared.model.domain.User;
 public class LogoutResponse {
 
     private boolean logoutSuccessful;
-    private User currentUser;
+    private String currentUserAlias;
 
 
-    public LogoutResponse(boolean loginSuccessful, User currentUser) {
+    public LogoutResponse(boolean loginSuccessful, String currentUserAlias) {
         this.logoutSuccessful = loginSuccessful;
-        this.currentUser = currentUser;
+        this.currentUserAlias = currentUserAlias;
     }
 
     public LogoutResponse() {
@@ -31,11 +31,11 @@ public class LogoutResponse {
         this.logoutSuccessful = logoutSuccessful;
     }
 
-    public User getCurrentUser() {
-        return currentUser;
+    public String getCurrentUserAlias() {
+        return currentUserAlias;
     }
 
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
+    public void setCurrentUserAlias(String currentUserAlias) {
+        this.currentUserAlias = currentUserAlias;
     }
 }

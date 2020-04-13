@@ -85,7 +85,7 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
 
         followButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                FollowRequest request = new FollowRequest(presenter.getCurrentUser().getAlias(), user.getAlias(), SessionCache.getInstance().getAuthTokenString());
+                FollowRequest request = new FollowRequest(presenter.getCurrentUser().getAlias(), user.getAlias(), SessionCache.getInstance().getAuthTokenString(), SessionCache.getInstance().getCurrentUser().getAlias());
 
                 if(isFollowing){ //Remove following relation
                     RemoveFollowTask removeFollowTask = new RemoveFollowTask(presenter, storyViewActivity);
@@ -113,7 +113,7 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
     private void checkUserFollows() {
         GetFollowTask getFollowTask = new GetFollowTask(presenter, this);
 
-        FollowRequest request = new FollowRequest(presenter.getCurrentUser().getAlias(), user.getAlias(), SessionCache.getInstance().getAuthTokenString());
+        FollowRequest request = new FollowRequest(presenter.getCurrentUser().getAlias(), user.getAlias(), SessionCache.getInstance().getAuthTokenString(), SessionCache.getInstance().getCurrentUser().getAlias());
         getFollowTask.execute(request);
     }
 

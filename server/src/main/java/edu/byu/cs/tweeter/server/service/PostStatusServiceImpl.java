@@ -7,6 +7,8 @@ import edu.byu.cs.tweeter.shared.model.service.PostStatusService;
 import edu.byu.cs.tweeter.shared.model.service.request.PostStatusRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.PostStatusResponse;
 
+import static edu.byu.cs.tweeter.server.service.AuthTokenService.validateAuthToken;
+
 /**
  * Contains the business logic for getting the users a user is following.
  */
@@ -20,10 +22,7 @@ public class PostStatusServiceImpl implements PostStatusService {
         }
         System.out.println("Status Message: " + request.getStatus().getMessageBody());
 
-        AuthToken authToken = new AuthToken(request.getAuthTokenString());
-        AuthTokenDAO authTokenDAO = new AuthTokenDAO();
-
-        if(authTokenDAO.validateAuthToken(authToken)){
+        if(validateAuthToken(request.getCurrentUserAlias(), request.getAuthTokenString())){
             StatusDAO statusDAO = new StatusDAO();
             return statusDAO.postStatus(request);
         }

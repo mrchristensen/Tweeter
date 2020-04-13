@@ -349,7 +349,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View, FindUs
             else{
                 user = presenter.getCurrentUser();
             }
-            FeedRequest request = new FeedRequest(user, PAGE_SIZE, lastStatus, SessionCache.getInstance().getAuthTokenString());
+            FeedRequest request = new FeedRequest(user, PAGE_SIZE, lastStatus, SessionCache.getInstance().getAuthTokenString(), SessionCache.getInstance().getCurrentUser().getAlias());
             getFeedTask.execute(request);
         }
 

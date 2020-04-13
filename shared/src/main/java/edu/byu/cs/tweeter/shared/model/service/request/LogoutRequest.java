@@ -7,21 +7,12 @@ import edu.byu.cs.tweeter.shared.model.domain.User;
  * followees for a specified follower.
  */
 public class LogoutRequest extends AuthorizedRequest {
-    private User currentUser;
-
     public LogoutRequest() {
     }
 
-    public LogoutRequest(User currentUser, String authTokenString) {
-        this.currentUser = currentUser;
+    public LogoutRequest(String currentUserAlias, String authTokenString) {
+        this.currentUserAlias = currentUserAlias;
         this.authTokenString = authTokenString;
     }
 
-    public User getCurrentUser() {
-        return currentUser;
-    }
-
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
-    }
 }

@@ -7,6 +7,8 @@ import edu.byu.cs.tweeter.shared.model.service.FollowingService;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowingRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
 
+import static edu.byu.cs.tweeter.server.service.AuthTokenService.validateAuthToken;
+
 /**
  * Contains the business logic for getting the users a user is following.
  */
@@ -14,10 +16,7 @@ public class FollowingServiceImpl implements FollowingService {
 
     @Override
     public FollowingResponse getFollowees(FollowingRequest request) {
-        AuthToken authToken = new AuthToken(request.getAuthTokenString());
-        AuthTokenDAO authTokenDAO = new AuthTokenDAO();
-
-        if (authTokenDAO.validateAuthToken(authToken)) {
+        if (validateAuthToken(request.getCurrentUserAlias(), request.getAuthTokenString())) {
             FollowDAO dao = new FollowDAO();
             return dao.getFollowees(request);
         } else {

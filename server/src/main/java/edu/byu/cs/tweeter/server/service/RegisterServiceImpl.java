@@ -1,10 +1,16 @@
 package edu.byu.cs.tweeter.server.service;
 
+import java.time.ZonedDateTime;
+
+import edu.byu.cs.tweeter.server.dao.AuthTokenDAO;
 import edu.byu.cs.tweeter.server.dao.UserDAO;
+import edu.byu.cs.tweeter.shared.model.domain.AuthToken;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.RegisterService;
 import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.RegisterResponse;
+
+import static edu.byu.cs.tweeter.server.service.AuthTokenService.generateAuthTokenString;
 
 /**
  * Contains the business logic for getting the users a user is following.
@@ -24,14 +30,15 @@ public class RegisterServiceImpl implements RegisterService {
                     request.getFistName(), request.getLastName(), request.getProfileImageURL());
 
             if(putUser){ //We successfully put the user into the database
-                //todo: auth token creation
-//                AuthTokenDAO authTokenDAO = new AuthTokenDAO();
-//                AuthToken authToken = authTokenDAO.generateAuthToken(request.getAlias());
-//                response.setAuthTokenString(authToken.getAuthTokenString());
-                return new RegisterResponse(true, new User(request.getFistName(), request.getLastName(), request.getAlias(), request.getProfileImageURL()));
+                //AuthToken stuff
+                String authTokenString = generateAuthTokenString();
+                AuthTokenDAO authTokenDAO = new AuthTokenDAO();
+                authTokenDAO.putAuthToken(request.getAlias(), authTokenString, ZonedDateTime.now().toString());
+
+                return new RegisterResponse(true, new User(request.getFistName(), request.getLastName(), request.getAlias(), request.getProfileImageURL()), authTokenString);
             }
         }
 
-        return new RegisterResponse(false, null);
+        return new RegisterResponse(false, null, null);
     }
 }
