@@ -52,6 +52,8 @@ public class LoginFragment extends Fragment implements LoginPresenter.View {
             @Override
             public void onClick(View v) {
                 Log.i(LOG_TAG, "Login");
+                Log.i(LOG_TAG, "userAlias1:");
+                Log.i(LOG_TAG, usernameEditText.getText().toString());
 
                 new LoginViewAdapter().loginCheck(usernameEditText.getText().toString(), passwordEditText.getText().toString());
             }
@@ -93,7 +95,10 @@ public class LoginFragment extends Fragment implements LoginPresenter.View {
         void loginCheck(String userAlias, String userPassword){
             DoLoginTask doLoginTask = new DoLoginTask(presenter, this);
 
-            LoginRequest request = new LoginRequest("@" + userAlias, userPassword);
+            Log.i(LOG_TAG, "userAlias2: ");
+            Log.i(LOG_TAG, userAlias);
+
+            LoginRequest request = new LoginRequest(userAlias, userPassword);
             doLoginTask.execute(request);
         }
 

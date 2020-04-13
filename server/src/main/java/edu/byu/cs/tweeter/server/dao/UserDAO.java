@@ -124,5 +124,31 @@ public class UserDAO {
     }
 
 
+    public boolean validateLogin(String alias, String password) {
+        System.out.println("validateLogin: " + alias);
 
+        Map<String, String> attrNames = new HashMap<String, String>();
+        attrNames.put("#alias", AliasAttr);
+        attrNames.put("#password", PasswordAttr);
+
+        Map<String, AttributeValue> attrValues = new HashMap<>();
+        attrValues.put(":alias", new AttributeValue().withS(alias));
+        attrValues.put(":password", new AttributeValue().withS(password));
+
+        QueryRequest queryRequest = new QueryRequest()
+                .withTableName(TableName)
+                .withKeyConditionExpression("#alias = :alias")
+                .withFilterExpression("#password = :password")
+                .withExpressionAttributeNames(attrNames)
+                .withExpressionAttributeValues(attrValues)
+                .withLimit(1);
+
+        QueryResult queryResult = amazonDynamoDB.query(queryRequest);
+        System.out.println("Query Results: " + queryResult);
+
+        if(queryResult.getItems().size() > 0){
+            return true;
+        }
+        return false;
+    }
 }

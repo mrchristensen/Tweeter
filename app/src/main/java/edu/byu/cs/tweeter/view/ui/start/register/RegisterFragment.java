@@ -60,7 +60,7 @@ public class RegisterFragment extends Fragment implements RegisterPresenter.View
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(LOG_TAG, "Login");
+                Log.i(LOG_TAG, "Register");
 
                 new RegisterViewAdapter().registerCheck(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString(),
