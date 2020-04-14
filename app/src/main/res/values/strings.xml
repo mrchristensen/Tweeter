@@ -27,8 +27,8 @@
     <string name="last_name">Last Name:</string>
     <string name="image_url">Profile Image URL:</string>
     <string name="register">Register</string>
-    <string name="default_male_image_url">https://raw.githubusercontent.com/mrchristensen/Tweeter/master/server/src/main/java/edu/byu/cs/tweeter/server/resources/dafny.png?token=ALDCLZTJF3B6EVFT7XYNC526QF32U</string>
-    <string name="default_female_image_url">https://raw.githubusercontent.com/mrchristensen/Tweeter/master/server/src/main/java/edu/byu/cs/tweeter/server/resources/daisy.png?token=ALDCLZTBHGVXW27AWFPQNTC6QF36C</string>
+    <string name="default_male_image_url">https://i.imgur.com/IMAGE_URL_API.png</string>
+    <string name="default_female_image_url">https://i.imgur.com/LiVHSFn.png</string>
     <string name="searchMenu">Search</string>
     <string name="logoutMenu">Logout</string>
     <string name="Follow">Follow</string>
