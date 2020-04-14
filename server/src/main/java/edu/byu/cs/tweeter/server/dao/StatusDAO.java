@@ -21,7 +21,7 @@ public class StatusDAO {
 
     public FeedResponse getFeed(FeedRequest request) {
         //TODO: Implement actual functionality once Databases are implemented
-        String FEMALE_IMAGE_URL = "https://raw.githubusercontent.com/mrchristensen/Tweeter/master/server/src/main/java/edu/byu/cs/tweeter/server/resources/daisy.png?token=ALDCLZTBHGVXW27AWFPQNTC6QF36C";
+        String FEMALE_IMAGE_URL = "https://i.imgur.com/LiVHSFn.png";
         return new FeedResponse(StatusGenerator.getNStatuses(request.getLimit(), new User("fname1", "lname1", "@tempAlias1", FEMALE_IMAGE_URL)), true);
     }
 
