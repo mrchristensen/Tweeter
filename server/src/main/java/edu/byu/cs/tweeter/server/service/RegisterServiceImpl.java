@@ -39,7 +39,7 @@ public class RegisterServiceImpl implements RegisterService {
         request.setPassword(HashingService.hash(request.getPassword()));
 
         if(userDAO.getUser(request.getAlias()) == null){ //The username isn't taken already
-            String s3PictureURl = s3Upload(request.getProfileImageURL());
+            String s3PictureURl = S3Upload(request.getProfileImageURL());
             request.setProfileImageURL(s3PictureURl);
 
             boolean putUser = userDAO.putUser(request.getAlias(), request.getPassword(),
@@ -58,7 +58,7 @@ public class RegisterServiceImpl implements RegisterService {
         return new RegisterResponse(false, null, null);
     }
 
-    private String s3Upload(String profileImageURL) {
+    private String S3Upload(String profileImageURL) {
         BufferedImage image = null;
         try {
             URL url = new URL(profileImageURL);
