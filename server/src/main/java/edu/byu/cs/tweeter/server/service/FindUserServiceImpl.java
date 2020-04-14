@@ -1,6 +1,7 @@
 package edu.byu.cs.tweeter.server.service;
 
 import edu.byu.cs.tweeter.server.dao.UserDAO;
+import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.FindUserService;
 import edu.byu.cs.tweeter.shared.model.service.request.FindUserRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
@@ -11,7 +12,13 @@ import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
 public class FindUserServiceImpl implements FindUserService {
     @Override
     public FindUserResponse findUser(FindUserRequest request) {
-        UserDAO dao = new UserDAO();
-        return dao.findUser(request);
+        UserDAO userDAO = new UserDAO();
+        User foundUser = userDAO.getUser(request.getUserAlias());
+        if(foundUser == null){
+            return new FindUserResponse(false, request.getUserAlias());
+        }
+        else {
+            return new FindUserResponse(true, foundUser);
+        }
     }
 }

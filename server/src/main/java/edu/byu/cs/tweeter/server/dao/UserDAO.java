@@ -10,16 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 import edu.byu.cs.tweeter.shared.model.domain.User;
-import edu.byu.cs.tweeter.shared.model.service.request.FindUserRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
 
 /**
  * A DAO for accessing the users database.
  */
 public class UserDAO {
-
-    private static final String MALE_IMAGE_URL = "https://i.imgur.com/IMAGE_URL_API.png";
-    private static final String FEMALE_IMAGE_URL = "https://i.imgur.com/LiVHSFn.png";
 
     private static final String TableName = "users";
 //    private static final String IndexName = "visits-index";
@@ -67,7 +62,7 @@ public class UserDAO {
 
     public User getUser(String alias){
         System.out.println("getUser: " + alias);
-        Map<String, String> attrNames = new HashMap<String, String>();
+        Map<String, String> attrNames = new HashMap<>();
         attrNames.put("#al", AliasAttr);
 
         Map<String, AttributeValue> attrValues = new HashMap<>();
@@ -103,31 +98,10 @@ public class UserDAO {
         return foundUser;
     }
 
-    public FindUserResponse findUser(FindUserRequest request) { //todo delete this method
-        String userAlias = request.getUserAlias();
-
-        //TODO: Find the actual user once databases are implemented (instead of looking for hardcoded users)
-        if(userAlias.contains("tempAlias") && userAlias.charAt(userAlias.length() - 1) - '0' <= 9){  //Check for tempAlias's 0-9
-            char i = userAlias.charAt(userAlias.length() - 1); //get number at the end
-
-            User tempUser = new User("fname" + i, "lname" + i, userAlias,
-                    FEMALE_IMAGE_URL);
-            return new FindUserResponse(true, tempUser);
-
-        }
-        else if (userAlias.equals("@test")){
-            return new FindUserResponse(true, new User("Josh", "Smith", "@test", MALE_IMAGE_URL));
-        }
-        else{
-            return new FindUserResponse(false, userAlias);
-        }
-    }
-
-
     public boolean validateLogin(String alias, String password) {
         System.out.println("validateLogin: " + alias);
 
-        Map<String, String> attrNames = new HashMap<String, String>();
+        Map<String, String> attrNames = new HashMap<>();
         attrNames.put("#alias", AliasAttr);
         attrNames.put("#password", PasswordAttr);
 
