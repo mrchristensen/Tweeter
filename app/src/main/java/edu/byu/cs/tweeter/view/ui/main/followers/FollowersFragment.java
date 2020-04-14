@@ -96,7 +96,7 @@ public class FollowersFragment extends Fragment implements FollowersPresenter.Vi
 
         void bindUser(User user) {
             userImage.setImageDrawable(ImageCache.getInstance().getImageDrawable(user));
-            userAlias.setText(user.getAlias());
+            userAlias.setText("@" + user.getAlias());
             userName.setText(user.getName());
         }
     }

@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         userName.setText(user.getName());
 
         TextView userAlias = findViewById(R.id.userAlias);
-        userAlias.setText(user.getAlias());
+        userAlias.setText("@" + user.getAlias());
     }
 
     @Override
@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         }
         else {
             View view = findViewById(android.R.id.content);
-            Snackbar.make(view, "The user: \"" + response.getUserAlias() + "\", does not exit.",
+            Snackbar.make(view, "The user: @" + response.getUserAlias() + ", does not exit.",
                     Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }
     }

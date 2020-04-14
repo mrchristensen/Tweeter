@@ -56,7 +56,7 @@ public class UserGenerator {
         for(int i=0; i < n; i++){
             users.add(new User("fname" + i,
                     "lname" + i,
-                    "@tempAlias" + i,
+                    "tempAlias" + i,
                     FEMALE_IMAGE_URL));
         }
         return users;

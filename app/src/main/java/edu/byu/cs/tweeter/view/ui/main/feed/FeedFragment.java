@@ -102,7 +102,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View, FindUs
             }
         }
         else{ //User not found
-            Snackbar.make(getView(), "The user: \"" + response.getUserAlias() + "\", does not exit.",
+            Snackbar.make(getView(), "The user: @" + response.getUserAlias() + ", does not exit.",
                     Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }
     }
@@ -146,7 +146,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View, FindUs
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM-dd-yyyy - HH:mm");
 
             userImage.setImageDrawable(ImageCache.getInstance().getImageDrawable(status.getUser()));
-            userAlias.setText(status.getUser().getAlias());
+            userAlias.setText("@" + status.getUser().getAlias());
             userName.setText(status.getUser().getName());
             date.setText(status.getDate());
 
