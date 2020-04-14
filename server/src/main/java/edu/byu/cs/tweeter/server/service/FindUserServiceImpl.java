@@ -12,6 +12,7 @@ import edu.byu.cs.tweeter.shared.model.service.response.FindUserResponse;
 public class FindUserServiceImpl implements FindUserService {
     @Override
     public FindUserResponse findUser(FindUserRequest request) {
+        request.setUserAlias(request.getUserAlias().replaceAll("@", "")); //sanitize input (no "@"'s aloud in user aliases)
         UserDAO userDAO = new UserDAO();
         User foundUser = userDAO.getUser(request.getUserAlias());
         if(foundUser == null){

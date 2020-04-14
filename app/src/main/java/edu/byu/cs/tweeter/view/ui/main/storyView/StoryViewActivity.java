@@ -107,7 +107,7 @@ public class StoryViewActivity extends AppCompatActivity implements LoadImageTas
         userName.setText(user.getName());
 
         TextView userAlias = findViewById(R.id.userAlias);
-        userAlias.setText(user.getAlias());
+        userAlias.setText("@" + user.getAlias());
     }
 
     private void checkUserFollows() {
