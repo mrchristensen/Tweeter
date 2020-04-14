@@ -22,7 +22,7 @@ public class StatusDAO {
     public FeedResponse getFeed(FeedRequest request) {
         //TODO: Implement actual functionality once Databases are implemented
         String FEMALE_IMAGE_URL = "https://i.imgur.com/LiVHSFn.png";
-        return new FeedResponse(StatusGenerator.getNStatuses(request.getLimit(), new User("fname1", "lname1", "@tempAlias1", FEMALE_IMAGE_URL)), true);
+        return new FeedResponse(StatusGenerator.getNStatuses(request.getLimit(), new User("fname1", "lname1", "tempAlias1", FEMALE_IMAGE_URL)), true);
     }
 
     public StoryResponse getStory(StoryRequest request) {
