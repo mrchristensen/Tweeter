@@ -16,7 +16,7 @@ import edu.byu.cs.tweeter.json.Serializer;
 class ClientCommunicator {
     private static final String LOG_TAG = "ClientCommunicator";
 
-    private static final int TIMEOUT_MILLIS = 10000;
+    private static final int TIMEOUT_MILLIS = 80000;
 
     private final String baseURL;
 
