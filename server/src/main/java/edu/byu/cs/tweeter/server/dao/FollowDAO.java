@@ -97,9 +97,50 @@ public class FollowDAO {
         return result;
     }
 
-    public FollowingResponse getFollowees(FollowingRequest request) {
-        //todo
-        return new FollowingResponse(UserGenerator.getNUsers(request.limit), true);
+    public ResultsPage getFollowees(String user, int pageSize, String lastFollowee) {
+        System.out.println("getFollowers: for " + user + ", lastFollowee: " + lastFollowee);
+        ResultsPage result = new ResultsPage();
+
+        Map<String, String> attrNames = new HashMap<String, String>();
+        attrNames.put("#user", FollowerAttr);
+
+        Map<String, AttributeValue> attrValues = new HashMap<>();
+        attrValues.put(":user", new AttributeValue().withS(user));
+
+        QueryRequest queryRequest = new QueryRequest()
+                .withTableName(TableName)
+                .withKeyConditionExpression("#user = :user")
+                .withExpressionAttributeNames(attrNames)
+                .withExpressionAttributeValues(attrValues)
+                .withLimit(pageSize);
+
+        if (isNonEmptyString(lastFollowee)) {
+            System.out.println("adding a start key of: " + lastFollowee);
+            Map<String, AttributeValue> startKey = new HashMap<>();
+            startKey.put(FollowerAttr, new AttributeValue().withS(user));
+            startKey.put(FolloweeAttr, new AttributeValue().withS(lastFollowee));
+
+            queryRequest = queryRequest.withExclusiveStartKey(startKey);
+        }
+
+        QueryResult queryResult = amazonDynamoDB.query(queryRequest);
+        System.out.println("Query result: " + queryResult);
+        List<Map<String, AttributeValue>> items = queryResult.getItems();
+        if (items != null) {
+            for (Map<String, AttributeValue> item : items){
+                String followee = item.get(FolloweeAttr).getS();
+                result.addValue(followee);
+                System.out.println("Added: " + followee);
+            }
+        }
+
+        Map<String, AttributeValue> lastKey = queryResult.getLastEvaluatedKey();
+        if (lastKey != null) {
+            result.setLastKey(lastKey.get(FolloweeAttr).getS());
+            System.out.println("lastKey = " + lastKey.get(FolloweeAttr).getS());
+        }
+
+        return result;
     }
 
     public boolean getFollow(String follower, String followee){
