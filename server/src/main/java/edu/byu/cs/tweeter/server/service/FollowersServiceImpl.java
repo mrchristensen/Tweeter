@@ -35,7 +35,7 @@ public class FollowersServiceImpl implements FollowersService {
         if (validateAuthToken(request.getCurrentUserAlias(), request.getAuthTokenString())) {
             FollowDAO dao = new FollowDAO();
 
-            ResultsPage results = dao.getFollowers(request.getFollowee().getAlias(), PAGE_SIZE, lastFollowerAlias);
+            ResultsPage results = dao.getFollowers(request.getFollowee().getAlias(), request.getLimit(), lastFollowerAlias);
 
             UserDAO userDAO = new UserDAO();
             List<String> followerAliases = results.getValues();

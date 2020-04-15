@@ -29,9 +29,8 @@ import edu.byu.cs.tweeter.shared.model.service.response.StoryResponse;
 /**
  * A DAO for accessing 'follower' data from the database.
  */
-public class StatusDAO {
+public class StoryDAO {
     private static final String TableName = "stories";
-//    private static final String IndexName = "visits-index";
 
     private static final String AliasAttr = "alias";
     private static final String TimestampAttr = "timestamp";
@@ -39,7 +38,6 @@ public class StatusDAO {
     private static final String ProfileURLAttr = "image_url";
     private static final String FirstNameAttr = "first_name";
     private static final String LastNameAttr = "last_name";
-
 
     // DynamoDB client
     private static AmazonDynamoDB amazonDynamoDB = AmazonDynamoDBClientBuilder
@@ -80,7 +78,7 @@ public class StatusDAO {
         }
     }
 
-    public FeedResponse getFeed(FeedRequest request) {
+    public FeedResponse getFeed(FeedRequest request) { //todo remove
         //TODO: Implement actual functionality once Databases are implemented
         String FEMALE_IMAGE_URL = "https://i.imgur.com/LiVHSFn.png";
         return new FeedResponse(StatusGenerator.getNStatuses(request.getLimit(), new User("fname1", "lname1", "tempAlias1", FEMALE_IMAGE_URL)), true);
