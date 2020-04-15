@@ -26,6 +26,7 @@ import com.google.android.material.snackbar.Snackbar;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -377,7 +378,7 @@ public class FeedFragment extends Fragment implements FeedPresenter.View, FindUs
          */
         @SuppressLint("NewApi")
         private void addLoadingFooter() {
-            addItem(new Status(new User("firstN", "lastN", "ImageURL"), LocalDateTime.now().toString(), "Dummy status"));
+            addItem(new Status(new User("firstN", "lastN", "ImageURL"), ZonedDateTime.now().toString(), "Dummy status"));
         }
 
         /**

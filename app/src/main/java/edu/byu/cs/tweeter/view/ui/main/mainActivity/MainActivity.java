@@ -26,6 +26,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.net.SessionCache;
@@ -172,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements LoadImageTask.Loa
         PostStatusTask postStatusTask = new PostStatusTask(postStatusPresenter,this);
 
         PostStatusRequest request = new PostStatusRequest(new Status(presenter.getCurrentUser(),
-                LocalDateTime.now().toString(), statusMessage), SessionCache.getInstance().getAuthTokenString(), SessionCache.getInstance().getCurrentUser().getAlias());
+                ZonedDateTime.now().toString(), statusMessage), SessionCache.getInstance().getAuthTokenString(), SessionCache.getInstance().getCurrentUser().getAlias());
         postStatusTask.execute(request);
     }
 
