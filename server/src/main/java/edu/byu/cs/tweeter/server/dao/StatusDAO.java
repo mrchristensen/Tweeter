@@ -6,8 +6,17 @@ import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.QueryRequest;
+import com.amazonaws.services.dynamodbv2.model.QueryResult;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import edu.byu.cs.tweeter.server.dao.generators.StatusGenerator;
+import edu.byu.cs.tweeter.server.resources.ResultsPage;
+import edu.byu.cs.tweeter.server.resources.StatusResultsPage;
 import edu.byu.cs.tweeter.shared.model.domain.Status;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
@@ -38,6 +47,10 @@ public class StatusDAO {
             .withRegion("us-west-2")
             .build();
     private static DynamoDB dynamoDB = new DynamoDB(amazonDynamoDB);
+
+    private static boolean isNonEmptyString(String value) {
+        return (value != null && value.length() > 0);
+    }
 
     public boolean putStatus(Status status) {
         System.out.println("putStatus: " + status.getMessageBody() + "for: " + status.getUser());
@@ -73,9 +86,61 @@ public class StatusDAO {
         return new FeedResponse(StatusGenerator.getNStatuses(request.getLimit(), new User("fname1", "lname1", "tempAlias1", FEMALE_IMAGE_URL)), true);
     }
 
-    public StoryResponse getStory(StoryRequest request) {
-        //TODO: Implement actual functionality once Databases are implemented
-        return new StoryResponse(StatusGenerator.getNStatuses(request.getLimit(), request.getUser()), true);
+    public StatusResultsPage getStory(String userAlias, int pageSize, String lastStatusTimestamp) {
+        System.out.println("getStory: for " + userAlias + ", lastStatusTimestamp: " + lastStatusTimestamp);
+        StatusResultsPage result = new StatusResultsPage();
+
+        Map<String, String> attrNames = new HashMap<String, String>();
+        attrNames.put("#userAlias", AliasAttr);
+
+        Map<String, AttributeValue> attrValues = new HashMap<>();
+        attrValues.put(":userAlias", new AttributeValue().withS(userAlias));
+
+        QueryRequest queryRequest = new QueryRequest()
+                .withTableName(TableName)
+                .withKeyConditionExpression("#userAlias = :userAlias")
+                .withExpressionAttributeNames(attrNames)
+                .withExpressionAttributeValues(attrValues)
+                .withLimit(pageSize)
+                .withScanIndexForward(false); //Descending order
+
+        if (isNonEmptyString(lastStatusTimestamp)) {
+            System.out.println("adding a start key of: " + lastStatusTimestamp);
+            Map<String, AttributeValue> startKey = new HashMap<>();
+            startKey.put(AliasAttr, new AttributeValue().withS(userAlias));
+            startKey.put(TimestampAttr, new AttributeValue().withS(lastStatusTimestamp));
+
+            queryRequest = queryRequest.withExclusiveStartKey(startKey);
+        }
+
+        QueryResult queryResult = amazonDynamoDB.query(queryRequest);
+        System.out.println("Query result: " + queryResult);
+        List<Map<String, AttributeValue>> items = queryResult.getItems();
+        if (items != null) {
+            for (Map<String, AttributeValue> item : items){
+
+                String firstName = item.get(FirstNameAttr).getS();
+                String lastName = item.get(LastNameAttr).getS();
+                String alias = item.get(AliasAttr).getS();
+                String profileURL = item.get(ProfileURLAttr).getS();
+                User user = new User(firstName, lastName, alias, profileURL);
+
+                String timestamp = item.get(TimestampAttr).getS();
+                String statusMessage = item.get(MessageAttr).getS();
+                Status status = new Status(user, timestamp, statusMessage);
+
+                result.addStatus(status);
+                System.out.println("Added: " + status);
+            }
+        }
+
+        Map<String, AttributeValue> lastKey = queryResult.getLastEvaluatedKey();
+        if (lastKey != null) {
+            result.setLastKey(lastKey.get(TimestampAttr).getS());
+            System.out.println("lastKey = " + lastKey.get(TimestampAttr).getS());
+        }
+
+        return result;
     }
 
 }
