@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.server.dao.generators;
+package edu.byu.cs.tweeter.server.dao.generators.old;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,9 +15,9 @@ import edu.byu.cs.tweeter.shared.model.domain.User;
  * A temporary class that generates and returns Follow objects. This class may be removed when the
  * server is created and the ServerFacade no longer needs to return dummy data.
  */
-public class FollowGenerator {
+public class OldFollowGenerator {
 
-    private static FollowGenerator followGenerator;
+    private static OldFollowGenerator oldFollowGenerator;
 
     /**
      * An enum used to specify the sort order of {@link Follow} object returned by this generator.
@@ -32,19 +32,19 @@ public class FollowGenerator {
      * A private constructor that ensures no instances of this class can be created from outside
      * the class.
      */
-    private FollowGenerator() {}
+    private OldFollowGenerator() {}
 
     /**
      * Returns the singleton instance of the class
      *
      * @return the instance.
      */
-    public static FollowGenerator getInstance() {
-        if(followGenerator == null) {
-            followGenerator = new FollowGenerator();
+    public static OldFollowGenerator getInstance() {
+        if(oldFollowGenerator == null) {
+            oldFollowGenerator = new OldFollowGenerator();
         }
 
-        return followGenerator;
+        return oldFollowGenerator;
     }
 
     /**
@@ -60,13 +60,13 @@ public class FollowGenerator {
      */
     public List<Follow> generateUsersAndFollows(int userCount, int minFollowersPerUser,
                                                        int maxFollowersPerUser, Sort sortOrder) {
-        List<User> users = UserGenerator.getInstance().generateUsers(userCount);
+        List<User> users = OldUserGenerator.getInstance().generateUsers(userCount);
         return generateFollowsForUsers(users, minFollowersPerUser, maxFollowersPerUser, sortOrder);
     }
 
     public List<Follow> generateUsersAndFollowsAndFollowers(int userCount, int minFollowersPerUser,
                                                 int maxFollowersPerUser, User currentUser) {
-        List<User> users = UserGenerator.getInstance().generateUsers(userCount);
+        List<User> users = OldUserGenerator.getInstance().generateUsers(userCount);
         users.add(currentUser);
         List<Follow> follows = generateFollowsForUsers(users, minFollowersPerUser, maxFollowersPerUser, Sort.FOLLOWER_FOLLOWEE);
         follows.addAll(generateFollowersForUsers(users, minFollowersPerUser, maxFollowersPerUser, Sort.FOLLOWEE_FOLLOWER));

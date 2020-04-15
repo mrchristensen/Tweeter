@@ -2,30 +2,26 @@ package edu.byu.cs.tweeter.server.dao;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
+import com.amazonaws.services.dynamodbv2.document.BatchWriteItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.DeleteItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.TableWriteItems;
 import com.amazonaws.services.dynamodbv2.document.spec.DeleteItemSpec;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.QueryRequest;
 import com.amazonaws.services.dynamodbv2.model.QueryResult;
+import com.amazonaws.services.dynamodbv2.model.WriteRequest;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.byu.cs.tweeter.server.dao.generators.UserGenerator;
 import edu.byu.cs.tweeter.server.resources.ResultsPage;
+import edu.byu.cs.tweeter.shared.model.domain.Status;
 import edu.byu.cs.tweeter.shared.model.domain.User;
-import edu.byu.cs.tweeter.shared.model.service.request.FollowRequest;
-import edu.byu.cs.tweeter.shared.model.service.request.FollowersRequest;
-import edu.byu.cs.tweeter.shared.model.service.request.FollowingRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.FollowResponse;
-import edu.byu.cs.tweeter.shared.model.service.response.FollowersResponse;
-import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
 
 /**
  * A DAO for accessing 'follower' data from the database.
@@ -222,6 +218,34 @@ public class FollowDAO {
             System.err.println(e.getMessage());
             return false;
         }
+    }
+
+    public boolean followBatchWrite(List<String> followers) {
+        // Constructor for TableWriteItems takes the name of the table, which I have stored in TABLE_USER
+        TableWriteItems items = new TableWriteItems(TableName);
+
+        // Add each user into the TableWriteItems object
+        for (String follower : followers) {
+            Item item = new Item()
+                    .withPrimaryKey(FollowerAttr, follower)
+                    .withPrimaryKey(FolloweeAttr, "test");
+            items.addItemToPut(item);
+        }
+
+        System.out.println("About to write a batch: " + items);
+        BatchWriteItemOutcome outcome = dynamoDB.batchWriteItem(items);
+        System.out.println("Wrote User Batch: " + outcome);
+
+        // Check the outcome for items that didn't make it onto the table
+        // If any were not added to the table, try again to write the batch
+        while (outcome.getUnprocessedItems().size() > 0) {
+            System.out.println("Outcome has unprocessed items: " + outcome);
+            Map<String, List<WriteRequest>> unprocessedItems = outcome.getUnprocessedItems();
+            outcome = dynamoDB.batchWriteItemUnprocessed(unprocessedItems);
+            System.out.println("Wrote more Users: " + outcome);
+        }
+
+        return true;
     }
 
 }

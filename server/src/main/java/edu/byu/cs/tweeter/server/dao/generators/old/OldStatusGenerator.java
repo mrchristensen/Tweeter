@@ -1,6 +1,5 @@
-package edu.byu.cs.tweeter.server.dao.generators;
+package edu.byu.cs.tweeter.server.dao.generators.old;
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -13,27 +12,27 @@ import edu.byu.cs.tweeter.shared.model.domain.User;
  * A temporary class that generates and returns Follow objects. This class may be removed when the
  * server is created and the ServerFacade no longer needs to return dummy data.
  */
-public class StatusGenerator {
+public class OldStatusGenerator {
 
-    private static StatusGenerator statusGenerator;
+    private static OldStatusGenerator oldStatusGenerator;
 
     /**
      * A private constructor that ensures no instances of this class can be created from outside
      * the class.
      */
-    private StatusGenerator() {}
+    private OldStatusGenerator() {}
 
     /**
      * Returns the singleton instance of the class
      *
      * @return the instance.
      */
-    public static StatusGenerator getInstance() {
-        if(statusGenerator == null) {
-            statusGenerator = new StatusGenerator();
+    public static OldStatusGenerator getInstance() {
+        if(oldStatusGenerator == null) {
+            oldStatusGenerator = new OldStatusGenerator();
         }
 
-        return statusGenerator;
+        return oldStatusGenerator;
     }
 
     public static List<Status> getNStatuses(int n, User user) {
