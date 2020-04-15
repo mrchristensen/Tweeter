@@ -1,4 +1,4 @@
-package edu.byu.cs.tweeter.server.dao.generators;
+package edu.byu.cs.tweeter.server.dao.generators.old;
 
 import com.google.gson.Gson;
 
@@ -18,7 +18,7 @@ import edu.byu.cs.tweeter.shared.model.domain.User;
  * A temporary class that generates and returns {@link User} objects. This class may be removed when
  * the server is created and the ServerFacade no longer needs to return dummy data.
  */
-public class UserGenerator {
+public class OldUserGenerator {
 
     private static final String MALE_NAMES_URL = "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/json/mnames.json";
     private static final String FEMALE_NAMES_URL = "https://faculty.cs.byu.edu/~jwilkerson/cs340/tweeter/json/fnames.json";
@@ -31,21 +31,21 @@ public class UserGenerator {
     static final String MALE_IMAGE_URL = "https://i.imgur.com/IMAGE_URL_API.png";
     private static final String FEMALE_IMAGE_URL = "https://i.imgur.com/LiVHSFn.png";
 
-    private static UserGenerator instance;
+    private static OldUserGenerator instance;
 
     /**
      * A private constructor that ensures no instances of this class can be created.
      */
-    private UserGenerator() {}
+    private OldUserGenerator() {}
 
     /**
      * Returns the singleton instance of the class
      *
      * @return the instance.
      */
-    public static UserGenerator getInstance() {
+    public static OldUserGenerator getInstance() {
         if(instance == null) {
-            instance = new UserGenerator();
+            instance = new OldUserGenerator();
         }
 
         return instance;

@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.byu.cs.tweeter.shared.model.domain.Status;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 
 /**
@@ -124,5 +125,36 @@ public class UserDAO {
             return true;
         }
         return false;
+    }
+
+    public boolean userBatchWrite(List<String> userAliases) {
+        // Constructor for TableWriteItems takes the name of the table, which I have stored in TABLE_USER
+        TableWriteItems items = new TableWriteItems(TableName);
+
+        // Add each user into the TableWriteItems object
+        for (String userAlias : userAliases) {
+            Item item = new Item()
+                    .withPrimaryKey(AliasAttr, userAlias)
+                    .withString(PasswordAttr, "b109f3bbbc244eb82441917ed06d618b9008dd09b3befd1b5e07394c706a8bb980b1d7785e5976ec049b46df5f1326af5a2ea6d103fd07c95385ffab0cacbc86") //"password" hashed
+                    .withString(FirstNameAttr, "firstName")
+                    .withString(LastNameAttr, "lastName")
+                    .withString(ImageURLAttr, "https://BUCKET_NAME.s3.us-west-2.amazonaws.com/IMAGE_URL_API");
+            items.addItemToPut(item);
+        }
+
+        System.out.println("About to write a batch: " + items);
+        BatchWriteItemOutcome outcome = dynamoDB.batchWriteItem(items);
+        System.out.println("Wrote User Batch: " + outcome);
+
+        // Check the outcome for items that didn't make it onto the table
+        // If any were not added to the table, try again to write the batch
+        while (outcome.getUnprocessedItems().size() > 0) {
+            System.out.println("Outcome has unprocessed items: " + outcome);
+            Map<String, List<WriteRequest>> unprocessedItems = outcome.getUnprocessedItems();
+            outcome = dynamoDB.batchWriteItemUnprocessed(unprocessedItems);
+            System.out.println("Wrote more Users: " + outcome);
+        }
+
+        return true;
     }
 }

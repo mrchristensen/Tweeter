@@ -14,17 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.byu.cs.tweeter.server.dao.generators.StatusGenerator;
-import edu.byu.cs.tweeter.server.resources.ResultsPage;
 import edu.byu.cs.tweeter.server.resources.StatusResultsPage;
 import edu.byu.cs.tweeter.shared.model.domain.Status;
 import edu.byu.cs.tweeter.shared.model.domain.User;
-import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
-import edu.byu.cs.tweeter.shared.model.service.request.PostStatusRequest;
-import edu.byu.cs.tweeter.shared.model.service.request.StoryRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.FeedResponse;
-import edu.byu.cs.tweeter.shared.model.service.response.PostStatusResponse;
-import edu.byu.cs.tweeter.shared.model.service.response.StoryResponse;
 
 /**
  * A DAO for accessing 'follower' data from the database.
