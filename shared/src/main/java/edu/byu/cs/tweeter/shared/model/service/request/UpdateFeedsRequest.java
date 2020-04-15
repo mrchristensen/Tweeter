@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.byu.cs.tweeter.shared.model.domain.Status;
-import edu.byu.cs.tweeter.shared.model.domain.User;
 
 /**
  * Contains all the information needed to make a request to have the server return the next page of

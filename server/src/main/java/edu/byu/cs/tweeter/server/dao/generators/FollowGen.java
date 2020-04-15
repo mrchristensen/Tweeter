@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.byu.cs.tweeter.server.dao.FollowDAO;
-import edu.byu.cs.tweeter.server.dao.UserDAO;
-import edu.byu.cs.tweeter.shared.model.domain.User;
 
 public class FollowGen {
     public static void main(String[] args) {

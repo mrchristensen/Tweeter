@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 import edu.byu.cs.tweeter.shared.model.domain.AuthToken;
-import edu.byu.cs.tweeter.shared.model.domain.User;
 
 public class AuthTokenDAO {
     private static final String TableName = "authTokens";

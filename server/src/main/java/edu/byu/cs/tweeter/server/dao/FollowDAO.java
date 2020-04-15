@@ -21,8 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import edu.byu.cs.tweeter.server.resources.ResultsPage;
-import edu.byu.cs.tweeter.shared.model.domain.Status;
-import edu.byu.cs.tweeter.shared.model.domain.User;
 
 /**
  * A DAO for accessing 'follower' data from the database.

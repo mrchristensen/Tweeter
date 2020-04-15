@@ -6,10 +6,10 @@ import com.amazonaws.services.sqs.model.SendMessageRequest;
 import com.amazonaws.services.sqs.model.SendMessageResult;
 
 import edu.byu.cs.tweeter.server.dao.StoryDAO;
+import edu.byu.cs.tweeter.shared.json.Serializer;
 import edu.byu.cs.tweeter.shared.model.service.PostStatusService;
 import edu.byu.cs.tweeter.shared.model.service.request.PostStatusRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.PostStatusResponse;
-import edu.byu.cs.tweeter.shared.json.Serializer;
 
 import static edu.byu.cs.tweeter.server.service.AuthTokenService.validateAuthToken;
 
