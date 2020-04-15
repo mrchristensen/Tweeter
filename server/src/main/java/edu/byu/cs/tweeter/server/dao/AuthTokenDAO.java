@@ -89,7 +89,7 @@ public class AuthTokenDAO {
         if (items != null && items.size() > 0) {
             Map<String, AttributeValue> item = items.get(0);
 
-            if(!userAlias.equals(item.get(AliasAttr).getS())){
+            if(userAlias != null && !userAlias.equals(item.get(AliasAttr).getS())){
                 System.out.println("User's alias doesn't match up with token: " + userAlias + " " + item.get(AliasAttr).getS());
                 return null;
             }
