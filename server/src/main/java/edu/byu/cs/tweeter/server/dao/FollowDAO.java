@@ -12,11 +12,13 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.QueryRequest;
 import com.amazonaws.services.dynamodbv2.model.QueryResult;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import edu.byu.cs.tweeter.server.dao.generators.UserGenerator;
+import edu.byu.cs.tweeter.server.resources.ResultsPage;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowersRequest;
@@ -35,6 +37,8 @@ public class FollowDAO {
     private static final String FollowerAttr = "follower_handle";
     private static final String FolloweeAttr = "followee_handle";
 
+    private static final String FollowsIndex = "follows_index";
+
     // DynamoDB client
     private static AmazonDynamoDB amazonDynamoDB = AmazonDynamoDBClientBuilder
             .standard()
@@ -42,9 +46,55 @@ public class FollowDAO {
             .build();
     private static DynamoDB dynamoDB = new DynamoDB(amazonDynamoDB);
 
-    public FollowersResponse getFollowers(FollowersRequest request) {
-        //todo
-        return new FollowersResponse(UserGenerator.getNUsers(request.limit), true);
+    private static boolean isNonEmptyString(String value) {
+        return (value != null && value.length() > 0);
+    }
+
+    public ResultsPage getFollowers(String followee, int pageSize, String lastFollower) {
+        System.out.println("getFollowers: for " + followee + ", lastFollower: " + lastFollower);
+        ResultsPage result = new ResultsPage();
+
+        Map<String, String> attrNames = new HashMap<String, String>();
+        attrNames.put("#followee", FolloweeAttr);
+
+        Map<String, AttributeValue> attrValues = new HashMap<>();
+        attrValues.put(":followee", new AttributeValue().withS(followee));
+
+        QueryRequest queryRequest = new QueryRequest()
+                .withTableName(TableName)
+                .withIndexName(FollowsIndex)
+                .withKeyConditionExpression("#followee = :followee")
+                .withExpressionAttributeNames(attrNames)
+                .withExpressionAttributeValues(attrValues)
+                .withLimit(pageSize);
+
+        if (isNonEmptyString(lastFollower)) {
+            System.out.println("adding a start key of: " + lastFollower);
+            Map<String, AttributeValue> startKey = new HashMap<>();
+            startKey.put(FolloweeAttr, new AttributeValue().withS(followee));
+            startKey.put(FollowerAttr, new AttributeValue().withS(lastFollower));
+
+            queryRequest = queryRequest.withExclusiveStartKey(startKey);
+        }
+
+        QueryResult queryResult = amazonDynamoDB.query(queryRequest);
+        System.out.println("Query result: " + queryResult);
+        List<Map<String, AttributeValue>> items = queryResult.getItems();
+        if (items != null) {
+            for (Map<String, AttributeValue> item : items){
+                String follower = item.get(FollowerAttr).getS();
+                result.addValue(follower);
+                System.out.println("Added: " + follower);
+            }
+        }
+
+        Map<String, AttributeValue> lastKey = queryResult.getLastEvaluatedKey();
+        if (lastKey != null) {
+            result.setLastKey(lastKey.get(FollowerAttr).getS());
+            System.out.println("lastKey = " + lastKey.get(FollowerAttr).getS());
+        }
+
+        return result;
     }
 
     public FollowingResponse getFollowees(FollowingRequest request) {
