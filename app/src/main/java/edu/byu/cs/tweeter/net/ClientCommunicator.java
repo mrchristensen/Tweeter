@@ -11,7 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
-import edu.byu.cs.tweeter.json.Serializer;
+import edu.byu.cs.tweeter.shared.json.Serializer;
 
 class ClientCommunicator {
     private static final String LOG_TAG = "ClientCommunicator";

@@ -1,19 +1,9 @@
 package edu.byu.cs.tweeter.server.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import edu.byu.cs.tweeter.server.dao.AuthTokenDAO;
-import edu.byu.cs.tweeter.server.dao.FollowDAO;
-import edu.byu.cs.tweeter.server.dao.StatusDAO;
-import edu.byu.cs.tweeter.server.dao.UserDAO;
-import edu.byu.cs.tweeter.server.resources.ResultsPage;
+import edu.byu.cs.tweeter.server.dao.StoryDAO;
 import edu.byu.cs.tweeter.server.resources.StatusResultsPage;
-import edu.byu.cs.tweeter.shared.model.domain.AuthToken;
-import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.StoryService;
 import edu.byu.cs.tweeter.shared.model.service.request.StoryRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.FollowersResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.StoryResponse;
 
 import static edu.byu.cs.tweeter.server.service.AuthTokenService.validateAuthToken;
@@ -36,7 +26,7 @@ public class StoryServiceImpl implements StoryService {
 
 
         if (validateAuthToken(request.getCurrentUserAlias(), request.getAuthTokenString())) {
-            StatusDAO dao = new StatusDAO();
+            StoryDAO dao = new StoryDAO();
 
             StatusResultsPage results = dao.getStory(request.getUser().getAlias(), PAGE_SIZE, lastStatusTimestamp);
 
