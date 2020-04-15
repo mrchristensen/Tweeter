@@ -23,28 +23,27 @@ public class PostStatusServiceImpl implements PostStatusService {
     public PostStatusResponse postStatus(PostStatusRequest request) {
         System.out.println("Authtoken String: " + request.getAuthTokenString());
 
-
-        String messageBody = Serializer.serialize(request.getStatus());
-
-        SendMessageRequest send_msg_request = new SendMessageRequest()
-                .withQueueUrl(QUEUE_URL)
-                .withMessageBody(messageBody)
-                .withDelaySeconds(5);
-
-        AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
-        SendMessageResult send_msg_result = sqs.sendMessage(send_msg_request);
-
-        String msgId = send_msg_result.getMessageId();
-        System.out.println("Message ID: " + msgId);
-
-
-
         if(request.getStatus() == null){
             System.out.println("Request status is null");
         }
         System.out.println("Status Message: " + request.getStatus().getMessageBody());
 
         if(validateAuthToken(request.getCurrentUserAlias(), request.getAuthTokenString())){
+            //Update Feed Table
+            String messageBody = Serializer.serialize(request.getStatus());
+
+            SendMessageRequest send_msg_request = new SendMessageRequest()
+                    .withQueueUrl(QUEUE_URL)
+                    .withMessageBody(messageBody)
+                    .withDelaySeconds(5);
+
+            AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
+            SendMessageResult send_msg_result = sqs.sendMessage(send_msg_request);
+
+            String msgId = send_msg_result.getMessageId();
+            System.out.println("Message ID: " + msgId);
+
+            //Update Story Table
             StoryDAO storyDAO = new StoryDAO();
             storyDAO.putStatus(request.getStatus());
 
@@ -52,6 +51,7 @@ public class PostStatusServiceImpl implements PostStatusService {
         }
 
         else{
+            System.out.println(new RuntimeException("forbidden").toString());
             throw new RuntimeException("forbidden");
         }
     }
