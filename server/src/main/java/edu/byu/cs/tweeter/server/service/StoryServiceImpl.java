@@ -12,7 +12,6 @@ import static edu.byu.cs.tweeter.server.service.AuthTokenService.validateAuthTok
  * Contains the business logic for getting the users a user is following.
  */
 public class StoryServiceImpl implements StoryService {
-    private final int PAGE_SIZE = 10;
 
     @Override
     public StoryResponse getStory(StoryRequest request) {
@@ -28,7 +27,7 @@ public class StoryServiceImpl implements StoryService {
         if (validateAuthToken(request.getCurrentUserAlias(), request.getAuthTokenString())) {
             StoryDAO dao = new StoryDAO();
 
-            StatusResultsPage results = dao.getStory(request.getUser().getAlias(), PAGE_SIZE, lastStatusTimestamp);
+            StatusResultsPage results = dao.getStory(request.getUser().getAlias(), request.getLimit(), lastStatusTimestamp);
 
             System.out.println("hasMorePages = hasLastKey() = " + results.hasLastKey());
 

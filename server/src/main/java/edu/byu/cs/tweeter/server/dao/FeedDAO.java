@@ -6,11 +6,16 @@ import com.amazonaws.services.dynamodbv2.document.BatchWriteItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.TableWriteItems;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.QueryRequest;
+import com.amazonaws.services.dynamodbv2.model.QueryResult;
 import com.amazonaws.services.dynamodbv2.model.WriteRequest;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.byu.cs.tweeter.server.resources.StatusResultsPage;
 import edu.byu.cs.tweeter.shared.model.domain.Status;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 
@@ -33,6 +38,10 @@ public class FeedDAO {
             .withRegion("us-west-2")
             .build();
     private static DynamoDB dynamoDB = new DynamoDB(amazonDynamoDB);
+
+    private static boolean isNonEmptyString(String value) {
+        return (value != null && value.length() > 0);
+    }
 
     public boolean feedStatusBatchWrite(Status status, List<User>followers) {
         // Constructor for TableWriteItems takes the name of the table, which I have stored in TABLE_USER
@@ -65,4 +74,63 @@ public class FeedDAO {
 
         return true;
     }
+
+    public StatusResultsPage getFeed(String userAlias, int pageSize, String lastStatusTimestamp) {
+        System.out.println("getFeed: for " + userAlias + ", lastStatusTimestamp: " + lastStatusTimestamp);
+        StatusResultsPage result = new StatusResultsPage();
+
+        Map<String, String> attrNames = new HashMap<String, String>();
+        attrNames.put("#FeedAlias", FeedAliasAttr);
+
+        Map<String, AttributeValue> attrValues = new HashMap<>();
+        attrValues.put(":FeedAlias", new AttributeValue().withS(userAlias));
+
+        QueryRequest queryRequest = new QueryRequest()
+                .withTableName(TableName)
+                .withKeyConditionExpression("#FeedAlias = :FeedAlias")
+                .withExpressionAttributeNames(attrNames)
+                .withExpressionAttributeValues(attrValues)
+                .withLimit(pageSize)
+                .withScanIndexForward(false); //Descending order
+
+        if (isNonEmptyString(lastStatusTimestamp)) {
+            System.out.println("adding a start key of: " + lastStatusTimestamp);
+            Map<String, AttributeValue> startKey = new HashMap<>();
+            startKey.put(FeedAliasAttr, new AttributeValue().withS(userAlias));
+            startKey.put(TimestampAttr, new AttributeValue().withS(lastStatusTimestamp));
+
+            queryRequest = queryRequest.withExclusiveStartKey(startKey);
+        }
+
+        QueryResult queryResult = amazonDynamoDB.query(queryRequest);
+        System.out.println("Query result: " + queryResult);
+        List<Map<String, AttributeValue>> items = queryResult.getItems();
+        if (items != null) {
+            for (Map<String, AttributeValue> item : items){
+
+                String firstName = item.get(PosterFirstNameAttr).getS();
+                String lastName = item.get(PosterLastNameAttr).getS();
+                String alias = item.get(PosterAliasAttr).getS();
+                String profileURL = item.get(PosterProfileURLAttr).getS();
+                User user = new User(firstName, lastName, alias, profileURL);
+
+                String timestamp = item.get(TimestampAttr).getS();
+                String statusMessage = item.get(MessageAttr).getS();
+                Status status = new Status(user, timestamp, statusMessage);
+
+                result.addStatus(status);
+                System.out.println("Added: " + status);
+            }
+        }
+
+        Map<String, AttributeValue> lastKey = queryResult.getLastEvaluatedKey();
+        if (lastKey != null) {
+            result.setLastKey(lastKey.get(TimestampAttr).getS());
+            System.out.println("lastKey = " + lastKey.get(TimestampAttr).getS());
+        }
+
+        return result;
+    }
+
+
 }
