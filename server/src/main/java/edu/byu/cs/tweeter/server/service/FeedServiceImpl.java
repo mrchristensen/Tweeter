@@ -1,12 +1,10 @@
 package edu.byu.cs.tweeter.server.service;
 
 import edu.byu.cs.tweeter.server.dao.FeedDAO;
-import edu.byu.cs.tweeter.server.dao.StoryDAO;
 import edu.byu.cs.tweeter.server.resources.StatusResultsPage;
 import edu.byu.cs.tweeter.shared.model.service.FeedService;
 import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FeedResponse;
-import edu.byu.cs.tweeter.shared.model.service.response.StoryResponse;
 
 import static edu.byu.cs.tweeter.server.service.AuthTokenService.validateAuthToken;
 

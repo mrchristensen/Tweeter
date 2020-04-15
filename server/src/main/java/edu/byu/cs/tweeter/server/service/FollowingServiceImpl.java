@@ -3,15 +3,12 @@ package edu.byu.cs.tweeter.server.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.byu.cs.tweeter.server.dao.AuthTokenDAO;
 import edu.byu.cs.tweeter.server.dao.FollowDAO;
 import edu.byu.cs.tweeter.server.dao.UserDAO;
 import edu.byu.cs.tweeter.server.resources.ResultsPage;
-import edu.byu.cs.tweeter.shared.model.domain.AuthToken;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.FollowingService;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowingRequest;
-import edu.byu.cs.tweeter.shared.model.service.response.FollowersResponse;
 import edu.byu.cs.tweeter.shared.model.service.response.FollowingResponse;
 
 import static edu.byu.cs.tweeter.server.service.AuthTokenService.validateAuthToken;
