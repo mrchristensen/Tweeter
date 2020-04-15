@@ -8,7 +8,9 @@ import com.amazonaws.services.sqs.model.SendMessageResult;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.byu.cs.tweeter.server.dao.FollowDAO;
 import edu.byu.cs.tweeter.shared.json.Serializer;
+import edu.byu.cs.tweeter.shared.model.domain.Follow;
 import edu.byu.cs.tweeter.shared.model.domain.Status;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowersRequest;
@@ -21,23 +23,25 @@ public class PostUpdateFeedMessagesService {
     public void postUpdateFeedMessages(Status status){
         System.out.println("Status received: " + status);
 
-        FollowersServiceImpl followersService = new FollowersServiceImpl();
+        FollowDAO followDAO = new FollowDAO();
 
         System.out.println("Starting to get all followers for: " + status.getDate());
-        FollowersResponse response = followersService.getFollowers(new FollowersRequest(status.getUser(), 15000, null, "myAuthToken", "test"));
-        List<User> followers = response.getFollowers();
-        System.out.println("Finished getting users, size: " + followers.size());
+        List<String> followerAliases = followDAO.getAllFollowerAliases(status.getUser().getAlias(), 15000);
+        System.out.println("Finished getting users, size: " + followerAliases.size());
 
         UpdateFeedsRequest updateFeedsRequest = new UpdateFeedsRequest(status);
 
-        //todo check for null followers?
-        for (User follower : followers) {
+
+        System.out.println("Start sending the update feed messages");
+        int i = 0;
+        for (String follower : followerAliases) {
             updateFeedsRequest.addFollower(follower);
 
             if(updateFeedsRequest.getNumFollowers() == 25){
-                System.out.println("Send of a batch of 25");
+                i++;
+                System.out.println("Send of a batch of 25, total feed updates sent: " + (i*25));
                 sendMessage(Serializer.serialize(updateFeedsRequest)); //Send 25 of for a batch write
-                updateFeedsRequest.setFollowers(new ArrayList<>()); //Reset the UpdateFeedQuest
+                updateFeedsRequest.setFollowerAliases(new ArrayList<>()); //Reset the UpdateFeedQuest
             }
         }
         if(updateFeedsRequest.getNumFollowers() > 0) {

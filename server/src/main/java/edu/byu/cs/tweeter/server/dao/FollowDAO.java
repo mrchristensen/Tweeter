@@ -15,6 +15,7 @@ import com.amazonaws.services.dynamodbv2.model.QueryRequest;
 import com.amazonaws.services.dynamodbv2.model.QueryResult;
 import com.amazonaws.services.dynamodbv2.model.WriteRequest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -246,6 +247,38 @@ public class FollowDAO {
         }
 
         return true;
+    }
+
+    public List<String> getAllFollowerAliases(String followee, int pageSize) {
+        System.out.println("getAllFollowersAliases: for " + followee);
+        List<String> allFollowersAliases = new ArrayList<>();
+        ResultsPage result = new ResultsPage();
+
+        Map<String, String> attrNames = new HashMap<String, String>();
+        attrNames.put("#followee", FolloweeAttr);
+
+        Map<String, AttributeValue> attrValues = new HashMap<>();
+        attrValues.put(":followee", new AttributeValue().withS(followee));
+
+        QueryRequest queryRequest = new QueryRequest()
+                .withTableName(TableName)
+                .withIndexName(FollowsIndex)
+                .withKeyConditionExpression("#followee = :followee")
+                .withExpressionAttributeNames(attrNames)
+                .withExpressionAttributeValues(attrValues)
+                .withLimit(pageSize);
+
+        QueryResult queryResult = amazonDynamoDB.query(queryRequest);
+        System.out.println("Query result: " + queryResult);
+        List<Map<String, AttributeValue>> items = queryResult.getItems();
+        if (items != null) {
+            for (Map<String, AttributeValue> item : items){
+                allFollowersAliases.add(item.get(FollowerAttr).getS());
+            }
+        }
+        System.out.println("Finished gathering all followers' aliases from query");
+
+        return allFollowersAliases;
     }
 
 }

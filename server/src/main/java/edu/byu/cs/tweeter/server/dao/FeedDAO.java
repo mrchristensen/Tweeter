@@ -43,14 +43,14 @@ public class FeedDAO {
         return (value != null && value.length() > 0);
     }
 
-    public boolean feedStatusBatchWrite(Status status, List<User>followers) {
+    public boolean feedStatusBatchWrite(Status status, List<String> followerAliases) {
         // Constructor for TableWriteItems takes the name of the table, which I have stored in TABLE_USER
         TableWriteItems items = new TableWriteItems(TableName);
 
         // Add each user into the TableWriteItems object
-        for (User follower : followers) {
+        for (String followerAlias : followerAliases) {
             Item item = new Item()
-                    .withPrimaryKey(FeedAliasAttr, follower.getAlias(), TimestampAttr, status.getDate())
+                    .withPrimaryKey(FeedAliasAttr, followerAlias, TimestampAttr, status.getDate())
                     .withString(MessageAttr, status.getMessageBody())
                     .withString(PosterAliasAttr, status.getUser().getAlias())
                     .withString(PosterFirstNameAttr, status.getUser().getFirstName())

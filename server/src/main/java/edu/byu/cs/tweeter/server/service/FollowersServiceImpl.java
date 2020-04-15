@@ -42,7 +42,7 @@ public class FollowersServiceImpl implements FollowersService {
             List<User> followers = new ArrayList<>();
 
             for (String followerAlias : followerAliases) {
-                System.out.println("Getting user object for: " + followerAlias);
+//                System.out.println("Getting user object for: " + followerAlias);
                 followers.add(userDAO.getUser(followerAlias));
             }
             System.out.println("hasMorePages = hasLastKey() = " + results.hasLastKey());
