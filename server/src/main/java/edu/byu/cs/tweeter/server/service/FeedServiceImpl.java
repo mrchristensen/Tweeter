@@ -1,9 +1,12 @@
 package edu.byu.cs.tweeter.server.service;
 
+import edu.byu.cs.tweeter.server.dao.FeedDAO;
 import edu.byu.cs.tweeter.server.dao.StoryDAO;
+import edu.byu.cs.tweeter.server.resources.StatusResultsPage;
 import edu.byu.cs.tweeter.shared.model.service.FeedService;
 import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.FeedResponse;
+import edu.byu.cs.tweeter.shared.model.service.response.StoryResponse;
 
 import static edu.byu.cs.tweeter.server.service.AuthTokenService.validateAuthToken;
 
@@ -13,9 +16,22 @@ import static edu.byu.cs.tweeter.server.service.AuthTokenService.validateAuthTok
 public class FeedServiceImpl implements FeedService {
     @Override
     public FeedResponse getFeed(FeedRequest request) {
+        System.out.println("getFeed: for " + request.getUser());
+        String lastStatusTimestamp = null;
+
+        if (request.getLastStatus() != null) {
+            System.out.println("lastStatus: " + request.getLastStatus().getUser() + request.getLastStatus().getMessageBody() + request.getLastStatus().getDate());
+            lastStatusTimestamp = request.getLastStatus().getDate();
+        }
+
         if (validateAuthToken(request.getCurrentUserAlias(), request.getAuthTokenString())) {
-            StoryDAO dao = new StoryDAO();
-            return dao.getFeed(request);
+            FeedDAO dao = new FeedDAO();
+
+            StatusResultsPage results = dao.getFeed(request.getUser().getAlias(), request.getLimit(), lastStatusTimestamp);
+
+            System.out.println("hasMorePages = hasLastKey() = " + results.hasLastKey());
+
+            return new FeedResponse(results.getStatuses(), results.hasLastKey());
         } else {
             throw new RuntimeException("forbidden");
         }
