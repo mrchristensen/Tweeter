@@ -129,7 +129,7 @@ public class StoryFragment extends Fragment implements StoryPresenter.View, Find
             userImage.setImageDrawable(ImageCache.getInstance().getImageDrawable(status.getUser()));
             userAlias.setText("@" + status.getUser().getAlias());
             userName.setText(status.getUser().getName());
-            date.setText(status.getDate());
+            date.setText(status.getPrettyDate());
 
             CharSequence input = status.getMessageBody();
             SpannableStringBuilder builder = new SpannableStringBuilder(input);
