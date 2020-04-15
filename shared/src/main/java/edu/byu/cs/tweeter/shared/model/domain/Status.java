@@ -1,5 +1,8 @@
 package edu.byu.cs.tweeter.shared.model.domain;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Objects;
 
 /**
@@ -27,6 +30,19 @@ public class Status implements Comparable<Status> {
     public String getDate() {
         return date;
     }
+
+    public String getPrettyDate() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM-dd-yyyy - HH:mm");
+        try {
+            ZonedDateTime timestamp = ZonedDateTime.parse(date);
+            return timestamp.format(dtf);
+        }
+        catch (DateTimeParseException e){
+            System.out.println("Unable to ZoneDateTime.parse: " + date);
+            return date;
+        }
+    }
+
 
     public String getMessageBody() {
         return messageBody;
