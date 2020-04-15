@@ -1,8 +1,6 @@
 package edu.byu.cs.tweeter.server.service;
 
-import edu.byu.cs.tweeter.server.dao.AuthTokenDAO;
 import edu.byu.cs.tweeter.server.dao.StatusDAO;
-import edu.byu.cs.tweeter.shared.model.domain.AuthToken;
 import edu.byu.cs.tweeter.shared.model.service.PostStatusService;
 import edu.byu.cs.tweeter.shared.model.service.request.PostStatusRequest;
 import edu.byu.cs.tweeter.shared.model.service.response.PostStatusResponse;
@@ -17,15 +15,19 @@ public class PostStatusServiceImpl implements PostStatusService {
     public PostStatusResponse postStatus(PostStatusRequest request) {
         System.out.println("Authtoken String: " + request.getAuthTokenString());
 
-        if(request.status == null){
+        if(request.getStatus() == null){
             System.out.println("Request status is null");
         }
         System.out.println("Status Message: " + request.getStatus().getMessageBody());
 
         if(validateAuthToken(request.getCurrentUserAlias(), request.getAuthTokenString())){
             StatusDAO statusDAO = new StatusDAO();
-            return statusDAO.postStatus(request);
+            statusDAO.putStatus(request.getStatus());
+
+            return new PostStatusResponse(request.getStatus());
         }
+
+        //todo update feeds
         else{
             throw new RuntimeException("forbidden");
         }
