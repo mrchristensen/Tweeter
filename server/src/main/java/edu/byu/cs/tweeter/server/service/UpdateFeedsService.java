@@ -9,7 +9,7 @@ public class UpdateFeedsService {
         System.out.println("updateFeedsRequest received: " + request);
 
         FeedDAO feedDAO = new FeedDAO();
-        feedDAO.feedStatusBatchWrite(request.getStatus(), request.getFollowers());
+        feedDAO.feedStatusBatchWrite(request.getStatus(), request.getFollowerAliases());
     }
 
 }

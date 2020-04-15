@@ -12,19 +12,19 @@ import edu.byu.cs.tweeter.shared.model.domain.User;
  */
 public class UpdateFeedsRequest {
     public Status status;
-    List<User> followers;
+    List<String> followerAliases;
 
     public UpdateFeedsRequest() {
     }
 
-    public UpdateFeedsRequest(Status status, List<User> followers) {
+    public UpdateFeedsRequest(Status status, List<String> followerAliases) {
         this.status = status;
-        this.followers = followers;
+        this.followerAliases = followerAliases;
     }
 
     public UpdateFeedsRequest(Status status) {
         this.status = status;
-        this.followers = new ArrayList<>();
+        this.followerAliases = new ArrayList<>();
     }
 
     public Status getStatus() {
@@ -35,19 +35,19 @@ public class UpdateFeedsRequest {
         this.status = status;
     }
 
-    public List<User> getFollowers() {
-        return followers;
+    public List<String> getFollowerAliases() {
+        return followerAliases;
     }
 
-    public void setFollowers(List<User> followers) {
-        this.followers = followers;
+    public void setFollowerAliases(List<String> followerAliases) {
+        this.followerAliases = followerAliases;
     }
 
-    public void addFollower(User follower) {
-        followers.add(follower);
+    public void addFollower(String followerAlias) {
+        followerAliases.add(followerAlias);
     }
 
     public int getNumFollowers() {
-        return followers.size();
+        return followerAliases.size();
     }
 }
