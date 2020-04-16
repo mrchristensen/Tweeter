@@ -1,6 +1,5 @@
 package edu.byu.cs.tweeter.net;
 
-import android.content.Intent;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -13,7 +12,6 @@ import java.net.URL;
 import java.util.Map;
 
 import edu.byu.cs.tweeter.shared.json.Serializer;
-import edu.byu.cs.tweeter.view.ui.start.startActivity.StartActivity;
 
 class ClientCommunicator {
     private static final String LOG_TAG = "ClientCommunicator";
