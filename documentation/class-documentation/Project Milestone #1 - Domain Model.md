@@ -11,4 +11,4 @@
   * Each relationship uses the correct symbol
   * Each relationship uses the correct direction
 
-See the [Conceptual UML Class Diagram](Tweeter%20-%20UML%20Class%20Diagram%20-%20Project%20Conceptual%20Overview.pdf)
+See the [Conceptual UML Class Diagram](../Tweeter%20-%20UML%20Class%20Diagram%20-%20Project%20Conceptual%20Overview.pdf)

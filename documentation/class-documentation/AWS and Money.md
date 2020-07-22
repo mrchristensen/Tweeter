@@ -50,6 +50,6 @@ You get 1 million requests per month. You are likely going to use under this. Mi
 ## Linking AWS Educate with Regular AWS Account
 Technically the two accounts won't be linked but you are able to add the $100 AWS credit to your AWS account just in case you go over your free tier usage.
 
-1. Go to your AWS Educate (awseducate.com (Links to an external site.)) account home page and in the top right hand corner click on "AWS Account"
+1. Go to your AWS Educate (awseducate.com) account home page and in the top right hand corner click on "AWS Account"
 2. On the "AWS Account" tab select show "Show my AWS Personal Credit"
 3. Once you have the promo code sign into your normal AWS Account (aws.amazon.com) and navigate to the "Billing" service. On the left hand side click on the "Credits" tab and then insert the promo code in the correct box to redeem your credit.
