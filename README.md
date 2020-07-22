@@ -48,6 +48,6 @@ For milestone 2 to milestone 4 you will be implementing a core set of features f
 
 ## Milestones
 * [Project Milestone #1: Domain Model](documentation/Project%20Milestone%20%231%20-%20Domain%20Model.md)
-* [Project Milestone #2: Working UI with Dummy Data](documentation/Project%20Milestone%20#2%20-%20Working%20UI%20with%20Dummy%20Data.md)
-* [Project Milestone #3: API Design and Implementation](documentation/Project%20Milestone%20#3%20-%20API%20Design%20and%20Implementation.md)
-* [Project Milestone #4: Complete back-end by connecting to persistence layer](documentation/Project%20Milestone%20#4%20-%20Complete%20back-end%20by%20connecting%20to%20persistence%20layer.md)
+* [Project Milestone #2: Working UI with Dummy Data](documentation/Project%20Milestone%20%232%20-%20Working%20UI%20with%20Dummy%20Data.md)
+* [Project Milestone #3: API Design and Implementation](documentation/Project%20Milestone%20%233%20-%20API%20Design%20and%20Implementation.md)
+* [Project Milestone #4: Complete back-end by connecting to persistence layer](documentation/Project%20Milestone%20%234%20-%20Complete%20back-end%20by%20connecting%20to%20persistence%20layer.md)
