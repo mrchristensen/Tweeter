@@ -19,14 +19,14 @@ The back-end for your application will run in AWS Lambda. Some of this code will
 
 In all of these layers, look for ways to avoid duplicating code. The Template Method or Strategy pattern may help.
 
-Your implementation is to meet the "user and session management" requirements in the [project overview](../README.md).
+Your implementation is to meet the "user and session management" requirements in the [project overview](../../README.md).
 
 ## DynamoDB Notes
 **DynamoDB Provisioned Capacity**
 
 * No matter what architecture you develop, your performance will be capped by the capacity you provision for writing to the feed table in DynamoDB.
-* To learn about provisioned capacity for reads (RCUs), read the following: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html#ItemSizeCalculations.Reads (Links to an external site.)
-* To learn about provisioned capacity for writes (WCUs), read the following: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html#ItemSizeCalculations.Writes (Links to an external site.)
+* To learn about provisioned capacity for reads (RCUs), read the following: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html#ItemSizeCalculations.Reads
+* To learn about provisioned capacity for writes (WCUs), read the following: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html#ItemSizeCalculations.Writes
 * Batch writes will be more efficient than individual put-items, because you will have fewer network round trips. A batch-write operation is limited to 25 items. If you include 25 items, you will consume 25 write capacity units, as long as each item is no more than 1 KB in size.
 * Updating the feeds when a status is posted by an author that has 10,000 followers will require writing 10,000 items, possibly in 400 batches (10000/25). To write that many items in 120 seconds will require WCU setting of around 10,000/120.
 

@@ -17,7 +17,7 @@ In this Milestone, do the following:
   * The Lambda handler
   * A services layer to which the handler delegates each request
   * A DAO layer with the dummy data (and which will interact with the database in milestone 4)
-* Your implementation is to meet the "user and session management" requirements in the [project overview](../README.md), but for milestone 3 you can use hard coded credentials and a hard coded authentication token. 
+* Your implementation is to meet the "user and session management" requirements in the [project overview](../../README.md), but for milestone 3 you can use hard coded credentials and a hard coded authentication token. 
 
 In Fall 2019, the TAs graded this milestone and gave the following feedback about students' API designs: [Milestone 3 API Endpoints Design Suggestions](Milestone%203%20API%20Endpoints%20Design%20Suggestions.md)
 
