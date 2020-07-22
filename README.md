@@ -45,3 +45,9 @@ For milestone 2 to milestone 4 you will be implementing a core set of features f
 * A user can view all of the users following a particular user. Again, this includes the ability for a signed in user to see all users following him or her.
 * A signed in user can follow an unlimited number of other users, though a user can not follow herself or himself or someone he or she is already following.
 * A signed in user can only unfollow users they are following. After user A unfollows user B, user B’s new statuses are no longer added to A’s feed, however all of B’s statuses that had previously been added to A’s feed remain in A’s feed.
+
+## Milestones
+* [Project Milestone #1: Domain Model](documentation/Project Milestone #1 - Domain Model.md)
+* [Project Milestone #2: Working UI with Dummy Data](documentation/Project Milestone #2 - Working UI with Dummy Data.md)
+* [Project Milestone #3: API Design and Implementation](documentation/Project Milestone #3 - API Design and Implementation.md)
+* [Project Milestone #4: Complete back-end by connecting to persistence layer](documentation/Project Milestone #4 - Complete back-end by connecting to persistence layer.md)
