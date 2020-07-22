@@ -56,5 +56,5 @@ There may be a small charge associated with this lab, but to minimize this consi
 ## Related Content
 
 * [Some gotchas for AWS and $$$$ and tips to avoid getting charged (middle of the page)](AWS%20and%20Money.md)
-* [DynamoDB example code (literally copy and pasteable](dynamodb-example/)
+* [DynamoDB example code (literally copy and pasteable)](dynamodb-example/)
 * Maven Dependencies that are needed: ```com.amazonaws:aws-java-sdk-core:1.11.547``` and ```com.amazonaws:aws-java-sdk-dynamodb:1.11.547```
