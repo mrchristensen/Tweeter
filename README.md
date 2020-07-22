@@ -47,7 +47,7 @@ For milestone 2 to milestone 4 you will be implementing a core set of features f
 * A signed in user can only unfollow users they are following. After user A unfollows user B, user B’s new statuses are no longer added to A’s feed, however all of B’s statuses that had previously been added to A’s feed remain in A’s feed.
 
 ## Milestones
-* [Project Milestone #1: Domain Model](/documentation/Project%20Milestone%20#1%20-%20Domain%20Model.md)
+* [Project Milestone #1: Domain Model](documentation/Project%20Milestone%20%231%20-%20Domain%20Model.md)
 * [Project Milestone #2: Working UI with Dummy Data](documentation/Project Milestone #2 - Working UI with Dummy Data.md)
 * [Project Milestone #3: API Design and Implementation](documentation/Project Milestone #3 - API Design and Implementation.md)
 * [Project Milestone #4: Complete back-end by connecting to persistence layer](documentation/Project Milestone #4 - Complete back-end by connecting to persistence layer.md)
