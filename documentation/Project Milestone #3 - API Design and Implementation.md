@@ -1,10 +1,8 @@
 # Project Milestone #3: API Design and Implementation
 
-Some code to help you get started with milestone 3: https://github.com/jerodw/tweeter-samples/tree/server-sample (Links to an external site.). Here is an explanation of the sample code: https://byu.instructure.com/courses/5934/pages/milestone-3-sample-code?module_item_id=438918 
+Some code to help you get started with milestone 3: https://github.com/jerodw/tweeter-samples/tree/server-sample. [Here](Milestone%203%20Sample%20Code.md) is an explanation of the sample code.
 
 Note 1: This is a different repository than was used for milestone 2 sample code, and that it includes some changes to the client code.
-
-Note 2: Your backend is to be implemented in Java, unless you have permission (from your instructor) to use something else.
 
 ## Overview
 In this Milestone, do the following:
@@ -19,9 +17,9 @@ In this Milestone, do the following:
   * The Lambda handler
   * A services layer to which the handler delegates each request
   * A DAO layer with the dummy data (and which will interact with the database in milestone 4)
-* Your implementation is to meet the "user and session management" requirements in the project overview, but for milestone 3 you can use hard coded credentials and a hard coded authentication token. 
+* Your implementation is to meet the "user and session management" requirements in the [project overview](../README.md), but for milestone 3 you can use hard coded credentials and a hard coded authentication token. 
 
-In Fall 2019, the TAs graded this milestone and gave the following feedback about students' API designs: M3 API Endpoints Design Suggestions
+In Fall 2019, the TAs graded this milestone and gave the following feedback about students' API designs: [Milestone 3 API Endpoints Design Suggestions](Milestone%203%20API%20Endpoints%20Design%20Suggestions.md)
 
 ## Testing
 Include (at a minimum) tests for each of your Lambda handler functions (which will result in your services being tested as well).
