@@ -10,3 +10,5 @@ Includes at least one composition or aggregation  relationship.
 Each relationship uses the correct symbol
 Each relationship uses the correct direction
 Is well organized, neat, and readable
+
+See the (Conceptual UML Class Diagram)[documentation/Tweeter%20-%20UML%20Class%20Diagram%20-%20Project%20Conceptual%20Overview.pdf]
