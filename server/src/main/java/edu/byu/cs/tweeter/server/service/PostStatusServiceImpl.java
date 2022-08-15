@@ -6,6 +6,7 @@ import com.amazonaws.services.sqs.model.SendMessageRequest;
 import com.amazonaws.services.sqs.model.SendMessageResult;
 
 import edu.byu.cs.tweeter.server.dao.StoryDAO;
+import edu.byu.cs.tweeter.shared.Secrets;
 import edu.byu.cs.tweeter.shared.json.Serializer;
 import edu.byu.cs.tweeter.shared.model.service.PostStatusService;
 import edu.byu.cs.tweeter.shared.model.service.request.PostStatusRequest;
@@ -17,7 +18,7 @@ import static edu.byu.cs.tweeter.server.service.AuthTokenService.validateAuthTok
  * Contains the business logic for getting the users a user is following.
  */
 public class PostStatusServiceImpl implements PostStatusService {
-    private final String QUEUE_URL = "https://sqs.us-west-2.amazonaws.com/QUEUE_URL_API/PostStatusQueue";
+    private final String QUEUE_URL = "https://sqs.us-west-2.amazonaws.com/" + Secrets.getQueueUrlApi() + "/PostStatusQueue";
 
     @Override
     public PostStatusResponse postStatus(PostStatusRequest request) {

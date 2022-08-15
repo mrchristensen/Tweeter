@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.byu.cs.tweeter.shared.Secrets;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 
 /**
@@ -145,7 +146,7 @@ public class UserDAO {
                     .withString(PasswordAttr, "b109f3bbbc244eb82441917ed06d618b9008dd09b3befd1b5e07394c706a8bb980b1d7785e5976ec049b46df5f1326af5a2ea6d103fd07c95385ffab0cacbc86") //"password" hashed
                     .withString(FirstNameAttr, "firstName")
                     .withString(LastNameAttr, "lastName")
-                    .withString(ImageURLAttr, "https://BUCKET_NAME.s3.us-west-2.amazonaws.com/IMAGE_URL_API");
+                    .withString(ImageURLAttr, "https://" + Secrets.getBucketName() + ".s3.us-west-2.amazonaws.com/" + Secrets.getImageUrlApi());
             items.addItemToPut(item);
         }
 

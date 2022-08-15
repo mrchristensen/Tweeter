@@ -9,12 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.byu.cs.tweeter.server.dao.FollowDAO;
+import edu.byu.cs.tweeter.shared.Secrets;
 import edu.byu.cs.tweeter.shared.json.Serializer;
 import edu.byu.cs.tweeter.shared.model.domain.Status;
 import edu.byu.cs.tweeter.shared.model.service.request.UpdateFeedsRequest;
 
 public class PostUpdateFeedMessagesService {
-    private final String QUEUE_URL = "https://sqs.us-west-2.amazonaws.com/QUEUE_URL_API/UpdateFeedQueue";
+    private final String QUEUE_URL = "https://sqs.us-west-2.amazonaws.com/" + Secrets.getQueueUrlApi() + "/UpdateFeedQueue";
 
     public void postUpdateFeedMessages(Status status){
         System.out.println("Status received: " + status);

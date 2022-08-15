@@ -18,6 +18,7 @@ import javax.imageio.ImageIO;
 
 import edu.byu.cs.tweeter.server.dao.AuthTokenDAO;
 import edu.byu.cs.tweeter.server.dao.UserDAO;
+import edu.byu.cs.tweeter.shared.Secrets;
 import edu.byu.cs.tweeter.shared.model.domain.User;
 import edu.byu.cs.tweeter.shared.model.service.RegisterService;
 import edu.byu.cs.tweeter.shared.model.service.request.RegisterRequest;
@@ -29,7 +30,7 @@ import static edu.byu.cs.tweeter.server.service.AuthTokenService.generateAuthTok
  * Contains the business logic for registering a new user.
  */
 public class RegisterServiceImpl implements RegisterService {
-    private final String BUCKET_NAME = "BUCKET_NAME";
+    private final String BUCKET_NAME = Secrets.getBucketName();
 
     @Override
     public RegisterResponse doRegister(RegisterRequest request) {

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.byu.cs.tweeter.shared.Secrets;
 import edu.byu.cs.tweeter.shared.model.service.request.FeedRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowRequest;
 import edu.byu.cs.tweeter.shared.model.service.request.FollowersRequest;
@@ -32,7 +33,7 @@ import edu.byu.cs.tweeter.shared.model.service.response.StoryResponse;
  */
 public class ServerFacade {
     private static final String LOG_TAG = "ServerFacade";
-    private static final String SERVER_URL = "https://SERVER_URL_API.execute-api.us-west-2.amazonaws.com/dev";
+    private static final String SERVER_URL = "https://" + Secrets.getServerUrlApi() + ".execute-api.us-west-2.amazonaws.com/dev";
 
     public FindUserResponse findUser(String urlPath) throws IOException {
         ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
