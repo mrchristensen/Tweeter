@@ -47,13 +47,14 @@ The Gateway API can be seen in the [Tweeter-dev-swagger.json](server/src/main/ja
 ### DynamoDB
 
 We use DynamoDB to store the user information, posts, and feeds.
-To see how the databases are formatted, see [documentation/DynamoDB Table Descriptions.pdf](documentation/Tweeter%20-%20DynamoDB%20Table%20Descriptions.pdf)
+To see how the databases are formatted, see [documentation/DynamoDB Table Descriptions.pdf](documentation/Tweeter%20-%20DynamoDB%20Table%20Descriptions.pdf).
 
 ### SQS
 
 Finally, we use Simple Queue Service (SQS) to pin up multiple lambda functions to update at the feeds after a user posts a new status.
 Two queues are spun up: one to get the followers of the person who postest the status.
 The second queue is given those user ids and handles updating the feeds of those users with the new post.
+
 Because two queues are used the following performance requirements are satisfied:
 - The perceived latency of the create new status operation (from the perspective of the author) is to be less than 1000 milliseconds.
 - When a new status is created, that status is visible in the feeds of all of the followers of the author within 120 seconds, for authors with up to 10K followers.
