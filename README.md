@@ -40,6 +40,8 @@ In the backend, we use Gateway to create a REST API with the required endpoints.
 The endpoints take the data in the API call and run Lambda Functions.
 The results of the Lambda Functions are then bundled into the API call's response objects.
 
+The Gateway API can be seen in the [Tweeter-dev-swagger.json](server/src/main/java/edu/byu/cs/tweeter/server/Tweeter-dev-swagger.json).
+
 ![](documentation/class-documentation/Milestone%203%20Architecture%20Diagram.jpg)
 
 ### DynamoDB
@@ -50,7 +52,9 @@ To see how the databases are formatted, see [documentation/DynamoDB Table Descri
 ### SQS
 
 Finally, we use Simple Queue Service (SQS) to pin up multiple lambda functions to update at the feeds after a user posts a new status.
-Two queues are spun up so that the following performance requirements are satisfied:
+Two queues are spun up: one to get the followers of the person who postest the status.
+The second queue is given those user ids and handles updating the feeds of those users with the new post.
+Because two queues are used the following performance requirements are satisfied:
 - The perceived latency of the create new status operation (from the perspective of the author) is to be less than 1000 milliseconds.
 - When a new status is created, that status is visible in the feeds of all of the followers of the author within 120 seconds, for authors with up to 10K followers.
 - Each page of a user's feed is returned in less than 1000 milliseconds, from the perspective of the user.
