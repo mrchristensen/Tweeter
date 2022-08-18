@@ -50,5 +50,9 @@ To see how the databases are formatted, see [documentation/DynamoDB Table Descri
 ### SQS
 
 Finally, we use Simple Queue Service (SQS) to pin up multiple lambda functions to update at the feeds after a user posts a new status.
+Two queues are spun up so that the following performance requirements are satisfied:
+- The perceived latency of the create new status operation (from the perspective of the author) is to be less than 1000 milliseconds.
+- When a new status is created, that status is visible in the feeds of all of the followers of the author within 120 seconds, for authors with up to 10K followers.
+- Each page of a user's feed is returned in less than 1000 milliseconds, from the perspective of the user.
 
 ![](documentation/class-documentation/Milestone%204%20Post%20Status%20Architecture%20Diagram.jpg)
