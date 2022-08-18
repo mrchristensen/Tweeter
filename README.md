@@ -3,7 +3,7 @@
 This repo holds an Android app that mimics the functionality of Twitter using Java and AWS (API Gateway, Lambda Functions, DynamoDB, SQS).
 
 The app supports:
-- User registration/login (with secure authentication and best practices, such as password hashing and salting), profile pictures, and bios
+- User registration/login (with secure authentication and best practices, such as password hashing and salting and invalidating auth tokens), profile pictures, and bios
 - Posting statuses (with urls and @mentions)
 - User feed (a collection of all posts of the user's followed list)
 - User stories (a collection of all a given user's posts)
