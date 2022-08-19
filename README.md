@@ -17,6 +17,8 @@ A Model View Presenter architecture (MVP) is used to separate logic from the bac
 
 ![](documentation/class-documentation/Milestone%202%20Architecture%20Diagram.jpg)
 
+In addition, a network layered is used as a façade to interface with the backend (abstacting the AWS connections to a single layer).
+
 ### Model
 
 The model layer contains plain old Java objects (POJO) that simply store the required data:
