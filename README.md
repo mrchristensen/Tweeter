@@ -40,7 +40,9 @@ In the backend, we use Gateway to create a REST API with the required endpoints.
 The endpoints take the data in the API call and run Lambda Functions.
 The results of the Lambda Functions are then bundled into the API call's response objects.
 
-The Gateway API can be seen in the [Tweeter-dev-swagger.json](server/src/main/java/edu/byu/cs/tweeter/server/Tweeter-dev-swagger.json).
+Additionally, the feeds are always paginated - meaning we avoid pull excess data while maintaining a smooth user experience.
+
+The Gateway API can be seen in the [Tweeter-dev-swagger.json](server/src/main/java/edu/byu/cs/tweeter/server/Tweeter-dev-swagger.json) (online tools, such as [editor.swagger.io/](https://editor.swagger.io/) can be useful to view the file).
 
 ![](documentation/class-documentation/Milestone%203%20Architecture%20Diagram.jpg)
 
