@@ -54,3 +54,5 @@ https://us-west-2.console.aws.amazon.com/cloudwatch/home?region=us-west-2#logs:
 https://editor.swagger.io/
 
 Deleting API Keys: https://jflower.co.uk/removing-sensitive-information-from-git-with-git-filter-repo/ with git-filter-repo
+
+Circle Image View maker (for profile pictures): https://github.com/hdodenhof/CircleImageView
