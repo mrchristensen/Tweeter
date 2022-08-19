@@ -16,3 +16,9 @@ hiremeplease (password)
 everyone follow everyone
 post on everyone
 fix the app so it looks pretty (logo and colors)
+
+
+Demos:
+feed, main acount find jgreen32 and follows him (shows myself pop up in his followers and my following)
+
+posting a status and seeing it show up on someone elses feed
