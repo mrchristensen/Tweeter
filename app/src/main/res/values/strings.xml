@@ -3,6 +3,7 @@
 
     <string name="homePageTitle">Home</string>
     <string name="userImageContentDescription">The user\'s image</string>
+    <string name="postStatusContentDescription">The button to create a new status</string>
 
     <string name="title_activity_main">Tweeter</string>
     <string name="loadingData">Loading More Data…</string>

@@ -6,12 +6,23 @@
     android:layout_height="wrap_content"
     tools:context=".view.ui.main.following.FollowingFragment">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/userImage"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_centerVertical="true"
-        android:contentDescription="@string/userImageContentDescription" />
+        android:contentDescription="@string/userImageContentDescription"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@android:color/transparent"
+        />
+
+<!--    <ImageView-->
+<!--        android:id="@+id/userImage"-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_centerVertical="true"-->
+<!--        android:contentDescription="@string/userImageContentDescription" />-->
 
     <LinearLayout
         android:layout_width="wrap_content"
