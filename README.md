@@ -11,6 +11,13 @@ The app supports:
 
 (See a UML description of these relationships [here](documentation/Tweeter%20-%20UML%20Class%20Diagram%20-%20Project%20Conceptual%20Overview.pdf))
 
+## Demo
+
+Best
+![](documentation/demo/test1-1best-encoding.gif)
+Fast
+![](documentation/demo/test1-20fastest-encoding.gif)
+
 ## Frontend
 
 A Model View Presenter architecture (MVP) is used to separate logic from the backend:
