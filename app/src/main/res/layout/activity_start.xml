@@ -15,11 +15,12 @@
         <ImageView
             android:id="@+id/logoImage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_height="177dp"
+            android:paddingHorizontal="20dp"
             android:layout_alignParentStart="true"
-            android:src="@drawable/tweeter_logo"
-            android:contentDescription="@string/userImageContentDescription" />
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/userImageContentDescription"
+            android:src="@drawable/tweeter_logo_new_with_bird" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
