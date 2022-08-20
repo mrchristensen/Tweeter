@@ -56,3 +56,7 @@ https://editor.swagger.io/
 Deleting API Keys: https://jflower.co.uk/removing-sensitive-information-from-git-with-git-filter-repo/ with git-filter-repo
 
 Circle Image View maker (for profile pictures): https://github.com/hdodenhof/CircleImageView
+
+Gifsicle (for removing every other frame): https://graphicdesign.stackexchange.com/questions/20908/how-to-remove-every-second-frame-from-an-animated-gif
+
+To scale the gifs down: https://davidwalsh.name/resize-animated-gif
