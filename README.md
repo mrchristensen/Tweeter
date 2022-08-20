@@ -13,7 +13,7 @@ The app supports:
 
 ### User feed (a collection of all posts of the user's followed list) and stories (a collection of all a given user's posts)
 
-![](documentation/demo/feed-threefourtss-quarterf.gif)
+![](documentation/demo/feed-p6s-quarterf.gif)
 
 ![](documentation/demo/feed-halfs-quarterf.gif)
 
