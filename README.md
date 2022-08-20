@@ -3,20 +3,23 @@
 This repo holds an Android app that mimics the functionality of Twitter using Java and AWS (API Gateway, Lambda Functions, DynamoDB, SQS).
 
 The app supports:
-- User registration/login (with secure authentication and best practices, such as password hashing and salting and invalidating auth tokens), profile pictures, and bios
-- Posting statuses (with urls and @mentions)
-- User feed (a collection of all posts of the user's followed list)
-- User stories (a collection of all a given user's posts)
-- Following/Unfollowing
+### User registration/login (with secure authentication and best practices, such as password hashing and salting and invalidating auth tokens), profile pictures, and bios
+
+![](documentation/demo/signup-and-login.gif)
+
+### Posting statuses (with urls and @mentions)
+
+![](documentation/demo/post.gif)
+
+### User feed (a collection of all posts of the user's followed list) and stories (a collection of all a given user's posts)
+
+![](documentation/demo/feed.gif)
+
+### Following/Unfollowing
+
+![](documentation/demo/follow.gif)
 
 (See a UML description of these relationships [here](documentation/Tweeter%20-%20UML%20Class%20Diagram%20-%20Project%20Conceptual%20Overview.pdf))
-
-## Demo
-
-Best
-![](documentation/demo/test1-1best-encoding.gif)
-Fast
-![](documentation/demo/test1-20fastest-encoding.gif)
 
 ## Frontend
 
