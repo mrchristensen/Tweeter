@@ -1,5 +1,7 @@
 # Tweeter
 
+![](documentation/tweeter-open-graph.png)
+
 This repo holds an Android app that mimics the functionality of Twitter using Java and AWS (API Gateway, Lambda Functions, DynamoDB, SQS).
 
 The app supports:
