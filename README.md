@@ -5,21 +5,19 @@ This repo holds an Android app that mimics the functionality of Twitter using Ja
 The app supports:
 ### User registration/login (with secure authentication and best practices, such as password hashing and salting and invalidating auth tokens), profile pictures, and bios
 
-![](documentation/demo/signup-and-login.gif)
+![](documentation/demo/signup-and-login-downscaled.gif)
 
 ### Posting statuses (with urls and @mentions)
 
-![](documentation/demo/post.gif)
+![](documentation/demo/post-downscaled.gif)
 
 ### User feed (a collection of all posts of the user's followed list) and stories (a collection of all a given user's posts)
 
-![](documentation/demo/feed-p6s-quarterf.gif)
-
-![](documentation/demo/feed-halfs-quarterf.gif)
+![](documentation/demo/feed-downscaled.gif)
 
 ### Following/Unfollowing
 
-![](documentation/demo/follow.gif)
+![](documentation/demo/follow-downscaled.gif)
 
 (See a UML description of these relationships [here](documentation/Tweeter%20-%20UML%20Class%20Diagram%20-%20Project%20Conceptual%20Overview.pdf))
 
